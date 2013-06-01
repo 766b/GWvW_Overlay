@@ -1,0 +1,98 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="MainWindow1" x:Class="GWvW_Overlay.MainWindow"
+        Title="GWvW Overlay" WindowStartupLocation="CenterScreen" Height="771.637" Width="795" Foreground="{x:Null}" Background="{x:Null}" MaxHeight="2000" MaxWidth="4000" WindowStyle="None" AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="0.65" MouseDown="Drag" >
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <ImageBrush/>
+        </Grid.Background>
+        <Canvas x:Name="map_canvas_bl" RenderTransformOrigin="0.148,0.556" Margin="10,8,10,10" Visibility="Hidden" Grid.RowSpan="2">
+            <Canvas.Background>
+                <ImageBrush ImageSource="Resources/borderland_overlay.png" Stretch="Uniform"/>
+            </Canvas.Background>
+
+            <Label x:Name="n_camp_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="238" Canvas.Top="21"/>
+            <Label x:Name="ne_camp_timer" Content="4m32s" HorizontalAlignment="Left" Width="74" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="445" Canvas.Top="219"/>
+            <Label x:Name="nw_camp_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" RenderTransformOrigin="0.233,0.258" Canvas.Left="66" Canvas.Top="219"/>
+            <Label x:Name="garrison_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="238" Canvas.Top="277"/>
+            <Label x:Name="e_keep_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="481" Canvas.Top="369"/>
+            <Label x:Name="w_keep_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="23" Canvas.Top="383"/>
+            <Label x:Name="sw_camp_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" Margin="77,506,0,210" FontSize="16" Foreground="White"/>
+            <Label x:Name="se_camp_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" Margin="456,506,0,210" FontSize="16" Foreground="White"/>
+            <Label x:Name="s_camp_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="238" Canvas.Top="613"/>
+            <Label x:Name="nw_tower_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="122" Canvas.Top="197"/>
+            <Label x:Name="ne_tower_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="372" Canvas.Top="197"/>
+            <Label x:Name="sw_tower_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" Margin="172,478,0,238" FontSize="16" Foreground="White"/>
+            <Label x:Name="se_tower_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" Margin="361,478,0,238" FontSize="16" Foreground="White"/>
+            <Image x:Name="n_camp_icon" Height="24" Canvas.Left="253" Canvas.Top="52" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="garrison_icon" Height="24" Canvas.Left="253" Canvas.Top="304" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="ne_camp_icon" Height="24" Canvas.Left="461" Canvas.Top="248" Width="24" Source="Resources/castle_blue.png"/>
+            <Image x:Name="nw_camp_icon" Height="24" Canvas.Left="83" Canvas.Top="248" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="e_keep_icon" Height="24" Canvas.Left="499" Canvas.Top="400" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="w_keep_icon" Height="24" Canvas.Left="38" Canvas.Top="414" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="sw_camp_icon" Height="24" Canvas.Left="83" Canvas.Top="528" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="se_camp_icon" Height="24" Canvas.Left="461" Canvas.Top="528" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="s_camp_icon" Height="24" Canvas.Left="257" Canvas.Top="644" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="nw_tower_icon" Height="24" Canvas.Left="132" Canvas.Top="226" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="ne_tower_icon" Height="24" Canvas.Left="382" Canvas.Top="226" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="sw_tower_icon" Height="24" Canvas.Left="182" Canvas.Top="500" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="se_tower_icon" Height="24" Canvas.Left="372" Canvas.Top="500" Width="24" Source="Resources/camp_green.png"/>
+        </Canvas>
+        <Canvas x:Name="map_canvas_eb" RenderTransformOrigin="0.148,0.556" Margin="10,8,10,10" Grid.RowSpan="2" Visibility="Visible" >
+            <Canvas.Background>
+                <ImageBrush ImageSource="Resources/eb_bl_overlay.png" Stretch="Uniform"/>
+            </Canvas.Background>
+
+            <Label x:Name="mendon_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="292" Canvas.Top="95"/>
+            <Label x:Name="overlook_timer" Content="4m32s" HorizontalAlignment="Left" Width="74" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="411" Canvas.Top="130"/>
+            <Label x:Name="ogrewatch_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="468" Canvas.Top="174"/>
+            <Label x:Name="anzalias_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="280" Canvas.Top="228"/>
+            <Label x:Name="durios_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="508" Canvas.Top="337"/>
+            <Label x:Name="wildcreek_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="207" Canvas.Top="360"/>
+            <Label x:Name="lowlands_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="131" Canvas.Top="474"/>
+            <Label x:Name="quentin_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="429" Canvas.Top="496"/>
+            <Label x:Name="aldon_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="91" Canvas.Top="399"/>
+            <Label x:Name="rogue_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="131" Canvas.Top="315"/>
+            <Label x:Name="splendan_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="192" Canvas.Top="102"/>
+            <Label x:Name="golanta_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="272" Canvas.Top="543"/>
+            <Label x:Name="stonemist_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="372" Canvas.Top="351"/>
+            <Image x:Name="mendon_icon" Height="24" Canvas.Left="308" Canvas.Top="123" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="anzalias_icon" Height="24" Canvas.Left="294" Canvas.Top="258" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="overlook_icon" Height="24" Canvas.Left="429" Canvas.Top="156" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="ogrewatch_icon" Height="24" Canvas.Left="487" Canvas.Top="200" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="durios_icon" Height="24" Canvas.Left="523" Canvas.Top="362" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="wildcreek_icon" Height="24" Canvas.Left="224" Canvas.Top="386" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="lowlands_icon" Height="24" Canvas.Left="152" Canvas.Top="505" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="quentin_icon" Height="24" Canvas.Left="449" Canvas.Top="527" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="aldon_icon" Height="24" Canvas.Left="108" Canvas.Top="427" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="rogue_icon" Height="24" Canvas.Left="147" Canvas.Top="346" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="splendan_icon" Height="24" Canvas.Left="211" Canvas.Top="130" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="klovan_icon" Height="24" Canvas.Left="288" Canvas.Top="494" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="stonemist_icon" Height="24" Canvas.Left="390" Canvas.Top="378" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="jerrifer_icon" Height="24" Canvas.Left="201" Canvas.Top="571" Width="24" Source="Resources/camp_green.png"/>
+            <Label x:Name="jerrifer_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="186" Canvas.Top="543"/>
+            <Image x:Name="umber_icon" Height="24" Canvas.Left="618" Canvas.Top="347" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="bravost_icon" Height="24" Canvas.Left="666" Canvas.Top="425" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="valley_icon" Height="24" Canvas.Left="601" Canvas.Top="505" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="pangloss_icon" Height="24" Canvas.Left="552" Canvas.Top="177" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="langor_icon" Height="24" Canvas.Left="592" Canvas.Top="589" Width="24" Source="Resources/camp_green.png"/>
+            <Label x:Name="klovan_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="268" Canvas.Top="467"/>
+            <Label x:Name="umber_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="596" Canvas.Top="320"/>
+            <Label x:Name="bravost_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="649" Canvas.Top="399"/>
+            <Label x:Name="langor_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="571" Canvas.Top="561"/>
+            <Label x:Name="danelon_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="472" Canvas.Top="581"/>
+            <Label x:Name="pangloss_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="530" Canvas.Top="149"/>
+            <Label x:Name="veloka_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="487" Canvas.Top="88"/>
+            <Label x:Name="valley_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="581" Canvas.Top="478"/>
+
+        </Canvas>
+        <Image x:Name="veloka_icon" Source="Resources/camp_green.png" Margin="517,122,234,606" Grid.RowSpan="2"/>
+        <Image x:Name="danelon_icon" Source="Resources/camp_green.png" Margin="503,616,248,112" Grid.RowSpan="2"/>
+        <Image x:Name="golanta_icon" Source="Resources/camp_green.png" Margin="300,577,451,151" Grid.RowSpan="2"/>
+
+    </Grid>
+</Window>
