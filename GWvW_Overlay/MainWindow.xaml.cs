@@ -611,6 +611,13 @@ namespace GWvW_Overlay
 
             if (selectedBL != "Center")
             {
+                if (selectedBL == "RedHome")
+                    lbl_borderlands.Content = "Red Borderlands";
+                else if (selectedBL == "GreenHome")
+                    lbl_borderlands.Content = "Green Borderlands";
+                else
+                    lbl_borderlands.Content = "Blue Borderlands";
+
                 MainWindow1.Height = 771.637;
                 MainWindow1.Width = 580;
                 map_canvas_eb.Visibility = Visibility.Hidden;
@@ -618,6 +625,7 @@ namespace GWvW_Overlay
             }
             else
             {
+
                 MainWindow1.Height = 771.637;
                 MainWindow1.Width = 795;
 

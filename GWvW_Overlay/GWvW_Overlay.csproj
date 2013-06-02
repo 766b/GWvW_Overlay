@@ -129,9 +129,6 @@
     <Resource Include="Resources\tower_green.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\eb_bl_overlay.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\camp_blue.png" />
     <Resource Include="Resources\castle_blue.png" />
     <Resource Include="Resources\castle_green.png" />
@@ -140,9 +137,6 @@
     <Resource Include="Resources\keep_red.png" />
     <Resource Include="Resources\tower_blue.png" />
     <Resource Include="Resources\tower_red.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\gw2.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\new_icon.ico" />
@@ -163,6 +157,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\eternal_battleground_map_hq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\panel2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
