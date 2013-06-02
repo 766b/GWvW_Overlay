@@ -1,7 +1,9 @@
 (6/2/2013)
 - Added map title
+- Added opacity slider
 - Updated Eternal Battlegrounds map
 - Updated icons for objectives
+- Enabled update feature
 
 (6/1/2013)
 - Added always on top checkbox

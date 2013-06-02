@@ -12,7 +12,6 @@
             <ImageBrush/>
         </Grid.Background>
 
-
         <Canvas x:Name="map_canvas_bl" RenderTransformOrigin="0.148,0.556" Margin="10,8,10,10" Visibility="Hidden" Grid.RowSpan="2">
             <Canvas.Background>
                 <ImageBrush ImageSource="Resources/borderland_overlay.png" Stretch="Uniform"/>
@@ -87,7 +86,7 @@
             <Image x:Name="bravost_icon" Height="24" Canvas.Left="669" Canvas.Top="462" Width="24" Source="Resources/camp_green.png"/>
             <Image x:Name="valley_icon" Height="24" Canvas.Left="601" Canvas.Top="543" Width="24" Source="Resources/camp_green.png"/>
             <Image x:Name="pangloss_icon" Height="24" Canvas.Left="557" Canvas.Top="222" Width="24" Source="Resources/camp_green.png"/>
-            <Image x:Name="langor_icon" Height="24" Canvas.Left="592" Canvas.Top="627" Width="24" Source="Resources/camp_green.png"/>
+            <Image x:Name="langor_icon" Height="24" Canvas.Left="592" Canvas.Top="627" Source="Resources/camp_green.png"/>
             <Label x:Name="klovan_timer" Content="4m32s" HorizontalAlignment="Left" Width="72" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="268" Canvas.Top="509"/>
             <Label x:Name="umber_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="612" Canvas.Top="351"/>
             <Label x:Name="bravost_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="653" Canvas.Top="436"/>
@@ -100,7 +99,8 @@
             <Image x:Name="danelon_icon" Source="Resources/camp_green.png" Height="24"  Width="24" Margin="500,657,251,71" Grid.RowSpan="2"/>
             <Image x:Name="golanta_icon" Source="Resources/camp_green.png" Height="24"  Width="24" Margin="297,618,454,110" Grid.RowSpan="2"/>
 
-        </Canvas>
 
+        </Canvas>
+        
     </Grid>
 </Window>

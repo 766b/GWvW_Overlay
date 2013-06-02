@@ -18,13 +18,8 @@ namespace GWvW_Overlay
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //KListener.KeyDown += new Keyboard.RawKeyEventHandler(KListener_KeyDown);
-        }
 
-        /*void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
-        {
-            Console.WriteLine(args.Key.ToString());
-        }*/
+        }
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {

@@ -28,14 +28,14 @@ namespace GWvW_Overlay
     public partial class MainWindow : Window
     {
         Keyboard.KeyboardListener KListener = new Keyboard.KeyboardListener();
-
-        //Options
+        
+        //Options      
         string selectedMatch;
         string selectedBorderland;
         int GWL_ExStyle = -20;
         int WS_EX_Transparent = 0x20;
         int WS_EX_Layered = 0x80000;
-        bool ResetMatch = false;
+        bool ResetMatch = false; 
         bool inGame = false;
         bool AlwaysOnTop = false;
 
@@ -91,16 +91,14 @@ namespace GWvW_Overlay
 
             rtvWorldNames();
             rtvMatches();
-            
-            buildMenu();
 
-            
-		}
+            buildMenu();
+        }
 
         public void buildMenu()
         {
             ContextMenu mainMenu = new ContextMenu();
-            ContextMenu matches_menu = new ContextMenu();
+
             MenuItem matches = new MenuItem();
             matches.Header = "Matches";
             var y = WvwMatch.getMatchesList();
@@ -113,12 +111,29 @@ namespace GWvW_Overlay
                 matches.Items.Add(i);
             }
             mainMenu.Items.Add(matches);
+
+            MenuItem options = new MenuItem();
+            options.Header = "Options";
+
+            MenuItem opcLbl = new MenuItem();
+            opcLbl.Header = "Opacity:";
+            options.Items.Add(opcLbl);
+
+            Slider opcSlider = new Slider();
+            opcSlider.Maximum = 1.0;
+            opcSlider.Value = 0.65;
+            opcSlider.Width = 150;
+            opcSlider.Minimum = 0.3;
+            opcSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(opcSlider_change);
+            options.Items.Add(opcSlider);
+            
             CheckBox alwsTop = new CheckBox();
             alwsTop.Content = "Always on top";
             alwsTop.IsChecked = (bool?)AlwaysOnTop;
             alwsTop.Click += new RoutedEventHandler(setAlwsTop);
+            options.Items.Add(alwsTop);
 
-            mainMenu.Items.Add(alwsTop);
+            mainMenu.Items.Add(options);
             if (selectedMatch != null)
             {
                 MenuItem bl_blue = new MenuItem();
@@ -646,6 +661,12 @@ namespace GWvW_Overlay
         {
             if (e.ChangedButton == MouseButton.Left)
             this.DragMove();
+        }
+
+        private void opcSlider_change(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Slider x = (Slider)sender;
+            MainWindow1.Opacity = x.Value;
         }
     }
 }
