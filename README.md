@@ -4,6 +4,13 @@ If you do not have the ability to compile the code, use the following binary (wi
 - GWvW_Overlay https://dl.dropboxusercontent.com/u/10680644/gwvw/setup.exe
 - .NET Framework 4.5 http://www.microsoft.com/en-us/download/details.aspx?id=30653
 
+Usage
+============
+- Launch the application
+- Select appropriate match up
+- Select specific borderlands
+- Press "Home" to show/hide overlay map.
+
 Changes
 ============
 (6/2/2013)
