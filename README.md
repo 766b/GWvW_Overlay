@@ -6,6 +6,7 @@ If you do not have the ability to compile the code, use the following binary (wi
 
 Usage
 ============
+- Set Guild Wars 2's Resulution in Graphic Options to Window Fullscreen or Window mode.
 - Launch the application
 - Select appropriate match up
 - Select specific borderlands
