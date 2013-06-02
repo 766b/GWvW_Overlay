@@ -6,17 +6,19 @@ If you do not have the ability to compile the code, use the following binary (wi
 
 Changes
 ============
-(6/2/2013) v0.3a
+(6/2/2013)
 - Added map title
+- Added opacity slider
 - Updated Eternal Battlegrounds map
 - Updated icons for objectives
+- Enabled update feature
 
-(6/1/2013) v0.2a
+(6/1/2013
 - Added always on top checkbox
 - Main window can now be dragged around
 - Removed redundant function calls
 - Fixed and issue with disappearing window
 - Replaced the icon to avoid confusion with GW2.exe
 
-(5/31/2013) v0.1a
+(5/31/2013)
 - Initial Release
