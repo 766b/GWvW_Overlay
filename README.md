@@ -15,6 +15,7 @@ Usage
 Changes
 ============
 (6/2/2013)
+- Remapped show/hide shortcut to "Home" key
 - Added map title
 - Added opacity slider
 - Updated Eternal Battlegrounds map
