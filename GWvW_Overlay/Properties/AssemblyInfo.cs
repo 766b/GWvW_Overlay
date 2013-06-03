@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("GWvW_Overlay")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Awaken6389")]
 [assembly: AssemblyProduct("GWvW_Overlay")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
+[assembly: AssemblyCopyright("Copyright © 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

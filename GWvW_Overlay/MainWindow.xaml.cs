@@ -557,7 +557,7 @@ namespace GWvW_Overlay
 
         void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
         {
-            if (args.Key.ToString() == "L")
+            if (args.Key.ToString() == "Home")
             {
                 StringBuilder wTitle = new StringBuilder(13);
                 if (GetWindowText(GetForegroundWindow(), wTitle, 13) > 0 && !AlwaysOnTop)
@@ -600,7 +600,7 @@ namespace GWvW_Overlay
         
         void KListener_KeyUp(object sender, Keyboard.RawKeyEventArgs args)
         {
-            if (args.Key.ToString() == "L" && !AlwaysOnTop)
+            if (args.Key.ToString() == "Home" && !AlwaysOnTop)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => 
                 {
