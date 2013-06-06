@@ -1,20 +1,26 @@
-﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="MainWindow1" x:Class="GWvW_Overlay.MainWindow"
-        Title="GWvW Overlay" WindowStartupLocation="CenterScreen" Height="771.637" Width="795" Foreground="{x:Null}" Background="{x:Null}" MaxHeight="2000" MaxWidth="4000" WindowStyle="None" AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="0.65" MouseDown="Drag" >
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"        
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d" 
+        x:Name="MainWindow1" 
+        x:Class="GWvW_Overlay.MainWindow"
+        Title="GWvW Overlay" 
+        WindowStartupLocation="CenterScreen" 
+        Height="771.637" Width="795" 
+        Foreground="{x:Null}"
+        MaxHeight="2000" MaxWidth="4000" 
+        WindowStyle="None" AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="0.65" MouseDown="Drag" >
     
-    <Grid Margin="10">
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.Background>
-            <ImageBrush/>
-        </Grid.Background>
+    <!--<Window.Background>
+        <ImageBrush ImageSource="Resources/map_eb.png" Stretch="Uniform"/>
+    </Window.Background>-->
+
+    <Canvas>
 
         <Canvas x:Name="map_canvas_bl" RenderTransformOrigin="0.148,0.556" Margin="10,8,10,10" Visibility="Hidden" Grid.RowSpan="2">
             <Canvas.Background>
-                <ImageBrush ImageSource="Resources/borderland_overlay.png" Stretch="Uniform"/>
+                <ImageBrush ImageSource="Resources/mapbl.png" Stretch="Uniform"/>
             </Canvas.Background>
             <Label Name="lbl_borderlands" Content="Borderlands" Height="45" Canvas.Left="10" Canvas.Top="14" Width="320" FontSize="25" FontWeight="Bold" Foreground="White" Opacity="0.5">
                 <Label.Background>
@@ -49,9 +55,9 @@
             <Image x:Name="se_tower_icon" Height="24" Canvas.Left="372" Canvas.Top="500" Width="24" Source="Resources/camp_green.png"/>
         </Canvas>
         
-        <Canvas x:Name="map_canvas_eb" RenderTransformOrigin="0.148,0.556" Margin="10,8,10,10" Grid.RowSpan="2" Visibility="Visible" >
+        <Canvas x:Name="map_canvas_eb" Visibility="Visible" >
             <Canvas.Background>
-                <ImageBrush ImageSource="Resources/eternal_battleground_map_hq.png" Stretch="Uniform"/>
+                <ImageBrush ImageSource="Resources/mapeb.png" Stretch="Uniform"/>
             </Canvas.Background>
 
             <Label x:Name="mendon_timer" Content="4m32s" HorizontalAlignment="Left" Width="73" Background="{x:Null}" FontSize="16" Foreground="White" Canvas.Left="290" Canvas.Top="143"/>
@@ -98,9 +104,7 @@
             <Image x:Name="veloka_icon" Source="Resources/camp_green.png" Height="24"  Width="24" Margin="513,159,238,569" Grid.RowSpan="2"/>
             <Image x:Name="danelon_icon" Source="Resources/camp_green.png" Height="24"  Width="24" Margin="500,657,251,71" Grid.RowSpan="2"/>
             <Image x:Name="golanta_icon" Source="Resources/camp_green.png" Height="24"  Width="24" Margin="297,618,454,110" Grid.RowSpan="2"/>
-
-
         </Canvas>
         
-    </Grid>
+    </Canvas>
 </Window>

@@ -238,9 +238,18 @@ namespace GWvW_Overlay
             }
         }
 
-        public ImageSource getIcon(string type, string color)
+        public ImageSource getPNG(string type, string color)
         {
-            string y = string.Format(@"\Resources\{0}_{1}.png", type, color.ToLower());
+            string y;
+            if (color == "none")
+            {
+                y = string.Format(@"Resources/{0}.png", type);
+            }
+            else
+            {
+                y = string.Format(@"Resources/{0}_{1}.png", type, color.ToLower());
+                
+            }
             ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
             return x;
         }
@@ -409,135 +418,135 @@ namespace GWvW_Overlay
             switch (Objective)
             {
                 case 1: //overlook
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { overlook_icon.Source = getIcon("keep", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { overlook_icon.Source = getPNG("keep", color); }));
                     break;
                 case 2://Valley
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { valley_icon.Source = getIcon("keep", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { valley_icon.Source = getPNG("keep", color); }));
                     break;
                 case 3://Lowlands
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lowlands_icon.Source = getIcon("keep", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lowlands_icon.Source = getPNG("keep", color); }));
                     break;
                 case 4://Golanta
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { golanta_icon.Source = getIcon("camp", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { golanta_icon.Source = getPNG("camp", color); }));
                     break;
                 case 5://Pangloss
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { pangloss_icon.Source = getIcon("camp", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { pangloss_icon.Source = getPNG("camp", color); }));
                     break;
                 case 6://Speldan
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { splendan_icon.Source = getIcon("camp", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { splendan_icon.Source = getPNG("camp", color); }));
                     break;
                 case 7://Danelon
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { danelon_icon.Source = getIcon("camp", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { danelon_icon.Source = getPNG("camp", color); }));
                     break;
                 case 8://Umberglade
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { umber_icon.Source = getIcon("camp", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { umber_icon.Source = getPNG("camp", color); }));
                     break;
                 case 9://Stonemist
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { stonemist_icon.Source = getIcon("castle", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { stonemist_icon.Source = getPNG("castle", color); }));
                     break;
                 case 10://Rogue
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { rogue_icon.Source = getIcon("camp", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { rogue_icon.Source = getPNG("camp", color); }));
                     break;
                 case 11://Aldon
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { aldon_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { aldon_icon.Source = getPNG("tower", color); }));
                     break;
                 case 12://Wildcreek
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { wildcreek_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { wildcreek_icon.Source = getPNG("tower", color); }));
                     break;
                 case 13://Jerrifer
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { jerrifer_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { jerrifer_icon.Source = getPNG("tower", color); }));
                     break;
                 case 14://Klovan
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { klovan_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { klovan_icon.Source = getPNG("tower", color); }));
                     break;
                 case 15://Langor
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { langor_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { langor_icon.Source = getPNG("tower", color); }));
                     break;
                 case 16://Quentin
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { quentin_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { quentin_icon.Source = getPNG("tower", color); }));
                     break;
                 case 17://Mendon
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { mendon_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { mendon_icon.Source = getPNG("tower", color); }));
                     break;
                 case 18://Anzalias
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { anzalias_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { anzalias_icon.Source = getPNG("tower", color); }));
                     break;
                 case 19://Ogrewatch
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { ogrewatch_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { ogrewatch_icon.Source = getPNG("tower", color); }));
                     break;
                 case 20://Veloka
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { veloka_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { veloka_icon.Source = getPNG("tower", color); }));
                     break;
                 case 21://Durios
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { durios_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { durios_icon.Source = getPNG("tower", color); }));
                     break;
                 case 22://Bravost
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { bravost_icon.Source = getIcon("tower", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { bravost_icon.Source = getPNG("tower", color); }));
                     break;
                 case 23:
                 case 37:
                 case 46:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { garrison_icon.Source = getIcon("keep", color); }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { garrison_icon.Source = getPNG("keep", color); }));
                     break;
                 case 36:
                 case 42: 
                 case 26:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {se_tower_icon.Source = getIcon("tower", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {se_tower_icon.Source = getPNG("tower", color);  }));
                     break;
                 case 45:
                 case 25:
                 case 35:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {sw_tower_icon.Source = getIcon("tower", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {sw_tower_icon.Source = getPNG("tower", color);  }));
                     break;
                 case 47:
                 case 38:
                 case 30:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {nw_tower_icon.Source = getIcon("tower", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {nw_tower_icon.Source = getPNG("tower", color);  }));
                     break;
                 case 49:
                 case 59:
                 case 53:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {sw_camp_icon.Source = getIcon("camp", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {sw_camp_icon.Source = getPNG("camp", color);  }));
                     break;//49: "Bluevale Refuge", sw_camp  59: "Redvale Refuge", sw_camp53: "Greenvale Refuge", sw_camp
                 case 52:
                 case 48:
                 case 58:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {nw_camp_icon.Source = getIcon("camp", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {nw_camp_icon.Source = getPNG("camp", color);  }));
                     break;//52: "Arah’s Hope", nw_camp      48: "Faithleap",  nw_camp58: "Godslore", nw_camp
                 case 57:
                 case 28:
                 case 40:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {ne_tower_icon.Source = getIcon("tower", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {ne_tower_icon.Source = getPNG("tower", color);  }));
                     break;//57: "Cragtop",  e_tower         28: "Dawn’s Eyrie",  e_tower40: "Cliffside",  e_tower
                 case 50:
                 case 55:
                 case 61:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {se_camp_icon.Source = getIcon("camp", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {se_camp_icon.Source = getPNG("camp", color);  }));
                     break;//50: "Bluewater Lowlands", se_camp55: "Redwater Lowlands", se_camp61: "Greenwater Lowlands", se_camp
                 case 54:
                 case 51:
                 case 60:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {ne_camp_icon.Source = getIcon("camp", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {ne_camp_icon.Source = getPNG("camp", color);  }));
                     break;//54: "Foghaven", ne_camp         51: "Astralholme", ne_camp60: "Stargrove", ne_camp
                 case 33:
                 case 44:
                 case 27:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {w_keep_icon.Source = getIcon("keep", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {w_keep_icon.Source = getPNG("keep", color);  }));
                     break;//27: "Ascension Bay", w_castle   33: "Dreaming Bay",w_castle44: "Dreadfall Bay",w_castle
                 case 56:
                 case 39:
                 case 29:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {n_camp_icon.Source = getIcon("camp", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {n_camp_icon.Source = getPNG("camp", color);  }));
                     break;//29: "The Spiritholme", n_camp   39: "The Godsword",  n_camp56: "The Titanpaw", n_camp
                 case 24:
                 case 34:
                 case 43:
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {s_camp_icon.Source = getIcon("camp", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {s_camp_icon.Source = getPNG("camp", color);  }));
                     break;//24: "Champion’s demense", 	s_camp  34: "Victors’s Lodge",  	s_camp43: "Hero’s Lodge", 		s_camp
                 case 31:
                 case 32:
                 case 41://Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {               }));
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {e_keep_icon.Source = getIcon("keep", color);  }));
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {e_keep_icon.Source = getPNG("keep", color);  }));
                     break;//31: "Askalion Hills", 		e_castle    32: "Etheron Hills", 		e_castle41: "Shadaran Hills",  		e_castle
             }
 
@@ -633,6 +642,7 @@ namespace GWvW_Overlay
                 else
                     lbl_borderlands.Content = "Blue Borderlands";
 
+
                 MainWindow1.Height = 771.637;
                 MainWindow1.Width = 580;
                 map_canvas_eb.Visibility = Visibility.Hidden;
@@ -640,12 +650,12 @@ namespace GWvW_Overlay
             }
             else
             {
-
-                MainWindow1.Height = 771.637;
-                MainWindow1.Width = 795;
-
+                MainWindow1.Height = 650;
+                MainWindow1.Width = 650;
+                MainWindow1.Background = new ImageBrush(getPNG("mapeb", "none"));
                 map_canvas_bl.Visibility = Visibility.Hidden;
                 map_canvas_eb.Visibility = Visibility.Visible;
+                
             }
             selectedBorderland = selectedBL;
 
