@@ -17,8 +17,10 @@ using System.Windows.Interop;
 using System.Threading;
 using System.Windows.Threading;
 using System.Net;
+using System.IO;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
+using System.Windows.Resources;
 
 namespace GWvW_Overlay
 {
@@ -32,18 +34,31 @@ namespace GWvW_Overlay
         //Options      
         string selectedMatch;
         string selectedBorderland;
+
         int GWL_ExStyle = -20;
         int WS_EX_Transparent = 0x20;
         int WS_EX_Layered = 0x80000;
         bool ResetMatch = false; 
         bool inGame = false;
         bool AlwaysOnTop = false;
+        private double _aspectRatio;
+        private bool? _adjustingHeight = null;
+        internal enum SWP
+        {
+            NOMOVE = 0x0002
+        }
+        internal enum WM
+        {
+            WINDOWPOSCHANGING = 0x0046,
+            EXITSIZEMOVE = 0x0232,
+        }
 
         System.Timers.Timer t1 = new System.Timers.Timer();
         System.Timers.Timer t2 = new System.Timers.Timer();
 
         //JSON Data
         Match_Details_ Match_Details = new Match_Details_();
+        ObjectiveNames_ ObjectiveNames = new ObjectiveNames_();
         WvwMatch_ WvwMatch = new WvwMatch_();
         Matches_ jsonMatches = new Matches_();
 
@@ -75,6 +90,7 @@ namespace GWvW_Overlay
         public MainWindow()
         {
             InitializeComponent();
+            this.SourceInitialized += Window_SourceInitialized;
 
             MainWindow1.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             
@@ -87,12 +103,39 @@ namespace GWvW_Overlay
             t1.Start();
 
             t2.Interval = 1000;
-            t2.Elapsed += new System.Timers.ElapsedEventHandler(updateTimers);
+            t2.Elapsed += new System.Timers.ElapsedEventHandler(updatePosition);
+            t2.Start();
 
             rtvWorldNames();
+            rtvObjectiveNames();
             rtvMatches();
 
             buildMenu();
+
+            
+        }
+
+        public void updatePosition(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            if (WvwMatch.ObjectiveNames == null)
+                return;
+
+            foreach(WvwObjective obj in WvwMatch.ObjectiveNames)
+            {
+                if (obj.top != 0.0)
+                {
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                    {
+                        obj.left = this.Width * (obj.left_base / 900);
+                        obj.top = this.Height * (obj.top_base / 900);
+                    }));
+                }
+            }
+        }
+
+        private void onLoad(object sender, RoutedEventArgs e)
+        {
+            DataContext = WvwMatch;
         }
 
         public void buildMenu()
@@ -183,6 +226,13 @@ namespace GWvW_Overlay
             WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(getJSON(@"https://api.guildwars2.com/v1/world_names.json"));
         }
 
+        public void rtvObjectiveNames()
+        {
+            ObjectiveNames = JsonConvert.DeserializeObject<ObjectiveNames_>(getJSON(@"Resources/objectives.json"));
+            WvwMatch.ObjectiveNames = ObjectiveNames.wvw_objectives;
+            ObjectiveNames.wvw_objectives = null;
+        }
+
         public void rtvMatches()
         {
             jsonMatches = JsonConvert.DeserializeObject<Matches_>(getJSON("https://api.guildwars2.com/v1/wvw/matches.json"));
@@ -214,7 +264,7 @@ namespace GWvW_Overlay
                 {
                     for (int m = 0; m < Match_Details.maps[i].objectives.Count; m++)
                     {
-                        changeIcon(Match_Details.maps[i].objectives[m].id, Match_Details.maps[i].objectives[m].owner);
+                        //changeIcon(Match_Details.maps[i].objectives[m].id, Match_Details.maps[i].objectives[m].owner);
                     }
                 }
             }
@@ -231,8 +281,8 @@ namespace GWvW_Overlay
                         WvwMatch.Details.maps[i].objectives[m].owner = Match_Details.maps[i].objectives[m].owner;
                         WvwMatch.Details.maps[i].objectives[m].owner_guild = Match_Details.maps[i].objectives[m].owner_guild;
                         WvwMatch.Details.maps[i].objectives[m].last_change = DateTime.Now;
-                        if (Match_Details.maps[i].type == selectedBorderland)
-                            changeIcon(Match_Details.maps[i].objectives[m].id, Match_Details.maps[i].objectives[m].owner);
+                        //if (Match_Details.maps[i].type == selectedBorderland)
+                            //changeIcon(Match_Details.maps[i].objectives[m].id, Match_Details.maps[i].objectives[m].owner);
                     }
                 }
             }
@@ -243,17 +293,17 @@ namespace GWvW_Overlay
             string y;
             if (color == "none")
             {
-                y = string.Format(@"Resources/{0}.png", type);
+                y = string.Format("Resources/{0}.png", type);
             }
             else
             {
-                y = string.Format(@"Resources/{0}_{1}.png", type, color.ToLower());
+                y = string.Format("Resources/{0}_{1}.png", type, color.ToLower());
                 
             }
             ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
             return x;
         }
-
+        /*
         public void updateTimers(int Objective, string time_left)
         {
             switch (Objective)
@@ -553,14 +603,26 @@ namespace GWvW_Overlay
 
         
         }
-        
-        public string getJSON(string url)
+        */
+        public string getJSON(string file)
         {
             string s;
-            using (WebClient client = new WebClient())
+            if (file.StartsWith("http"))
             {
-                s = client.DownloadString(@url);
+                using (WebClient client = new WebClient())
+                {
+                    s = client.DownloadString(@file);
+                }
             }
+            else
+            {
+                Uri uri = new Uri(file, UriKind.Relative);
+                StreamResourceInfo contentStream = Application.GetContentStream(uri);
+                s = contentStream.ToString();
+                StreamReader sr = new StreamReader(contentStream.Stream);
+                s = sr.ReadToEnd();
+            }
+            
             return s;
         }
 
@@ -635,26 +697,26 @@ namespace GWvW_Overlay
 
             if (selectedBL != "Center")
             {
-                if (selectedBL == "RedHome")
+                /*if (selectedBL == "RedHome")
                     lbl_borderlands.Content = "Red Borderlands";
                 else if (selectedBL == "GreenHome")
                     lbl_borderlands.Content = "Green Borderlands";
                 else
                     lbl_borderlands.Content = "Blue Borderlands";
 
-
+                */
                 MainWindow1.Height = 771.637;
                 MainWindow1.Width = 580;
-                map_canvas_eb.Visibility = Visibility.Hidden;
-                map_canvas_bl.Visibility = Visibility.Visible;
+                //map_canvas_eb.Visibility = Visibility.Hidden;
+                //map_canvas_bl.Visibility = Visibility.Visible;
             }
             else
             {
                 MainWindow1.Height = 650;
                 MainWindow1.Width = 650;
-                MainWindow1.Background = new ImageBrush(getPNG("mapeb", "none"));
-                map_canvas_bl.Visibility = Visibility.Hidden;
-                map_canvas_eb.Visibility = Visibility.Visible;
+
+                //map_canvas_bl.Visibility = Visibility.Hidden;
+                //map_canvas_eb.Visibility = Visibility.Visible;
                 
             }
             selectedBorderland = selectedBL;
@@ -677,6 +739,88 @@ namespace GWvW_Overlay
         {
             Slider x = (Slider)sender;
             MainWindow1.Opacity = x.Value;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WINDOWPOS
+        {
+            public IntPtr hwnd;
+            public IntPtr hwndInsertAfter;
+            public int x;
+            public int y;
+            public int cx;
+            public int cy;
+            public int flags;
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
+        {
+            public Int32 X;
+            public Int32 Y;
+        };
+
+        public static Point GetMousePosition() // mouse position relative to screen
+        {
+            Win32Point w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+            return new Point(w32Mouse.X, w32Mouse.Y);
+        }
+
+
+        private void Window_SourceInitialized(object sender, EventArgs ea)
+        {
+            HwndSource hwndSource = (HwndSource)HwndSource.FromVisual((Window)sender);
+            hwndSource.AddHook(DragHook);
+
+            _aspectRatio = this.Width / this.Height;
+        }
+
+        private IntPtr DragHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch ((WM)msg)
+            {
+                case WM.WINDOWPOSCHANGING:
+                    {
+                        WINDOWPOS pos = (WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
+
+                        if ((pos.flags & (int)SWP.NOMOVE) != 0)
+                            return IntPtr.Zero;
+
+                        Window wnd = (Window)HwndSource.FromHwnd(hwnd).RootVisual;
+                        if (wnd == null)
+                            return IntPtr.Zero;
+
+                        // determine what dimension is changed by detecting the mouse position relative to the 
+                        // window bounds. if gripped in the corner, either will work.
+                        if (!_adjustingHeight.HasValue)
+                        {
+                            Point p = GetMousePosition();
+
+                            double diffWidth = Math.Min(Math.Abs(p.X - pos.x), Math.Abs(p.X - pos.x - pos.cx));
+                            double diffHeight = Math.Min(Math.Abs(p.Y - pos.y), Math.Abs(p.Y - pos.y - pos.cy));
+
+                            _adjustingHeight = diffHeight > diffWidth;
+                        }
+
+                        if (_adjustingHeight.Value)
+                            pos.cy = (int)(pos.cx / _aspectRatio); // adjusting height to width change
+                        else
+                            pos.cx = (int)(pos.cy * _aspectRatio); // adjusting width to heigth change
+
+                        Marshal.StructureToPtr(pos, lParam, true);
+                        handled = true;
+                    }
+                    break;
+                case WM.EXITSIZEMOVE:
+                    _adjustingHeight = null; // reset adjustment dimension and detect again next time window is resized
+                    break;
+            }
+
+            return IntPtr.Zero;
         }
     }
 }

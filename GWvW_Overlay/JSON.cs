@@ -3,10 +3,88 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 namespace GWvW_Overlay
 {
     //Match Details
+    public class WvwObjective : INotifyPropertyChanged
+    {
+        private double _left;
+        private double _left_base;
+        private double _top;
+        private double _top_base;
+
+        public int id { get; set; }
+        public string name { get; set; }
+        public int points { get; set; }
+
+        public double top_base
+        {
+            set
+            {
+                _top_base = value;
+            }
+            get
+            {
+                return _top_base;
+            }
+        }
+        public double left_base
+        {
+            set
+            {
+                _left_base = value;
+            }
+            get
+            {
+                return _left_base;
+            }
+        }
+        public double top
+        {
+            get { return _top; }
+            set
+            {
+                if (value != _top)
+                {
+                    if (_top_base == 0.0)
+                        _top_base = value;
+
+                    _top = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public double left
+        {
+            get { return _left; }
+            set
+            {
+                if (value != _left)
+                {
+                    if (_left_base == 0.0)
+                        _left_base = value;
+
+                    _left = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class ObjectiveNames_
+    {
+        public List<WvwObjective> wvw_objectives { get; set; }
+    }
     public class Match_Details_
     {
         public string match_id { get; set; }
@@ -35,6 +113,7 @@ namespace GWvW_Overlay
         public List<Matches> Match { get; set; }
         public List<World_Names_> World { get; set; }
         public Match_Details_ Details { get; set; }
+        public List<WvwObjective> ObjectiveNames { get; set; }
 
         public Dictionary<string, string> getMatchesList()
         {
