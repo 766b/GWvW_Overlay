@@ -97,7 +97,7 @@ namespace GWvW_Overlay
         public int id { get; set; }
         public string owner { get; set; } //TODO: Reset last_change if owner changed
         public string owner_guild { get; set; }
-        public DateTime last_change { get; set;  
+        public DateTime last_change { get; set; }
     }
 
     public class Map
@@ -107,9 +107,122 @@ namespace GWvW_Overlay
         public List<Objective> objectives { get; set; }
     }
 
+    public class Options_ : INotifyPropertyChanged
+    {
+        private string _active_bl;
+        private string _active_map_img = "Resources/mapeb.png";
+
+        private double _width = 500;
+        private double _height = 500;
+
+        public string active_bl_title { get; set; }
+        public string active_match { get; set; }
+
+        public string active_bl
+        {
+            get { return _active_bl; }
+            set
+            {
+                if (value != _active_bl)
+                {
+                    if (value == "RedHome")
+                    {
+                        active_bl_title = "Red Borderlands";
+                        active_map_img = "Resources/mapbl.png";
+                        ChangeWindowSize(580.0, 771.637);
+                    }
+                    else if (value == "GreenHome")
+                    {
+                        active_bl_title = "Green Borderlands";
+                        active_map_img = "Resources/mapbl.png";
+                        ChangeWindowSize(580.0, 771.637);
+                    }
+                    else if (value == "BlueHome")
+                    {
+                        active_bl_title = "Blue Borderlands";
+                        active_map_img = "Resources/mapbl.png";
+                        ChangeWindowSize(580.0, 771.637);
+                    }
+                    else
+                    {
+                        active_bl_title = "Eternal Battlegrounds";
+                        active_map_img = "Resources/mapeb.png";
+                        ChangeWindowSize(600, 600);
+                    }
+
+                    _active_bl = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string active_map_img
+        { 
+            get { return _active_map_img; }
+            set 
+            {
+                if (value != _active_map_img)
+                {
+                    _active_map_img = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public double width
+        {
+            get { return _width; }
+            set
+            {
+                if (value != _width)
+                {
+                    _width = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public double height
+        {
+            get { return _height; }
+            set
+            {
+                if (value != _height)
+                {
+                    _height = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public void ChangeWindowSize(double Width, double Height)
+        {
+            if (_width != Width)
+                width = Width;
+            if (_height != Height)
+                height = Height;
+        }
+        
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     // Matches
     public class WvwMatch_
     {
+        public WvwMatch_()
+        {
+            Options = new Options_();
+        }
+        public Options_ Options { get; set; }
+        public int height = 500;
+        public int width = 500;
         public List<Matches> Match { get; set; }
         public List<World_Names_> World { get; set; }
         public Match_Details_ Details { get; set; }
@@ -160,6 +273,8 @@ namespace GWvW_Overlay
             }
             return string.Format("SERVER_{0}_NOT_FOUND", ID);
         }
+
+        
     }
 
     public class Matches_

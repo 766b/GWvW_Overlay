@@ -41,7 +41,7 @@ namespace GWvW_Overlay
         bool ResetMatch = false; 
         bool inGame = false;
         bool AlwaysOnTop = false;
-        private double _aspectRatio;
+
         private bool? _adjustingHeight = null;
         internal enum SWP
         {
@@ -111,8 +111,6 @@ namespace GWvW_Overlay
             rtvMatches();
 
             buildMenu();
-
-            
         }
 
         public void updatePosition(Object source, System.Timers.ElapsedEventArgs e)
@@ -135,6 +133,8 @@ namespace GWvW_Overlay
 
         private void onLoad(object sender, RoutedEventArgs e)
         {
+            //this.DataContext = WvwMatch;
+
             DataContext = WvwMatch;
         }
 
@@ -694,7 +694,8 @@ namespace GWvW_Overlay
         public void borderlandSelected(object sender, EventArgs e)
         {
             string selectedBL = (string)((MenuItem)sender).Tag;
-
+            WvwMatch.Options.active_bl = selectedBL;
+            
             if (selectedBL != "Center")
             {
                 /*if (selectedBL == "RedHome")
@@ -705,15 +706,15 @@ namespace GWvW_Overlay
                     lbl_borderlands.Content = "Blue Borderlands";
 
                 */
-                MainWindow1.Height = 771.637;
-                MainWindow1.Width = 580;
+                //MainWindow1.Height = 771.637;
+                //MainWindow1.Width = 580;
                 //map_canvas_eb.Visibility = Visibility.Hidden;
                 //map_canvas_bl.Visibility = Visibility.Visible;
             }
             else
             {
-                MainWindow1.Height = 650;
-                MainWindow1.Width = 650;
+               // MainWindow1.Height = 650;
+                //MainWindow1.Width = 650;
 
                 //map_canvas_bl.Visibility = Visibility.Hidden;
                 //map_canvas_eb.Visibility = Visibility.Visible;
@@ -775,12 +776,11 @@ namespace GWvW_Overlay
         {
             HwndSource hwndSource = (HwndSource)HwndSource.FromVisual((Window)sender);
             hwndSource.AddHook(DragHook);
-
-            _aspectRatio = this.Width / this.Height;
         }
 
         private IntPtr DragHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+            double _aspectRatio = WvwMatch.Options.width / WvwMatch.Options.height;
             switch ((WM)msg)
             {
                 case WM.WINDOWPOSCHANGING:
