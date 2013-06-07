@@ -11,51 +11,45 @@ namespace GWvW_Overlay
     public class WvwObjective : INotifyPropertyChanged
     {
         private double _left;
-        private double _left_base;
         private double _top;
+        private double _left_base;
         private double _top_base;
 
         public int id { get; set; }
         public string name { get; set; }
         public int points { get; set; }
 
+        public double res_width { get; set; }
+        public double res_height { get; set; }
+
         public double top_base
         {
-            set
-            {
-                _top_base = value;
-            }
-            get
-            {
-                return _top_base;
-            }
+            set { _top_base = value; }
+            get { return _top_base; }
         }
+
         public double left_base
         {
-            set
-            {
-                _left_base = value;
-            }
-            get
-            {
-                return _left_base;
-            }
+            set { _left_base = value; }
+            get { return _left_base;  }
         }
+
         public double top
         {
             get { return _top; }
             set
             {
+                if (_top_base == 0.0)
+                    _top_base = value;
+
                 if (value != _top)
                 {
-                    if (_top_base == 0.0)
-                        _top_base = value;
-
                     _top = value;
                     OnPropertyChanged();
                 }
             }
         }
+
         public double left
         {
             get { return _left; }
@@ -71,6 +65,12 @@ namespace GWvW_Overlay
                 }
             }
         }
+
+        //8888888888888888888888888888
+        //public int id { get; set; }
+        public string owner { get; set; } //TODO: Reset last_change if owner changed
+        public string owner_guild { get; set; }
+        public DateTime last_change { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
@@ -95,9 +95,9 @@ namespace GWvW_Overlay
     public class Objective
     {
         public int id { get; set; }
-        public string owner { get; set; }
+        public string owner { get; set; } //TODO: Reset last_change if owner changed
         public string owner_guild { get; set; }
-        public DateTime last_change { get; set; }
+        public DateTime last_change { get; set;  
     }
 
     public class Map
@@ -114,6 +114,16 @@ namespace GWvW_Overlay
         public List<World_Names_> World { get; set; }
         public Match_Details_ Details { get; set; }
         public List<WvwObjective> ObjectiveNames { get; set; }
+
+        /*public Map DetailsByMap(string MapType)
+        {
+            for (int i = 0; i < Details.maps.Count; i++)
+            {
+                if (Details.maps[i].type == MapType)
+                    //return Details.maps[i];
+            }
+            return new Map();
+        }*/
 
         public Dictionary<string, string> getMatchesList()
         {

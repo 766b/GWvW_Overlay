@@ -126,8 +126,8 @@ namespace GWvW_Overlay
                 {
                     Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                     {
-                        obj.left = this.Width * (obj.left_base / 900);
-                        obj.top = this.Height * (obj.top_base / 900);
+                        obj.left = this.Width * (obj.left_base / obj.res_width);
+                        obj.top = this.Height * (obj.top_base / obj.res_height);
                     }));
                 }
             }
