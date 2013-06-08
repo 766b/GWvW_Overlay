@@ -107,18 +107,20 @@ namespace GWvW_Overlay
             t2.Start();
 
             rtvWorldNames();
-            rtvObjectiveNames();
+            
+            //rtvMatchDetails(null, null);
             rtvMatches();
+            rtvObjectiveNames();
 
             buildMenu();
         }
 
         public void updatePosition(Object source, System.Timers.ElapsedEventArgs e)
         {
-            if (WvwMatch.ObjectiveNames == null)
+            if (WvwMatch.Details == null)
                 return;
 
-            foreach(WvwObjective obj in WvwMatch.ObjectiveNames)
+            foreach(WvwObjective obj in WvwMatch.Details.maps[3].objectives)
             {
                 if (obj.top != 0.0)
                 {
@@ -135,7 +137,7 @@ namespace GWvW_Overlay
         {
             //this.DataContext = WvwMatch;
 
-            DataContext = WvwMatch;
+            
         }
 
         public void buildMenu()
@@ -231,6 +233,11 @@ namespace GWvW_Overlay
             ObjectiveNames = JsonConvert.DeserializeObject<ObjectiveNames_>(getJSON(@"Resources/objectives.json"));
             WvwMatch.ObjectiveNames = ObjectiveNames.wvw_objectives;
             ObjectiveNames.wvw_objectives = null;
+
+            /*for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
+            {
+                WvwMatch.Details.maps[i].objectives = JsonConvert.DeserializeObject<List<WvwObjective>>(getJSON(string.Format("Resources/obj_{0}.json", WvwMatch.Details.maps[i].type)));
+            }*/
         }
 
         public void rtvMatches()
@@ -245,13 +252,25 @@ namespace GWvW_Overlay
             if (selectedMatch == null) return;
             Match_Details = JsonConvert.DeserializeObject<Match_Details_>(getJSON("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + selectedMatch));
 
+
             if (WvwMatch.Details == null || ResetMatch)
             {
                 WvwMatch.Details = Match_Details;
-                FillMap();
-                t2.Start();
+                //FillMap();
+                //t2.Start();
                 ResetMatch = false;
             }
+
+            // Fill objective names and icons positions
+            if(WvwMatch.Details.maps[3].objectives[0].name == null)
+            {
+                for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
+                {
+                    WvwMatch.Details.maps[i].objectives = JsonConvert.DeserializeObject<List<WvwObjective>>(getJSON(string.Format("Resources/obj_{0}.json", WvwMatch.Details.maps[i].type)));
+                }
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { DataContext = WvwMatch; })); 
+            }
+
             matchCompare();
         }
         

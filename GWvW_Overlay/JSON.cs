@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
+using System.Windows.Data;
+using System.Windows.Media.Imaging;
+
 namespace GWvW_Overlay
 {
     //Match Details
@@ -15,10 +19,9 @@ namespace GWvW_Overlay
         private double _left_base;
         private double _top_base;
 
-        public int id { get; set; }
         public string name { get; set; }
         public int points { get; set; }
-
+        public string type {get; set; }
         public double res_width { get; set; }
         public double res_height { get; set; }
 
@@ -67,10 +70,46 @@ namespace GWvW_Overlay
         }
 
         //8888888888888888888888888888
-        //public int id { get; set; }
-        public string owner { get; set; } //TODO: Reset last_change if owner changed
-        public string owner_guild { get; set; }
+        public int id { get; set; }
+        private string _owner;
+        public string _owner_guild;
         public DateTime last_change { get; set; }
+
+        public string owner_guild
+        {
+            get
+            {
+                if (_owner_guild != null)
+                    return "claimed2";
+
+                return _owner_guild;
+            }
+            set
+            {
+                if (value != _owner_guild)
+                {
+                    _owner_guild = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string owner 
+        {
+            get { return _owner; }
+            set
+            {
+                if (value != _owner)
+                {
+                    _owner = value;
+
+                    // If owner changes, timer needs to be reset
+                    last_change = DateTime.Now;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
@@ -79,8 +118,41 @@ namespace GWvW_Overlay
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
 
+
+    }
+    public class getIMG : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if(values.Length == 1)
+                return getPNG(values[0], null);
+            if(values.Length == 2)
+                return getPNG(values[0], values[1]);
+
+            return null;
+        }
+        public object[] ConvertBack(object values, Type[] targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        private ImageSource getPNG(object type, object color)
+        {
+            string y;
+            if (color == null || color.ToString() == "none")
+            {
+                y = string.Format("Resources/{0}.png", type);
+            }
+            else
+            {
+                y = string.Format("Resources/{0}_{1}.png", type, color.ToString().ToLower());
+
+            }
+            ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
+            return x;
+        }
+    }
     public class ObjectiveNames_
     {
         public List<WvwObjective> wvw_objectives { get; set; }
@@ -104,7 +176,7 @@ namespace GWvW_Overlay
     {
         public string type { get; set; }
         public List<int> scores { get; set; }
-        public List<Objective> objectives { get; set; }
+        public List<WvwObjective> objectives { get; set; }
     }
 
     public class Options_ : INotifyPropertyChanged
@@ -221,8 +293,6 @@ namespace GWvW_Overlay
             Options = new Options_();
         }
         public Options_ Options { get; set; }
-        public int height = 500;
-        public int width = 500;
         public List<Matches> Match { get; set; }
         public List<World_Names_> World { get; set; }
         public Match_Details_ Details { get; set; }
@@ -264,6 +334,7 @@ namespace GWvW_Overlay
             }
             return string.Format("MATCH_ID-{0}_NOT_FOUND", match_id);
         }
+
         public string getServerName(int ID)
         {
             foreach (var x in World)
@@ -273,8 +344,6 @@ namespace GWvW_Overlay
             }
             return string.Format("SERVER_{0}_NOT_FOUND", ID);
         }
-
-        
     }
 
     public class Matches_

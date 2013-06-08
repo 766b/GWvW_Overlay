@@ -5,15 +5,32 @@
         Foreground="{x:Null}" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
         AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="0.65" MouseDown="Drag" Loaded="onLoad">
 
-    <ItemsControl ItemsSource="{Binding ObjectiveNames}">
+    <Window.Resources>
+        <local:getIMG x:Key="getIMG" />
+    </Window.Resources>
+    
+    <ItemsControl ItemsSource="{Binding Details.maps[3].objectives}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Canvas>
-                    <Image Height="24" Width="24" Source="Resources/camp_blue.png" Stretch="Fill"/>
+                    <Image Height="24" Width="24" Stretch="Fill">
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource getIMG}">
+                                <Binding Path="type"/>
+                                <Binding Path="owner"/>
+                            </MultiBinding>
+                        </Image.Source>
+                    </Image>
                     <Label Content="{Binding name}" Width="100" Canvas.Top="-20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
                     <Label Content="{Binding name}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White" />
 
-                    <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Source="Resources/claimed2.png" Panel.ZIndex="60"/>
+                    <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="60">
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource getIMG}">
+                                <Binding Path="owner_guild"/>
+                            </MultiBinding>
+                        </Image.Source>
+                    </Image>
                     <!--<Label Content="{Binding OwnerData.OwnerName}" Height="36" Canvas.Left="8" Canvas.Top="55" Width="198" Padding="0" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
                     <Label Content="{Binding OwnerData.LastClaim}" Height="22" Canvas.Left="8" Canvas.Top="10" Width="198" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
                     <Image Height="14" Canvas.Left="109" Canvas.Top="43" Width="12" Source="{Binding OwnerData.Claim}" Panel.ZIndex="60"/>-->
