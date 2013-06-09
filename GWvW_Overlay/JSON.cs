@@ -19,7 +19,9 @@ namespace GWvW_Overlay
         private double _left_base;
         private double _top_base;
 
+        public int id { get; set; }
         public string name { get; set; }
+        public string map { get; set; }
         public int points { get; set; }
         public string type {get; set; }
         public double res_width { get; set; }
@@ -69,11 +71,108 @@ namespace GWvW_Overlay
             }
         }
 
-        //8888888888888888888888888888
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+    }
+    public class getIMG : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (values.Length == 1)
+                return getPNG(values[0], null);
+            if(values.Length == 2)
+                return getPNG(values[0], values[1]);
+
+            
+            return null;
+        }
+        public object[] ConvertBack(object values, Type[] targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        private ImageSource getPNG(object type, object color)
+        {
+            string y;
+            if (color == null || color.ToString() == "none")
+            {
+                y = string.Format("Resources/{0}.png", type);
+            }
+            else
+            {
+                y = string.Format("Resources/{0}_{1}.png", type, color.ToString().ToLower());
+
+            }
+            //Console.WriteLine("Getting " + y);
+
+            ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
+            return x;
+        }
+    }
+    public class ObjectiveNames_
+    {
+        public List<WvwObjective> wvw_objectives { get; set; }
+    }
+    public class Match_Details_
+    {
+        public string match_id { get; set; }
+        public List<int> scores { get; set; }
+        public List<Map> maps { get; set; }
+    }
+
+    public class Objective : INotifyPropertyChanged
+    {
+        public Objective()
+        {
+            ObjData = new WvwObjective();
+        }
+        public WvwObjective ObjData { get; set; }
         public int id { get; set; }
         private string _owner;
         public string _owner_guild;
-        public DateTime last_change { get; set; }
+        public DateTime _last_change;
+        public string _time_left;
+
+        public string time_left {
+            get { return _time_left; }
+            set
+            {
+                if (value != _time_left)
+                {
+                    _time_left = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        //Not used.
+        public string owner_icon
+        {
+            get
+            {
+                return string.Format("Resources/{0}_{1}.png", ObjData.type, _owner);
+            }
+        }
+
+        public DateTime last_change
+        {
+            get { return _last_change; }
+            set
+            {
+                if (value != _last_change)
+                {
+                    _last_change = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public string owner_guild
         {
@@ -94,16 +193,19 @@ namespace GWvW_Overlay
             }
         }
 
-        public string owner 
+        public string owner
         {
             get { return _owner; }
             set
             {
-                if (value != _owner)
+                if (_owner == null)
                 {
                     _owner = value;
-
-                    // If owner changes, timer needs to be reset
+                    OnPropertyChanged("owner_icon");
+                }
+                if (value != _owner && _owner != null)
+                {
+                    _owner = value;
                     last_change = DateTime.Now;
                     OnPropertyChanged();
                 }
@@ -118,77 +220,58 @@ namespace GWvW_Overlay
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
-    }
-    public class getIMG : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if(values.Length == 1)
-                return getPNG(values[0], null);
-            if(values.Length == 2)
-                return getPNG(values[0], values[1]);
-
-            return null;
-        }
-        public object[] ConvertBack(object values, Type[] targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
-        private ImageSource getPNG(object type, object color)
-        {
-            string y;
-            if (color == null || color.ToString() == "none")
-            {
-                y = string.Format("Resources/{0}.png", type);
-            }
-            else
-            {
-                y = string.Format("Resources/{0}_{1}.png", type, color.ToString().ToLower());
-
-            }
-            ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
-            return x;
-        }
-    }
-    public class ObjectiveNames_
-    {
-        public List<WvwObjective> wvw_objectives { get; set; }
-    }
-    public class Match_Details_
-    {
-        public string match_id { get; set; }
-        public List<int> scores { get; set; }
-        public List<Map> maps { get; set; }
-    }
-
-    public class Objective
-    {
-        public int id { get; set; }
-        public string owner { get; set; } //TODO: Reset last_change if owner changed
-        public string owner_guild { get; set; }
-        public DateTime last_change { get; set; }
     }
 
     public class Map
     {
         public string type { get; set; }
         public List<int> scores { get; set; }
-        public List<WvwObjective> objectives { get; set; }
+        public List<Objective> objectives { get; set; }
     }
 
     public class Options_ : INotifyPropertyChanged
     {
-        private string _active_bl;
+        private string _active_bl = "Center";
+        public Dictionary<string, int> blid;
+        public int _active_blid;
         private string _active_map_img = "Resources/mapeb.png";
 
         private double _width = 500;
         private double _height = 500;
 
-        public string active_bl_title { get; set; }
-        public string active_match { get; set; }
+        private string _active_bl_title;
+        public string _active_match;// = "1-1";
+
+        public int active_blid
+        {
+            get { return blid[_active_bl]; }
+        }
+
+        public string active_bl_title
+        {
+            get { return _active_bl_title; }
+            set
+            {
+                if (value != _active_bl_title)
+                {
+                    _active_bl_title = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string active_match
+        { 
+            get { return _active_match; }
+            set 
+            {
+                if (value != _active_match)
+                {
+                    _active_match = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public string active_bl
         {
@@ -201,19 +284,19 @@ namespace GWvW_Overlay
                     {
                         active_bl_title = "Red Borderlands";
                         active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(580.0, 771.637);
+                        ChangeWindowSize(442.043, 588.374);
                     }
                     else if (value == "GreenHome")
                     {
                         active_bl_title = "Green Borderlands";
                         active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(580.0, 771.637);
+                        ChangeWindowSize(442.043, 588.374);
                     }
                     else if (value == "BlueHome")
                     {
                         active_bl_title = "Blue Borderlands";
                         active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(580.0, 771.637);
+                        ChangeWindowSize(442.043, 588.374);
                     }
                     else
                     {
@@ -298,15 +381,17 @@ namespace GWvW_Overlay
         public Match_Details_ Details { get; set; }
         public List<WvwObjective> ObjectiveNames { get; set; }
 
-        /*public Map DetailsByMap(string MapType)
+        //Get BL IDs to Type
+        public void GetBLID()
         {
+            Dictionary<string, int> dict = new Dictionary<string, int>();
             for (int i = 0; i < Details.maps.Count; i++)
             {
-                if (Details.maps[i].type == MapType)
-                    //return Details.maps[i];
+                int map_id = i;
+                dict.Add(Details.maps[map_id].type, map_id);
             }
-            return new Map();
-        }*/
+            Options.blid = dict;
+        }
 
         public Dictionary<string, string> getMatchesList()
         {
@@ -318,11 +403,11 @@ namespace GWvW_Overlay
             return ret.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public string getServerName(string match_id, string color)
+        public string getServerName(string color)
         { 
             foreach(var x in Match)
             {
-                if (match_id == x.wvw_match_id)
+                if (Options.active_match == x.wvw_match_id)
                 {
                     switch (color)
                     {
@@ -332,7 +417,7 @@ namespace GWvW_Overlay
                     }
                 }
             }
-            return string.Format("MATCH_ID-{0}_NOT_FOUND", match_id);
+            return string.Format("MATCH_ID-{0}_NOT_FOUND", Options.active_match);
         }
 
         public string getServerName(int ID)

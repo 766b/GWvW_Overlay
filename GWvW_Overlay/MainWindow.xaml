@@ -2,27 +2,30 @@
         xmlns:local="clr-namespace:GWvW_Overlay" 
         mc:Ignorable="d" x:Name="MainWindow1" x:Class="GWvW_Overlay.MainWindow" Title="GWvW Overlay" 
         WindowStartupLocation="CenterScreen" WindowStyle="None" Height="{Binding Options.height}" Width="{Binding Options.width}" MinHeight="{Binding Options.height}" MinWidth="{Binding Options.width}"
-        Foreground="{x:Null}" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
-        AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="0.65" MouseDown="Drag" Loaded="onLoad">
+        Foreground="{x:Null}" Background="{x:Null}" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
+        AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="{Binding Source={x:Static Properties:Settings.Default}, Path=opticity}" MouseDown="Drag" Loaded="onLoad"
+        xmlns:Properties="clr-namespace:GWvW_Overlay.Properties">
 
     <Window.Resources>
         <local:getIMG x:Key="getIMG" />
     </Window.Resources>
-    
-    <ItemsControl ItemsSource="{Binding Details.maps[3].objectives}">
+
+    <Grid>
+        
+    <ItemsControl Name="Icons">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Canvas>
                     <Image Height="24" Width="24" Stretch="Fill">
                         <Image.Source>
                             <MultiBinding Converter="{StaticResource getIMG}">
-                                <Binding Path="type"/>
+                                <Binding Path="ObjData.type"/>
                                 <Binding Path="owner"/>
                             </MultiBinding>
                         </Image.Source>
                     </Image>
-                    <Label Content="{Binding name}" Width="100" Canvas.Top="-20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                    <Label Content="{Binding name}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White" />
+                    <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                    <Label Content="{Binding ObjData.name}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White" />
 
                     <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="60">
                         <Image.Source>
@@ -31,9 +34,6 @@
                             </MultiBinding>
                         </Image.Source>
                     </Image>
-                    <!--<Label Content="{Binding OwnerData.OwnerName}" Height="36" Canvas.Left="8" Canvas.Top="55" Width="198" Padding="0" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-                    <Label Content="{Binding OwnerData.LastClaim}" Height="22" Canvas.Left="8" Canvas.Top="10" Width="198" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-                    <Image Height="14" Canvas.Left="109" Canvas.Top="43" Width="12" Source="{Binding OwnerData.Claim}" Panel.ZIndex="60"/>-->
                 </Canvas>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
@@ -41,17 +41,25 @@
             <ItemsPanelTemplate>
                 <Canvas>
                     <Canvas.Background>
-                        <ImageBrush ImageSource="{Binding Options.active_map_img}" Stretch="Uniform"/>
+                        <ImageBrush Stretch="Uniform" ImageSource="{Binding Options.active_map_img}" />
                     </Canvas.Background>
                 </Canvas>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemContainerStyle>
             <Style TargetType="{x:Type ContentPresenter}">
-                <Setter Property="Canvas.Left" Value="{Binding left}" />
-                <Setter Property="Canvas.Top" Value="{Binding top}" />
+                <Setter Property="Canvas.Left" Value="{Binding ObjData.left}" />
+                <Setter Property="Canvas.Top" Value="{Binding ObjData.top}" />
             </Style>
         </ItemsControl.ItemContainerStyle>
     </ItemsControl>
 
+        <Canvas HorizontalAlignment="Center">
+            <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="400" Canvas.Left="-200" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
+                <Label.Background>
+                    <ImageBrush ImageSource="Resources/panel2.png"/>
+                </Label.Background>
+            </Label>
+        </Canvas>
+    </Grid>
 </Window>
