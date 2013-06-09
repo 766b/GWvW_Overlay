@@ -19,7 +19,7 @@ Changes
 - Main window can now be resized
 - Added guild claim icons
 - Added objective names
-- 
+
 (6/2/2013)
 - Remapped show/hide shortcut to "Home" key
 - Added map title
