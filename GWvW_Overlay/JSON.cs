@@ -309,25 +309,25 @@ namespace GWvW_Overlay
                     {
                         active_bl_title = "Red Borderlands";
                         active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(442.043, 588.374);
+                        ChangeWindowSize(374.412, 498.355); //"498.355" Width="374.412"
                     }
                     else if (value == "GreenHome")
                     {
                         active_bl_title = "Green Borderlands";
                         active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(442.043, 588.374);
+                        ChangeWindowSize(374.412, 498.355);
                     }
                     else if (value == "BlueHome")
                     {
                         active_bl_title = "Blue Borderlands";
                         active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(442.043, 588.374);
+                        ChangeWindowSize(374.412, 498.355);
                     }
                     else
                     {
                         active_bl_title = "Eternal Battlegrounds";
                         active_map_img = "Resources/mapeb.png";
-                        ChangeWindowSize(600, 600);
+                        ChangeWindowSize(500, 500);
                     }
 
                     _active_bl = value;

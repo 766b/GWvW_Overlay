@@ -51,7 +51,7 @@
     </ItemsControl>
 
         <Canvas HorizontalAlignment="Center">
-            <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="400" Canvas.Left="-200" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
+            <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="300" Canvas.Left="-150" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
                 <Label.Background>
                     <ImageBrush ImageSource="Resources/panel2.png"/>
                 </Label.Background>

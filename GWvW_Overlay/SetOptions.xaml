@@ -20,8 +20,8 @@
         </GroupBox>
         <GroupBox Header="Other" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" Height="77" Width="394">
             <Canvas>
-            <CheckBox x:Name="chkShowNames" Content="Display objective names (For changes to take effect change map)" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="362" Checked="chkShowNames_Checked" Unchecked="chkShowNames_Unchecked" Canvas.Left="10" Canvas.Top="10"/>
-            <CheckBox x:Name="chkAlwaysTop" Content="Always on top" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="165" Canvas.Left="10" Canvas.Top="29"/>
+                <CheckBox x:Name="chkShowNames" Content="Display objective names (For changes to take effect change map)" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="362" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=show_names}" Canvas.Left="10" Canvas.Top="10"/>
+                <CheckBox x:Name="chkAlwaysTop" Content="Always on top" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="165" Canvas.Left="10" Canvas.Top="29" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=alwaysTop}"/>
                 </Canvas>
         </GroupBox>
 
