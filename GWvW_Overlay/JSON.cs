@@ -213,8 +213,11 @@ namespace GWvW_Overlay
             }
             set
             {
-                _owner_guild = value;
-                OnPropertyChanged();
+                if (value != _owner_guild)
+                {
+                    _owner_guild = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

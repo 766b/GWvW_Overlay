@@ -288,7 +288,7 @@ namespace GWvW_Overlay
                             WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
                             WvwMatch.Details.maps[map].objectives[obj].last_change = DateTime.Now;
                         }
-                        if (WvwMatch.Details.maps[map].objectives[obj].owner != Match_Details.maps[map].objectives[obj].owner)
+                        if (WvwMatch.Details.maps[map].objectives[obj].owner_guild != Match_Details.maps[map].objectives[obj].owner_guild)
                         {
                             WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
                         }
