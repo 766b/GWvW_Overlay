@@ -31,6 +31,9 @@ namespace GWvW_Overlay
 
             txtbox_hotkey.Text = Properties.Settings.Default["hotkey"].ToString();
             chkAlwaysTop.IsChecked = (bool)Properties.Settings.Default["alwaysTop"];
+            chkShowNames.IsChecked = (bool)Properties.Settings.Default["show_names"];
+            //opticity_slider.Value = (double)Properties.Settings.Default["opticity"];
+            //Console.WriteLine(opticity_slider.Value + " " + (double)Properties.Settings.Default["opticity"]);
         }
 
         void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
@@ -70,10 +73,27 @@ namespace GWvW_Overlay
             Properties.Settings.Default.Save();
         }
 
-        private void opticity_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        /*private void opticity_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider x = (Slider)sender;
             Properties.Settings.Default["opticity"] = x.Value;
+            Properties.Settings.Default.Save();
+        }*/
+
+        private void chkShowNames_Checked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default["show_names"] = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void chkShowNames_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default["show_names"] = false;
+            Properties.Settings.Default.Save();
+        }
+
+        private void saveSettings(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             Properties.Settings.Default.Save();
         }
     }

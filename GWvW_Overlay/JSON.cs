@@ -81,6 +81,36 @@ namespace GWvW_Overlay
 
 
     }
+    public class getName : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if ((bool)Properties.Settings.Default["show_names"])
+                return value;
+            else
+                return string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class getClaimed : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null)
+                return new BitmapImage(new Uri("Resources/claimed2.png", UriKind.Relative));
+            else
+                return new BitmapImage(new Uri("Resources/empty.png", UriKind.Relative));
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
     public class getIMG : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -110,7 +140,6 @@ namespace GWvW_Overlay
                 y = string.Format("Resources/{0}_{1}.png", type, color.ToString().ToLower());
 
             }
-            //Console.WriteLine("Getting " + y);
 
             ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
             return x;
@@ -152,12 +181,14 @@ namespace GWvW_Overlay
             }
         }
 
-        //Not used.
-        public string owner_icon
+        public string owner_guild_icon
         {
             get
             {
-                return string.Format("Resources/{0}_{1}.png", ObjData.type, _owner);
+                if(owner_guild != null)
+                    return "Resources/claimed2.png";
+                else
+                    return "Resources/empty.png";
             }
         }
 
@@ -178,18 +209,12 @@ namespace GWvW_Overlay
         {
             get
             {
-                if (_owner_guild != null)
-                    return "Resources/claimed2.png";
-
                 return _owner_guild;
             }
             set
             {
-                if (value != _owner_guild)
-                {
-                    _owner_guild = value;
-                    OnPropertyChanged();
-                }
+                _owner_guild = value;
+                OnPropertyChanged();
             }
         }
 
@@ -201,7 +226,7 @@ namespace GWvW_Overlay
                 if (_owner == null)
                 {
                     _owner = value;
-                    OnPropertyChanged("owner_icon");
+                    OnPropertyChanged();
                 }
                 if (value != _owner && _owner != null)
                 {

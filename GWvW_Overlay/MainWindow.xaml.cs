@@ -276,16 +276,23 @@ namespace GWvW_Overlay
                 WvwMatch.Details.scores = Match_Details.scores;
                 for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
                 {
-                    WvwMatch.Details.maps[i].scores = Match_Details.maps[i].scores;
+                    int map = i;
+                    WvwMatch.Details.maps[map].scores = Match_Details.maps[map].scores;
 
-                    for (int m = 0; m < Match_Details.maps[i].objectives.Count; m++)
+                    for (int m = 0; m < Match_Details.maps[map].objectives.Count; m++)
                     {
-                        if (WvwMatch.Details.maps[i].objectives[m].owner != Match_Details.maps[i].objectives[m].owner)
+                        int obj = m;
+                        if (WvwMatch.Details.maps[map].objectives[obj].owner != Match_Details.maps[map].objectives[obj].owner)
                         {
-                            WvwMatch.Details.maps[i].objectives[m].owner = Match_Details.maps[i].objectives[m].owner;
-                            WvwMatch.Details.maps[i].objectives[m].owner_guild = Match_Details.maps[i].objectives[m].owner_guild;
-                            WvwMatch.Details.maps[i].objectives[m].last_change = DateTime.Now;
+                            WvwMatch.Details.maps[map].objectives[obj].owner = Match_Details.maps[map].objectives[obj].owner;
+                            WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
+                            WvwMatch.Details.maps[map].objectives[obj].last_change = DateTime.Now;
                         }
+                        if (WvwMatch.Details.maps[map].objectives[obj].owner != Match_Details.maps[map].objectives[obj].owner)
+                        {
+                            WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
+                        }
+
                     }
                 }
 
@@ -296,14 +303,15 @@ namespace GWvW_Overlay
             {
                 for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
                 {
-                    Console.WriteLine(WvwMatch.Details.maps[3].objectives[0].owner + " : " + WvwMatch.Details.maps[3].objectives[0].ObjData.type);
-                    var ObjData = JsonConvert.DeserializeObject<List<WvwObjective>>(getJSON(string.Format("Resources/obj_{0}.json", WvwMatch.Details.maps[i].type)));
+                    int map = i;
+                    var ObjData = JsonConvert.DeserializeObject<List<WvwObjective>>(getJSON(string.Format("Resources/obj_{0}.json", WvwMatch.Details.maps[map].type)));
                     foreach (var obj in ObjData)
                     {
-                        for (int y = 0; y < WvwMatch.Details.maps[i].objectives.Count; y++)
+                        for (int y = 0; y < WvwMatch.Details.maps[map].objectives.Count; y++)
                         {
-                            if (obj.id == WvwMatch.Details.maps[i].objectives[y].id)
-                                WvwMatch.Details.maps[i].objectives[y].ObjData = obj;
+                            int objct = y;
+                            if (obj.id == WvwMatch.Details.maps[map].objectives[objct].id)
+                                WvwMatch.Details.maps[map].objectives[objct].ObjData = obj;
                         }
                     }
                 }

@@ -8,6 +8,8 @@
 
     <Window.Resources>
         <local:getIMG x:Key="getIMG" />
+        <local:getClaimed x:Key="getClaimed" />
+        <local:getName x:Key="getName" />
     </Window.Resources>
 
     <Grid>
@@ -25,10 +27,10 @@
                         </Image.Source>
                     </Image>
                     <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                    <Label Content="{Binding ObjData.name}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White" />
+                        <Label Content="{Binding Path=ObjData.name, Converter={StaticResource getName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White" />
 
-                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="60" Source="{Binding owner_guild}" />
-                </Canvas>
+                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="60" Source="{Binding Path=owner_guild, Converter={StaticResource getClaimed}}"/>
+                    </Canvas>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
         <ItemsControl.ItemsPanel>
