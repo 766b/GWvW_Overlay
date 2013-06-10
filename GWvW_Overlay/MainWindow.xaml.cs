@@ -465,8 +465,6 @@ namespace GWvW_Overlay
         {
             SetOptions optWindow = new SetOptions();
             optWindow.Show();
-
-            WvwMatch.Details.maps[3].objectives[7].owner_guild = "3213123";
         }
 
         private void opcSlider_change(object sender, RoutedPropertyChangedEventArgs<double> e)
