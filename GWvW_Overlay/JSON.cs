@@ -179,7 +179,7 @@ namespace GWvW_Overlay
             get
             {
                 if (_owner_guild != null)
-                    return "claimed2";
+                    return "Resources/claimed2.png";
 
                 return _owner_guild;
             }

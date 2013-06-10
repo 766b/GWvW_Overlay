@@ -27,13 +27,7 @@
                     <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
                     <Label Content="{Binding ObjData.name}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White" />
 
-                    <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="60">
-                        <Image.Source>
-                            <MultiBinding Converter="{StaticResource getIMG}">
-                                <Binding Path="owner_guild"/>
-                            </MultiBinding>
-                        </Image.Source>
-                    </Image>
+                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="60" Source="{Binding owner_guild}" />
                 </Canvas>
             </DataTemplate>
         </ItemsControl.ItemTemplate>

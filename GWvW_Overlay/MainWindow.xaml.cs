@@ -37,7 +37,6 @@ namespace GWvW_Overlay
         int WS_EX_Layered = 0x80000;
         bool ResetMatch = false; 
         bool inGame = false;
-        bool AlwaysOnTop = false;
 
         private bool? _adjustingHeight = null;
         internal enum SWP
@@ -328,14 +327,6 @@ namespace GWvW_Overlay
             ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
             return x;
         }
-               
-        public void setAlwsTop(object sender, EventArgs e)
-        {
-            if ((bool)((CheckBox)sender).IsChecked)
-                AlwaysOnTop = true;
-            else
-                AlwaysOnTop = false;
-        }
 
         public string getJSON(string file)
         {
@@ -368,10 +359,10 @@ namespace GWvW_Overlay
 
         void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
         {
-            if (args.Key.ToString() == Properties.Settings.Default["hotkey"].ToString())
+            if (args.Key.ToString() == Properties.Settings.Default["hotkey"].ToString() && !(bool)Properties.Settings.Default["alwaysTop"])
             {
                 StringBuilder wTitle = new StringBuilder(13);
-                if (GetWindowText(GetForegroundWindow(), wTitle, 13) > 0 && !(bool)Properties.Settings.Default["alwaysTop"])
+                if (GetWindowText(GetForegroundWindow(), wTitle, 13) > 0)
                 {
                     if (wTitle.ToString() == "Guild Wars 2")
                     {
@@ -390,6 +381,21 @@ namespace GWvW_Overlay
                                 inGame = true;
                             }));
                         }
+                        /*else if ((bool)Properties.Settings.Default["alwaysTop"])
+                        {
+                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                            {
+                                IntPtr handle = new WindowInteropHelper(this).Handle;
+                                SetWindowLong(handle, GWL_ExStyle, WS_EX_Transparent);
+                            }));
+
+                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                            {
+                                IntPtr gwHandle = FindWindow(null, "Guild Wars 2");
+                                SetForegroundWindow(gwHandle);
+                                inGame = true;
+                            }));
+                        }*/
                     }
                     else
                     {
@@ -400,7 +406,7 @@ namespace GWvW_Overlay
                             inGame = false;
                         }));
                     }
-                }
+                } 
 
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                     IntPtr handle = new WindowInteropHelper(this).Handle;
@@ -459,6 +465,8 @@ namespace GWvW_Overlay
         {
             SetOptions optWindow = new SetOptions();
             optWindow.Show();
+
+            WvwMatch.Details.maps[3].objectives[7].owner_guild = "3213123";
         }
 
         private void opcSlider_change(object sender, RoutedPropertyChangedEventArgs<double> e)
