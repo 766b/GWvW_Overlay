@@ -556,6 +556,7 @@ namespace GWvW_Overlay
         public void exitApp(object sender, EventArgs e)
         {
             UnhookWinEvent(hhook);
+            LogWindow.Close();
             Application.Current.Shutdown();
         }
 

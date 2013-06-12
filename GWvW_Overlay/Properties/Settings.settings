@@ -33,7 +33,10 @@
       <Value Profile="(Default)">330</Value>
     </Setting>
     <Setting Name="tracker_height" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">300</Value>
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="tracker_show_event" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

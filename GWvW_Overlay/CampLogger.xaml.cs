@@ -132,14 +132,18 @@ namespace GWvW_Overlay
 
         private void btnSetClicktrough_Click(object sender, RoutedEventArgs e)
         {
-            ClickTroughActivate();
             Properties.Settings.Default["tracker_saved"] = true;
             Properties.Settings.Default.Save();
             cnvsPromt.Visibility = Visibility.Hidden;
+            ClickTroughActivate();
         }
 
         public void ClickTroughVoid()
-        { 
+        {
+            if ((bool)Properties.Settings.Default["tracker_saved"] == false)
+                return;
+
+            eventLog.IsEnabled = false;
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 IntPtr handle = new WindowInteropHelper(this).Handle;
@@ -149,6 +153,10 @@ namespace GWvW_Overlay
 
         public void ClickTroughActivate()
         {
+            if ((bool)Properties.Settings.Default["tracker_saved"] == false)
+            return;
+
+            eventLog.IsEnabled = true;
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 IntPtr handle = new WindowInteropHelper(this).Handle;

@@ -145,13 +145,25 @@ namespace GWvW_Overlay.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public double tracker_height {
             get {
                 return ((double)(this["tracker_height"]));
             }
             set {
                 this["tracker_height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool tracker_show_event {
+            get {
+                return ((bool)(this["tracker_show_event"]));
+            }
+            set {
+                this["tracker_show_event"] = value;
             }
         }
     }
