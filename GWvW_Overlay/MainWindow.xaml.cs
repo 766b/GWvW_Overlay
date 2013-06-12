@@ -641,6 +641,8 @@ namespace GWvW_Overlay
 
         private void mainClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            UnhookWinEvent(hhook);
+            LogWindow.Close();
             Properties.Settings.Default.Save();
         }
     }

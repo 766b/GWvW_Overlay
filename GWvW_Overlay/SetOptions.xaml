@@ -36,7 +36,7 @@
                 <Button x:Name="btnResetPos" Content="Reset Position" Canvas.Left="267" Canvas.Top="10" Width="105" Click="btnResetPos_Click"/>
                 <CheckBox x:Name="chkTrackerDisplay" Content="Display Tracker" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=show_tracker}" Click="chkTrackerDisplay_Click"/>
                 <CheckBox x:Name="chkCamp" Content="Show camp timers" Canvas.Left="10" Canvas.Top="52" Visibility="Hidden" />
-                <CheckBox x:Name="chkEventLog" Content="Show event log" Canvas.Left="10" Canvas.Top="31" Visibility="Hidden"/>
+                <CheckBox x:Name="chkEventLog" Content="Show event log" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_show_event}" Click="chkEventLog_Click"/>
             </Canvas>
         </GroupBox>
 

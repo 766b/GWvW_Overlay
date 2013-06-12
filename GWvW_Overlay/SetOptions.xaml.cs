@@ -83,5 +83,21 @@ namespace GWvW_Overlay
             else
                 track.Visibility = Visibility.Hidden;
         }
+
+        private void chkEventLog_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(bool)Properties.Settings.Default["tracker_show_event"])
+            {
+                Properties.Settings.Default["tracker_height"] = 140.0;
+                track.Height = 140;
+            }
+            else
+            {
+                Properties.Settings.Default["tracker_height"] = 300.0;
+                track.Height = 300;
+            }
+            Properties.Settings.Default.Save();
+
+        }
     }
 }

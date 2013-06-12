@@ -49,10 +49,10 @@
             </RichTextBox.BorderBrush>
         </RichTextBox>
 
-        <Canvas x:Name="cnvsPromt" Margin="10,53,22,0" Background="#FFE6E6E6" Height="159" VerticalAlignment="Top" Panel.ZIndex="150" Grid.RowSpan="2">
-            <Button x:Name="btnSetClicktrough" Content="Save Position and Click-trough" HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" Grid.Row="1" BorderBrush="Red" Click="btnSetClicktrough_Click" Canvas.Left="56" Canvas.Top="100"/>
-            <TextBlock Height="85" Canvas.Left="10" TextWrapping="Wrap" Text="Position the windows and click the button below to make it unobtrusive to your game play. [Alt+Tab] to reset. Can also be reset in Options. If you don't need event log but want the timers, just resize the window until you can't see the bottom portion." Canvas.Top="10" Width="278" Foreground="Black"/>
-            <Button x:Name="btnSetHide" Content="I don't need this. Hide it." HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" BorderBrush="Red" Canvas.Left="56" Canvas.Top="127" Click="btnSetHide_Click" RenderTransformOrigin="0.404,1.045"/>
+        <Canvas x:Name="cnvsPromt" Background="#FFE6E6E6" Height="148" VerticalAlignment="Top" Panel.ZIndex="150">
+            <Button x:Name="btnSetClicktrough" Content="Save Position and Click-trough" HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" Grid.Row="1" BorderBrush="Red" Click="btnSetClicktrough_Click" Canvas.Left="74" Canvas.Top="95"/>
+            <TextBlock Height="85" Canvas.Left="10" TextWrapping="Wrap" Text="Position the windows and click the button below to make it unobtrusive to your game play. [Alt+Tab] to reset. Can also be reset in Options. If you don't need event log but want the timers, just resize the window until you can't see the bottom portion." Canvas.Top="10" Width="310" Foreground="Black"/>
+            <Button x:Name="btnSetHide" Content="I don't need this. Hide it." HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" BorderBrush="Red" Canvas.Left="74" Canvas.Top="122" Click="btnSetHide_Click" RenderTransformOrigin="0.404,1.045"/>
         </Canvas>
         <Label x:Name="lblBLTitle" Content="GWvW Overlay Tracker" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.947,0.038" FontSize="18" Height="26" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold" Opacity="0.5">
             <Label.Background>
