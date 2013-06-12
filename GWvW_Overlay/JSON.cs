@@ -96,6 +96,7 @@ namespace GWvW_Overlay
             throw new NotImplementedException();
         }
     }
+
     public class getClaimed : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -280,11 +281,8 @@ namespace GWvW_Overlay
             get { return _active_bl_title; }
             set
             {
-                if (value != _active_bl_title)
-                {
-                    _active_bl_title = value;
-                    OnPropertyChanged();
-                }
+                _active_bl_title = value;
+                OnPropertyChanged();
             }
         }
 
@@ -437,7 +435,7 @@ namespace GWvW_Overlay
             {
                 if (Options.active_match == x.wvw_match_id)
                 {
-                    switch (color)
+                    switch (color.ToLower())
                     {
                         case "red": return getServerName(x.red_world_id); 
                         case "blue": return getServerName(x.blue_world_id); 

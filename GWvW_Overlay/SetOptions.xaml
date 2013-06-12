@@ -1,14 +1,21 @@
 ﻿<Window x:Name="Options" x:Class="GWvW_Overlay.SetOptions"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Options" Height="301.261" Width="430.435"
+        Title="Options" Height="410.261" Width="430.435"
         xmlns:Properties="clr-namespace:GWvW_Overlay.Properties" Closing="saveSettings">
     <Grid>
-        <GroupBox Header="Transparency" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="60" Width="394">
-            <Slider x:Name="opticity_slider" HorizontalAlignment="Left" Margin="10,10,-2,0" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=opticity}" 
-                    VerticalAlignment="Top" Width="374" Maximum="1" Minimum="0.4"/>
+        <GroupBox Header="Transparency&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="94" Width="394">
+            <Canvas Margin="0,-15,0,0">
+                
+            <Slider x:Name="opticity_slider" HorizontalAlignment="Left" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=opticity}" 
+                    VerticalAlignment="Top" Width="273" Maximum="1" Minimum="0.4" Canvas.Left="99" Canvas.Top="14"/>
+                <Label Content="Main Window" Canvas.Top="10" Canvas.Left="10"/>
+                <Label Content="Side Tracker" Canvas.Top="36" Canvas.Left="10"/>
+                <Slider x:Name="opticity_slider_tracker" HorizontalAlignment="Left" Value="{Binding opticity_tracker, Source={x:Static Properties:Settings.Default}}" 
+                	VerticalAlignment="Top" Width="273" Maximum="1" Minimum="0.4" Canvas.Left="99" Canvas.Top="41"/>
+            </Canvas>
         </GroupBox>
-        <GroupBox Header="Hotkey" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,75,0,0" Height="75" Width="394">
+        <GroupBox Header="Hotkey" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,213,0,0" Height="75" Width="394">
             <Canvas>
                 <Label Content="Current" HorizontalAlignment="Left" Height="31" Margin="7,13,0,0" VerticalAlignment="Top" Width="104" />
                 <Label Name="lblNewKey" Content=" " HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="104" Canvas.Left="268" Canvas.Top="13" />
@@ -18,11 +25,19 @@
             
 
         </GroupBox>
-        <GroupBox Header="Other" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" Height="77" Width="394">
+        <GroupBox Header="Other" HorizontalAlignment="Left" Margin="10,293,0,0" VerticalAlignment="Top" Height="77" Width="394">
             <Canvas>
                 <CheckBox x:Name="chkShowNames" Content="Display objective names (For changes to take effect change map)" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="362" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=show_names}" Canvas.Left="10" Canvas.Top="10"/>
                 <CheckBox x:Name="chkAlwaysTop" Content="Always on top" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="165" Canvas.Left="10" Canvas.Top="29" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=alwaysTop}"/>
                 </Canvas>
+        </GroupBox>
+        <GroupBox Header="Tracker" HorizontalAlignment="Left" Height="99" Margin="10,109,0,0" VerticalAlignment="Top" Width="394">
+            <Canvas>
+                <Button x:Name="btnResetPos" Content="Reset Position" Canvas.Left="267" Canvas.Top="10" Width="105" Click="btnResetPos_Click"/>
+                <CheckBox x:Name="chkTrackerDisplay" Content="Display Tracker" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=show_tracker}" Click="chkTrackerDisplay_Click"/>
+                <CheckBox x:Name="chkCamp" Content="Show camp timers" Canvas.Left="10" Canvas.Top="31" Visibility="Hidden"/>
+                <CheckBox x:Name="chkEventLog" Content="Show event log" Canvas.Left="10" Canvas.Top="52" Visibility="Hidden"/>
+            </Canvas>
         </GroupBox>
 
 

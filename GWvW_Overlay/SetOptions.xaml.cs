@@ -15,86 +15,73 @@ using System.Windows.Shapes;
 
 using System.Windows.Threading;
 
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace GWvW_Overlay
 {
     /// <summary>
     /// Interaction logic for SetOptions.xaml
     /// </summary>
-    public partial class SetOptions : Window
+    public partial class SetOptions : Window 
     {
         Keyboard.KeyboardListener KListener = new Keyboard.KeyboardListener();
         public bool listenForKey = false;
-        public SetOptions()
+
+        CampLogger track;
+        public SetOptions(CampLogger tracker)
         {
             InitializeComponent();
+            track = tracker;
             KListener.KeyDown += new Keyboard.RawKeyEventHandler(KListener_KeyDown);
-
             txtbox_hotkey.Text = Properties.Settings.Default["hotkey"].ToString();
-            //chkAlwaysTop.IsChecked = (bool)Properties.Settings.Default["alwaysTop"];
-            //chkShowNames.IsChecked = (bool)Properties.Settings.Default["show_names"];
-            //opticity_slider.Value = (double)Properties.Settings.Default["opticity"];
-            //Console.WriteLine(opticity_slider.Value + " " + (double)Properties.Settings.Default["opticity"]);
         }
+
+
 
         void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
         {
-            //if (args.Key.ToString() == "Home")
             if (listenForKey)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                 {
                     txtbox_hotkey.Text = args.Key.ToString();
                 }));
-                
             }
         }
 
         private void btnNewHotkey_Click(object sender, RoutedEventArgs e)
         {
-            if(btnNewHotkey.Content == "Save")
+            if(btnNewHotkey.Content.ToString() == "Save")
             {
                 Properties.Settings.Default["hotkey"] = txtbox_hotkey.Text;
                 Properties.Settings.Default.Save();
             }
             listenForKey = (!listenForKey) ? true : false;
-            btnNewHotkey.Content = (btnNewHotkey.Content != "Save") ? "Save" : "New Hotkey";
+            btnNewHotkey.Content = (btnNewHotkey.Content.ToString() != "Save") ? "Save" : "New Hotkey";
 
         }
-
-        /*private void chkAlwaysTop_Checked(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default["alwaysTop"] = true;
-            Properties.Settings.Default.Save();
-        }
-
-        private void chkAlwaysTop_Unchecked(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default["alwaysTop"] = false;
-            Properties.Settings.Default.Save();
-        }
-
-        private void opticity_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            Slider x = (Slider)sender;
-            Properties.Settings.Default["opticity"] = x.Value;
-            Properties.Settings.Default.Save();
-        }
-
-        private void chkShowNames_Checked(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default["show_names"] = true;
-            Properties.Settings.Default.Save();
-        }
-
-        private void chkShowNames_Unchecked(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default["show_names"] = false;
-            Properties.Settings.Default.Save();
-        }*/
 
         private void saveSettings(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Properties.Settings.Default.Save();
+        }
+
+        private void btnResetPos_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default["tracker_position_top"] = 10.0;
+            Properties.Settings.Default["tracker_position_left"] = 10.0;
+            Properties.Settings.Default.Save();
+            track.cnvsPromt.Visibility = Visibility.Visible;
+            track.ClickTroughVoid();
+        }
+
+        private void chkTrackerDisplay_Click(object sender, RoutedEventArgs e)
+        {
+            if (track.Visibility == Visibility.Hidden)
+                track.Visibility = Visibility.Visible;
+            else
+                track.Visibility = Visibility.Hidden;
         }
     }
 }

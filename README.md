@@ -14,6 +14,10 @@ Usage
 
 Changes
 ============
+(6/12/2013)
+- Added separate overlay for tracking events and timers on camp
+- Re-done how click-trough is handled
+
 (6/9/2013)
 - Added separate options window
 - Main window can now be resized

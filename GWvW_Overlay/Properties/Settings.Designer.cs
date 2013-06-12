@@ -70,5 +70,89 @@ namespace GWvW_Overlay.Properties {
                 this["alwaysTop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double opticity_tracker {
+            get {
+                return ((double)(this["opticity_tracker"]));
+            }
+            set {
+                this["opticity_tracker"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool show_tracker {
+            get {
+                return ((bool)(this["show_tracker"]));
+            }
+            set {
+                this["show_tracker"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double tracker_position_top {
+            get {
+                return ((double)(this["tracker_position_top"]));
+            }
+            set {
+                this["tracker_position_top"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double tracker_position_left {
+            get {
+                return ((double)(this["tracker_position_left"]));
+            }
+            set {
+                this["tracker_position_left"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool tracker_saved {
+            get {
+                return ((bool)(this["tracker_saved"]));
+            }
+            set {
+                this["tracker_saved"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("330")]
+        public double tracker_width {
+            get {
+                return ((double)(this["tracker_width"]));
+            }
+            set {
+                this["tracker_width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public double tracker_height {
+            get {
+                return ((double)(this["tracker_height"]));
+            }
+            set {
+                this["tracker_height"] = value;
+            }
+        }
     }
 }

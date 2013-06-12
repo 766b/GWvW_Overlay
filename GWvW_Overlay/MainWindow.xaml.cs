@@ -13,41 +13,44 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
-using System.Windows.Interop;
+
 using System.Threading;
 using System.Windows.Threading;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json;
+using System.Windows.Interop;
 
-using System.Runtime.InteropServices;
 using System.Windows.Resources;
+using System.Runtime.InteropServices;
 
 namespace GWvW_Overlay
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
     public partial class MainWindow : Window
     {
-        Keyboard.KeyboardListener KListener = new Keyboard.KeyboardListener();
+        delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
         
-        int GWL_ExStyle = -20;
-        int WS_EX_Transparent = 0x20;
-        int WS_EX_Layered = 0x80000;
-        bool ResetMatch = false; 
-        bool inGame = false;
+        [DllImport("user32.dll")]
+        static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
 
+        [DllImport("user32.dll")]
+        static extern bool UnhookWinEvent(IntPtr hWinEventHook);
+
+        static WinEventDelegate procDelegate = new WinEventDelegate(WinEventProc);
+
+        Keyboard.KeyboardListener KListener = new Keyboard.KeyboardListener();
+        IntPtr hhook;
+
+        static MainWindow handle_this;
+
+        bool ResetMatch = false;
+        static bool inGame = false;
         private bool? _adjustingHeight = null;
-        internal enum SWP
-        {
-            NOMOVE = 0x0002
-        }
-        internal enum WM
-        {
-            WINDOWPOSCHANGING = 0x0046,
-            EXITSIZEMOVE = 0x0232,
-        }
 
         System.Timers.Timer t1 = new System.Timers.Timer();
         System.Timers.Timer t2 = new System.Timers.Timer();
@@ -59,35 +62,46 @@ namespace GWvW_Overlay
         WvwMatch_ WvwMatch = new WvwMatch_();
         Matches_ jsonMatches = new Matches_();
 
+        CampLogger LogWindow = new CampLogger();
 
-        [DllImport("user32.dll")]
-        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNew);
-        
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        public void ClickTroughActivate()
+        {
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Transparent);
+            LogWindow.ClickTroughActivate();
+        }
+        public void ClickTroughVoid()
+        {
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
+            LogWindow.ClickTroughVoid();
+        }
+        static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+        {
+            StringBuilder wTitle = new StringBuilder(13);
+            Natives.GetWindowText(hwnd, wTitle, 13);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
+            if (wTitle.ToString() == "Guild Wars 2" && inGame != true)
+            {
+                inGame = true;
+                handle_this.ClickTroughActivate();
+                Console.WriteLine("Setting click-trough");              
+            }
+            else if (wTitle.ToString() != "Guild Wars 2" && inGame == true)
+            {
+                inGame = false;
+                handle_this.ClickTroughVoid();
+                Console.WriteLine("Voiding click-trough");                
+            }
 
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetActiveWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetFocus(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr ShowWindow(IntPtr hWnd, int nCmd);
-        
+        }
         public MainWindow()
         {
             InitializeComponent();
             this.SourceInitialized += Window_SourceInitialized;
+
+            hhook = SetWinEventHook(Natives.EVENT_SYSTEM_FOREGROUND, Natives.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero,
+                procDelegate, 0, 0, Natives.WINEVENT_SKIPOWNPROCESS); // | Natives.WINEVENT_SKIPOWNPROCESS
 
             MainWindow1.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             
@@ -106,7 +120,8 @@ namespace GWvW_Overlay
 
             t3.Interval = 1000;
             t3.Elapsed += new System.Timers.ElapsedEventHandler(updateTimers);
-            
+
+            handle_this = this;
 
             rtvMatchDetails(null, null);
             rtvWorldNames();
@@ -141,7 +156,11 @@ namespace GWvW_Overlay
 
         private void onLoad(object sender, RoutedEventArgs e)
         {
-            DataContext = WvwMatch;           
+            DataContext = WvwMatch;
+
+            LogWindow.Show();
+            if (!(bool)Properties.Settings.Default["show_tracker"])
+                LogWindow.Hide();
         }
 
         public void buildMenu()
@@ -205,10 +224,13 @@ namespace GWvW_Overlay
 
         public void updateTimers(Object source, System.Timers.ElapsedEventArgs e)
         {
+
             if (WvwMatch.Details == null)
                 return;
 
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { LogWindow.ResetText("camp"); }));
             DateTime cur = DateTime.Now;
+            string eventCamps = "";
 
             for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
             {
@@ -217,10 +239,26 @@ namespace GWvW_Overlay
                 for (int m = 0; m < WvwMatch.Details.maps[map].objectives.Count; m++)
                 {
                     int obj = m;
+
                     TimeSpan diff = cur.Subtract(WvwMatch.Details.maps[map].objectives[obj].last_change);
                     TimeSpan left = TimeSpan.FromMinutes(5) - diff;
                     if (diff < TimeSpan.FromMinutes(5)) 
                     {
+                        if (WvwMatch.Details.maps[map].objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
+                        {
+                           /* Dictionary<string, string> dict = new Dictionary<string, string>()
+                            {
+                                {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
+                                {"time_left", left.ToString(@"mm\:ss")}
+                            };
+
+                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                            {
+                                LogWindow.AddCampLog(dict);
+                            }));*/
+                            eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.maps[map].objectives[obj].ObjData.name);
+                        }
+
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
                             WvwMatch.Details.maps[map].objectives[obj].time_left = left.ToString(@"mm\:ss");
@@ -228,13 +266,32 @@ namespace GWvW_Overlay
                     } 
                     else 
                     {
-                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+
+                        if (WvwMatch.Details.maps[map].objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
+                        {
+                            /*Dictionary<string, string> dict = new Dictionary<string, string>()
+                            {
+                                {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
+                                {"time_left", "N/A"}
+                            };
+
+                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                            {
+                                LogWindow.AddCampLog(dict);
+                            }));*/
+                            eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.maps[map].objectives[obj].ObjData.name);
+                        }
+                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
                             WvwMatch.Details.maps[map].objectives[obj].time_left = " ";
                         }));
                     }
                 }
             }
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                LogWindow.txtblk_eventCamp.Text = eventCamps;
+            }));
         }  
 
         public void rtvWorldNames()
@@ -265,6 +322,7 @@ namespace GWvW_Overlay
 
             if (WvwMatch.Details == null || ResetMatch)
             {
+                LogWindow.ResetText();
                 WvwMatch.Details = Match_Details;
                 ResetMatch = false;
                 //Console.WriteLine(WvwMatch.Details.maps[3].objectives[0].ObjData.type + " : " + WvwMatch.Details.maps[3].objectives[0].ObjData.type);
@@ -284,12 +342,43 @@ namespace GWvW_Overlay
                         int obj = m;
                         if (WvwMatch.Details.maps[map].objectives[obj].owner != Match_Details.maps[map].objectives[obj].owner)
                         {
+                            if (WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
+                            {
+                                Dictionary<string, string> dict = new Dictionary<string, string>() 
+                                    { 
+                                        {"time", DateTime.Now.ToString("t")},
+                                        {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
+                                        {"from", WvwMatch.getServerName(WvwMatch.Details.maps[map].objectives[obj].owner)},
+                                        {"from_color", WvwMatch.Details.maps[map].objectives[obj].owner},
+                                        {"to", WvwMatch.getServerName(Match_Details.maps[map].objectives[obj].owner)},
+                                        {"to_color", Match_Details.maps[map].objectives[obj].owner},
+                                    };
+                                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                                {
+                                    LogWindow.AddEventLog(dict, false);
+                                }));
+                            }
+
                             WvwMatch.Details.maps[map].objectives[obj].owner = Match_Details.maps[map].objectives[obj].owner;
                             WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
                             WvwMatch.Details.maps[map].objectives[obj].last_change = DateTime.Now;
                         }
                         if (WvwMatch.Details.maps[map].objectives[obj].owner_guild != Match_Details.maps[map].objectives[obj].owner_guild)
                         {
+                            if (WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
+                            {
+                                Dictionary<string, string> dict = new Dictionary<string, string>() 
+                                        { 
+                                            {"time", DateTime.Now.ToString("t")},
+                                            {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
+                                            {"owner", WvwMatch.getServerName(WvwMatch.Details.maps[map].objectives[obj].owner)},
+                                            {"owner_color", WvwMatch.Details.maps[map].objectives[obj].owner}
+                                        };
+                                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                                {
+                                    LogWindow.AddEventLog(dict, true);
+                                }));
+                            }
                             WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
                         }
 
@@ -369,8 +458,8 @@ namespace GWvW_Overlay
         {
             if (args.Key.ToString() == Properties.Settings.Default["hotkey"].ToString() && !(bool)Properties.Settings.Default["alwaysTop"])
             {
-                StringBuilder wTitle = new StringBuilder(13);
-                if (GetWindowText(GetForegroundWindow(), wTitle, 13) > 0)
+                /*StringBuilder wTitle = new StringBuilder(13);
+                if (Natives.GetWindowText(Natives.GetForegroundWindow(), wTitle, 13) > 0)
                 {
                     if (wTitle.ToString() == "Guild Wars 2")
                     {
@@ -379,13 +468,13 @@ namespace GWvW_Overlay
                             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                             {
                                 IntPtr handle = new WindowInteropHelper(this).Handle;
-                                SetWindowLong(handle, GWL_ExStyle, WS_EX_Transparent);
+                                Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Transparent);
                             }));
 
                             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                             {
-                                IntPtr gwHandle = FindWindow(null, "Guild Wars 2");
-                                SetForegroundWindow(gwHandle);
+                                IntPtr gwHandle = Natives.FindWindow(null, "Guild Wars 2");
+                                Natives.SetForegroundWindow(gwHandle);
                                 inGame = true;
                             }));
                         }
@@ -404,21 +493,23 @@ namespace GWvW_Overlay
                                 inGame = true;
                             }));
                         }*/
-                    }
+                    /*}
                     else
                     {
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
                             IntPtr handle = new WindowInteropHelper(this).Handle;
-                            SetWindowLong(handle, GWL_ExStyle, WS_EX_Layered);
+                            Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
                             inGame = false;
                         }));
+
+                        LogWindow.ClickTroughVoid();
                     }
-                } 
+                } */
 
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                     IntPtr handle = new WindowInteropHelper(this).Handle;
-                    ShowWindow(handle, 4);
+                    Natives.ShowWindow(handle, 4);
                 }));
             }
         }
@@ -430,7 +521,7 @@ namespace GWvW_Overlay
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => 
                 {
                     IntPtr handle = new WindowInteropHelper(this).Handle;
-                    ShowWindow(handle, 6);
+                    Natives.ShowWindow(handle, 6);
                 }));
             }
         }
@@ -455,11 +546,16 @@ namespace GWvW_Overlay
             string selectedBL = (string)((MenuItem)sender).Tag;
             WvwMatch.Options.active_bl = selectedBL;
             Icons.ItemsSource = WvwMatch.Details.maps[WvwMatch.Options.blid[selectedBL]].objectives;
+
+            if (LogWindow != null)
+                LogWindow.lblBLTitle.Content = WvwMatch.Options.active_bl_title;
+
             this.InvalidateVisual();
         }
 
         public void exitApp(object sender, EventArgs e)
         {
+            UnhookWinEvent(hhook);
             Application.Current.Shutdown();
         }
 
@@ -471,7 +567,7 @@ namespace GWvW_Overlay
 
         private void showOptionsWindow(object sender, EventArgs e)
         {
-            SetOptions optWindow = new SetOptions();
+            SetOptions optWindow = new SetOptions(LogWindow);
             optWindow.Show();
         }
 
@@ -480,33 +576,13 @@ namespace GWvW_Overlay
             Slider x = (Slider)sender;
             MainWindow1.Opacity = x.Value;
         }
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct WINDOWPOS
-        {
-            public IntPtr hwnd;
-            public IntPtr hwndInsertAfter;
-            public int x;
-            public int y;
-            public int cx;
-            public int cy;
-            public int flags;
-        }
 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetCursorPos(ref Win32Point pt);
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct Win32Point
-        {
-            public Int32 X;
-            public Int32 Y;
-        };
+        
 
         public static Point GetMousePosition() // mouse position relative to screen
         {
-            Win32Point w32Mouse = new Win32Point();
-            GetCursorPos(ref w32Mouse);
+            Natives.Win32Point w32Mouse = new Natives.Win32Point();
+            Natives.GetCursorPos(ref w32Mouse);
             return new Point(w32Mouse.X, w32Mouse.Y);
         }
 
@@ -520,13 +596,13 @@ namespace GWvW_Overlay
         private IntPtr DragHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             double _aspectRatio = WvwMatch.Options.width / WvwMatch.Options.height;
-            switch ((WM)msg)
+            switch ((Natives.WM)msg)
             {
-                case WM.WINDOWPOSCHANGING:
+                case Natives.WM.WINDOWPOSCHANGING:
                     {
-                        WINDOWPOS pos = (WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
+                        Natives.WINDOWPOS pos = (Natives.WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(Natives.WINDOWPOS));
 
-                        if ((pos.flags & (int)SWP.NOMOVE) != 0)
+                        if ((pos.flags & (int)Natives.SWP.NOMOVE) != 0)
                             return IntPtr.Zero;
 
                         Window wnd = (Window)HwndSource.FromHwnd(hwnd).RootVisual;
@@ -554,12 +630,17 @@ namespace GWvW_Overlay
                         handled = true;
                     }
                     break;
-                case WM.EXITSIZEMOVE:
+                case Natives.WM.EXITSIZEMOVE:
                     _adjustingHeight = null; // reset adjustment dimension and detect again next time window is resized
                     break;
             }
 
             return IntPtr.Zero;
+        }
+
+        private void mainClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings.Default.Save();
         }
     }
 }
