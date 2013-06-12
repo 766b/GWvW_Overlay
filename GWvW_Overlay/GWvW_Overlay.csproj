@@ -27,7 +27,7 @@
     <InstallUrl>https://dl.dropboxusercontent.com/u/10680644/gwvw/</InstallUrl>
     <SupportUrl>https://github.com/Awaken6389/GWvW_Overlay</SupportUrl>
     <ProductName>GWvW Overlay</ProductName>
-    <ApplicationRevision>19</ApplicationRevision>
+    <ApplicationRevision>20</ApplicationRevision>
     <ApplicationVersion>0.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
