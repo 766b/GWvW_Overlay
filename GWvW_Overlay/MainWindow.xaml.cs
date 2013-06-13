@@ -16,12 +16,8 @@ using System.Diagnostics;
 
 using System.Threading;
 using System.Windows.Threading;
-using System.Net;
-using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Interop;
-
-using System.Windows.Resources;
 using System.Runtime.InteropServices;
 
 namespace GWvW_Overlay
@@ -61,6 +57,9 @@ namespace GWvW_Overlay
         ObjectiveNames_ ObjectiveNames = new ObjectiveNames_();
         WvwMatch_ WvwMatch = new WvwMatch_();
         Matches_ jsonMatches = new Matches_();
+
+        Utils Utils = new Utils();
+        Guild GuildData = new Guild();
 
         CampLogger LogWindow = new CampLogger();
 
@@ -296,19 +295,19 @@ namespace GWvW_Overlay
 
         public void rtvWorldNames()
         {
-            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(getJSON(@"https://api.guildwars2.com/v1/world_names.json"));
+            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.getJSON(@"https://api.guildwars2.com/v1/world_names.json"));
         }
 
         public void rtvObjectiveNames()
         {
-            ObjectiveNames = JsonConvert.DeserializeObject<ObjectiveNames_>(getJSON(@"Resources/objectives.json"));
+            ObjectiveNames = JsonConvert.DeserializeObject<ObjectiveNames_>(Utils.getJSON(@"Resources/objectives.json"));
             WvwMatch.ObjectiveNames = ObjectiveNames.wvw_objectives;
             ObjectiveNames.wvw_objectives = null;
         }
 
         public void rtvMatches()
         {
-            jsonMatches = JsonConvert.DeserializeObject<Matches_>(getJSON("https://api.guildwars2.com/v1/wvw/matches.json"));
+            jsonMatches = JsonConvert.DeserializeObject<Matches_>(Utils.getJSON("https://api.guildwars2.com/v1/wvw/matches.json"));
             WvwMatch.Match = jsonMatches.wvw_matches;
             jsonMatches = null;
         }
@@ -318,14 +317,13 @@ namespace GWvW_Overlay
             if (WvwMatch.Options.active_match == null)
                 return;
 
-            Match_Details = JsonConvert.DeserializeObject<Match_Details_>(getJSON("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + WvwMatch.Options.active_match));
+            Match_Details = JsonConvert.DeserializeObject<Match_Details_>(Utils.getJSON("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + WvwMatch.Options.active_match));
 
             if (WvwMatch.Details == null || ResetMatch)
             {
                 LogWindow.ResetText();
                 WvwMatch.Details = Match_Details;
                 ResetMatch = false;
-                //Console.WriteLine(WvwMatch.Details.maps[3].objectives[0].ObjData.type + " : " + WvwMatch.Details.maps[3].objectives[0].ObjData.type);
                 WvwMatch.GetBLID();
             }
             else
@@ -340,6 +338,13 @@ namespace GWvW_Overlay
                     for (int m = 0; m < Match_Details.maps[map].objectives.Count; m++)
                     {
                         int obj = m;
+
+                        //Caching Guild info
+                        if(Match_Details.maps[map].objectives[obj].owner_guild != null)
+                        {
+                            GuildData.getGuildByID(Match_Details.maps[map].objectives[obj].owner_guild);
+                        }
+
                         if (WvwMatch.Details.maps[map].objectives[obj].owner != Match_Details.maps[map].objectives[obj].owner)
                         {
                             if (WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
@@ -371,7 +376,7 @@ namespace GWvW_Overlay
                                         { 
                                             {"time", DateTime.Now.ToString("t")},
                                             {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
-                                            {"owner", WvwMatch.getServerName(WvwMatch.Details.maps[map].objectives[obj].owner)},
+                                            {"owner", string.Format("[{0}] {1}",GuildData.getGuildByID(WvwMatch.Details.maps[map].objectives[obj].owner_guild))},
                                             {"owner_color", WvwMatch.Details.maps[map].objectives[obj].owner}
                                         };
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -393,7 +398,7 @@ namespace GWvW_Overlay
                 for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
                 {
                     int map = i;
-                    var ObjData = JsonConvert.DeserializeObject<List<WvwObjective>>(getJSON(string.Format("Resources/obj_{0}.json", WvwMatch.Details.maps[map].type)));
+                    var ObjData = JsonConvert.DeserializeObject<List<WvwObjective>>(Utils.getJSON(string.Format("Resources/obj_{0}.json", WvwMatch.Details.maps[map].type)));
                     foreach (var obj in ObjData)
                     {
                         for (int y = 0; y < WvwMatch.Details.maps[map].objectives.Count; y++)
@@ -423,35 +428,6 @@ namespace GWvW_Overlay
             }
             ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
             return x;
-        }
-
-        public string getJSON(string file)
-        {
-            string s;
-            if (file.StartsWith("http"))
-            {
-                using (WebClient client = new WebClient())
-                {
-                    try
-                    {
-                        s = client.DownloadString(@file);
-                    }
-                    catch (WebException e)
-                    {
-                        throw e;
-                    }
-                }
-            }
-            else
-            {
-                Uri uri = new Uri(file, UriKind.Relative);
-                StreamResourceInfo contentStream = Application.GetContentStream(uri);
-                s = contentStream.ToString();
-                StreamReader sr = new StreamReader(contentStream.Stream);
-                s = sr.ReadToEnd();
-            }
-            
-            return s;
         }
 
         void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)

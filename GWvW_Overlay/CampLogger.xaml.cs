@@ -153,6 +153,13 @@ namespace GWvW_Overlay
 
         public void ClickTroughActivate()
         {
+            // Sometimes, window goes out of focus. Let's see if this will fix it.
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                IntPtr handleTrack = new WindowInteropHelper(this).Handle;
+                Natives.ShowWindow(handleTrack, 4);
+            }));
+
             if ((bool)Properties.Settings.Default["tracker_saved"] == false)
             return;
 

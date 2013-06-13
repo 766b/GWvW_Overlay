@@ -96,7 +96,6 @@ namespace GWvW_Overlay
             throw new NotImplementedException();
         }
     }
-
     public class getClaimed : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -146,6 +145,7 @@ namespace GWvW_Overlay
             return x;
         }
     }
+
     public class ObjectiveNames_
     {
         public List<WvwObjective> wvw_objectives { get; set; }
@@ -159,14 +159,17 @@ namespace GWvW_Overlay
 
     public class Objective : INotifyPropertyChanged
     {
+        Guild GuildData;
+
         public Objective()
         {
             ObjData = new WvwObjective();
+            //GuildData = new Guild();
         }
         public WvwObjective ObjData { get; set; }
         public int id { get; set; }
         private string _owner;
-        public string _owner_guild;
+        private string _owner_guild;
         public DateTime _last_change;
         public string _time_left;
 
@@ -214,11 +217,11 @@ namespace GWvW_Overlay
             }
             set
             {
-                if (value != _owner_guild)
-                {
-                    _owner_guild = value;
-                    OnPropertyChanged();
-                }
+                if (_owner_guild == value)
+                    return;
+
+                _owner_guild = value;
+                OnPropertyChanged();
             }
         }
 
