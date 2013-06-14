@@ -14,6 +14,9 @@ Usage
 
 Changes
 ============
+(6/13/2013)
+- Fixed disappearing tracker window.
+
 (6/12/2013)
 - Added separate overlay for tracking events and timers on camp
 - Re-done how click-trough is handled
