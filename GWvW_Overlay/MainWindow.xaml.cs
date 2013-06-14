@@ -374,23 +374,31 @@ namespace GWvW_Overlay
                             WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
                             WvwMatch.Details.maps[map].objectives[obj].last_change = DateTime.Now;
                         }
-                        if (WvwMatch.Details.maps[map].objectives[obj].owner_guild != Match_Details.maps[map].objectives[obj].owner_guild)
+                        if (WvwMatch.Details.maps[map].objectives[obj].owner_guild != Match_Details.maps[map].objectives[obj].owner_guild &&
+                            WvwMatch.Details.maps[map].objectives[obj].owner == Match_Details.maps[map].objectives[obj].owner)
                         {
+                            WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
+
                             if (WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
                             {
+                                var GuildInfo = GuildData.getGuildByID(WvwMatch.Details.maps[map].objectives[obj].owner_guild);
                                 Dictionary<string, string> dict = new Dictionary<string, string>() 
-                                        { 
-                                            {"time", DateTime.Now.ToString("t")},
-                                            {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
-                                            {"owner", string.Format("[{0}] {1}",GuildData.getGuildByID(WvwMatch.Details.maps[map].objectives[obj].owner_guild))},
-                                            {"owner_color", WvwMatch.Details.maps[map].objectives[obj].owner}
-                                        };
+                                { 
+                                    {"time", DateTime.Now.ToString("t")},
+                                    {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
+                                    {"owner_color", WvwMatch.Details.maps[map].objectives[obj].owner}
+                                };
+                                if (GuildInfo == null)
+                                    dict.Add("owner", "released"); 
+                                else
+                                    dict.Add("owner", string.Format("[{1}] {0}", GuildInfo[0], GuildInfo[1]));
+
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                                 {
                                     LogWindow.AddEventLog(dict, true);
                                 }));
                             }
-                            WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
+                            
                         }
 
                     }

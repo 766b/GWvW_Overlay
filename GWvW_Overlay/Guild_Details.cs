@@ -43,6 +43,9 @@ namespace GWvW_Overlay
 
         public List<string> getGuildByID(string ID)
         {
+            if (ID == null)
+                return null;
+
             if (!GuildDict.ContainsKey(ID))
             {
                 var Data = JsonConvert.DeserializeObject<Guild_Details_>(Utils.getJSON(string.Format(@"https://api.guildwars2.com/v1/guild_details.json?guild_id={0}", ID)));

@@ -33,7 +33,7 @@ namespace GWvW_Overlay
                     }
                     catch (WebException e)
                     {
-                        throw e;
+                        return null;
                     }
                 }
             }

@@ -39,13 +39,21 @@ namespace GWvW_Overlay
         {
             if (claim)
             {
-                TextRange owner = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
-                owner.Text = string.Format(" ({0})\n", data["owner"]);
-                owner.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(data["owner_color"]));
-                owner.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                if (data["owner"] != "released")
+                {
+                    TextRange owner = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
+                    owner.Text = string.Format(" {0}\n", data["owner"]);
+                    owner.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(data["owner_color"]));
+                    owner.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                }
 
                 TextRange obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
-                obj.Text = string.Format("{0} {1}: claimed.", data["time"], data["objective"]);
+
+                if(data["owner"] == "released")
+                    obj.Text = string.Format("{0} {1}: claim released.\n", data["time"], data["objective"]);
+                else
+                    obj.Text = string.Format("{0} {1}: claimed by ", data["time"], data["objective"]);
+
                 obj.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(null));
                 obj.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
 
