@@ -35,8 +35,6 @@ namespace GWvW_Overlay
             }
         }
 
-        
-
         public void AddEventLog(Dictionary<string, string> data, bool claim)
         {
             if (claim)
@@ -122,8 +120,6 @@ namespace GWvW_Overlay
             }
         }
 
-
-
         private void Drag(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -142,33 +138,32 @@ namespace GWvW_Overlay
         {
             if ((bool)Properties.Settings.Default["tracker_saved"] == false)
                 return;
-
+            
             eventLog.IsEnabled = false;
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                IntPtr handle = new WindowInteropHelper(this).Handle;
-                Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
-            }));
+
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
+
+            // Weird fix for disappearing window when switching between dual screen.
+            this.Topmost = false; 
+            this.Topmost = true;
         }
 
         public void ClickTroughActivate()
         {
-            // Sometimes, window goes out of focus. Let's see if this will fix it.
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                IntPtr handleTrack = new WindowInteropHelper(this).Handle;
-                Natives.ShowWindow(handleTrack, 4);
-            }));
-
             if ((bool)Properties.Settings.Default["tracker_saved"] == false)
-            return;
+                return;
 
             eventLog.IsEnabled = true;
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                IntPtr handle = new WindowInteropHelper(this).Handle;
-                Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Transparent);
-            }));
+
+            IntPtr handle = new WindowInteropHelper(this).Handle;
+            Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Transparent);
+
+            // Weird fix for disappearing window when switching between dual screen.
+            this.Topmost = false;
+            this.Topmost = true;
+
+
         }
 
         private void btnSetHide_Click(object sender, RoutedEventArgs e)

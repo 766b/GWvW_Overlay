@@ -67,14 +67,18 @@ namespace GWvW_Overlay
         {
             IntPtr handle = new WindowInteropHelper(this).Handle;
             Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Transparent);
+
             LogWindow.ClickTroughActivate();
         }
+
         public void ClickTroughVoid()
         {
             IntPtr handle = new WindowInteropHelper(this).Handle;
             Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
+
             LogWindow.ClickTroughVoid();
         }
+
         static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
             StringBuilder wTitle = new StringBuilder(13);
@@ -84,15 +88,17 @@ namespace GWvW_Overlay
             {
                 inGame = true;
                 handle_this.ClickTroughActivate();
-                Console.WriteLine("Setting click-trough");              
+                //Console.WriteLine("Setting click-trough");              
             }
             else if (wTitle.ToString() != "Guild Wars 2" && inGame == true)
             {
                 inGame = false;
                 handle_this.ClickTroughVoid();
-                Console.WriteLine("Voiding click-trough");                
+                //Console.WriteLine("Voiding click-trough");                
             }
 
+            
+            
         }
         public MainWindow()
         {
