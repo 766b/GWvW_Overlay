@@ -2,38 +2,41 @@
         xmlns:local="clr-namespace:GWvW_Overlay" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="CampLogger"  WindowStyle="None"  MouseDown="Drag" ResizeMode="CanResizeWithGrip" Foreground="{x:Null}" Background="{x:Null}" AllowsTransparency="True" 
+        Title="CampLogger"  WindowStyle="None"  MouseDown="Drag" ResizeMode="CanResizeWithGrip" Foreground="{x:Null}" AllowsTransparency="True" 
         xmlns:Properties="clr-namespace:GWvW_Overlay.Properties" Opacity="{Binding Source={x:Static Properties:Settings.Default}, Path=opticity_tracker}"
         WindowStartupLocation="Manual" 
         Height="342" 
         Width="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_width, Mode=TwoWay}"
         Left="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_position_left, Mode=TwoWay}" 
-        Top="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_position_top, Mode=TwoWay}" IsHitTestVisible="True" Topmost="True">
+        Top="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_position_top, Mode=TwoWay}" IsHitTestVisible="True" Topmost="True" Background="#FF363639">
 
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="148"/>
-            <RowDefinition Height="194"/>
+            <RowDefinition Height="141"/>
+            <RowDefinition Height="201"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock x:Name="txtblk_eventCamp" Height="97" Margin="0,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="Black" Grid.Row="0" Padding="5,0,0,0">
-            <TextBlock.Background>
-                <SolidColorBrush Color="#FFECECEC" Opacity="0.3"/>
-            </TextBlock.Background></TextBlock>
-        <RichTextBox x:Name="eventLog" Grid.Row="1" Foreground="{x:Null}" IsReadOnly="True" SelectionBrush="{x:Null}" IsEnabled="False">
+
+        <TextBlock x:Name="txtblk_eventCamp" Margin="0,31,0,0" TextWrapping="Wrap" Foreground="#FFEEEEEE" Grid.Row="0" Padding="5,0,0,0" Height="100" VerticalAlignment="Top">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="2" ShadowDepth="1"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <Canvas Margin="0,135,0,5" Background="#FFDD9900" />
+        <RichTextBox x:Name="eventLog" Foreground="{x:Null}" IsReadOnly="True" SelectionBrush="{x:Null}" Focusable="False" Margin="-1,136,-1,-261" Grid.RowSpan="2" Background="{x:Null}">
+            <RichTextBox.Effect>
+                <DropShadowEffect BlurRadius="2" ShadowDepth="1"/>
+            </RichTextBox.Effect>
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
                 </Style>
             </RichTextBox.Resources>
-            <RichTextBox.Background>
-                <SolidColorBrush Color="#FFECECEC" Opacity="0.3"/>
-            </RichTextBox.Background>
             <RichTextBox.BorderBrush>
                 <SolidColorBrush Color="#FFC9C9C9" Opacity="0.0"/>
             </RichTextBox.BorderBrush>
         </RichTextBox>
+
         <RichTextBox Visibility="Hidden" x:Name="eventCamp" Margin="10,7,10,-6" Foreground="{x:Null}" AutoWordSelection="False" IsReadOnly="True" SelectionBrush="{x:Null}" Grid.Row="1"  >
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
@@ -48,14 +51,14 @@
             </RichTextBox.BorderBrush>
         </RichTextBox>
 
-        <Canvas x:Name="cnvsPromt" Background="#FFE6E6E6" Height="148" VerticalAlignment="Top" Panel.ZIndex="150">
+        <Canvas x:Name="cnvsPromt" Background="#FFE6E6E6" Height="148" VerticalAlignment="Top" Panel.ZIndex="150" Visibility="Visible" Grid.RowSpan="2" Margin="1,31,-1,0">
             <Button x:Name="btnSetClicktrough" Content="Save Position and Click-trough" HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" Grid.Row="1" BorderBrush="Red" Click="btnSetClicktrough_Click" Canvas.Left="74" Canvas.Top="95"/>
             <TextBlock Height="85" Canvas.Left="10" TextWrapping="Wrap" Text="Position the windows and click the button below to make it unobtrusive to your game play. [Alt+Tab] to reset. Can also be reset in Options. If you don't need event log but want the timers, just resize the window until you can't see the bottom portion." Canvas.Top="10" Width="310" Foreground="Black"/>
             <Button x:Name="btnSetHide" Content="I don't need this. Hide it." HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" BorderBrush="Red" Canvas.Left="74" Canvas.Top="122" Click="btnSetHide_Click" RenderTransformOrigin="0.404,1.045"/>
         </Canvas>
-        <Label x:Name="lblBLTitle" Content="GWvW Overlay Tracker" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.947,0.038" FontSize="18" Height="26" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold" Opacity="0.5">
+        <Label x:Name="lblBLTitle" Content="GWvW Overlay Tracker" VerticalAlignment="Top" RenderTransformOrigin="-0.947,0.038" FontSize="18" Height="26" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold" Foreground="#FFDD9900">
             <Label.Background>
-                <SolidColorBrush Color="#FFE2E2E2" Opacity="0.5"/>
+                <SolidColorBrush Color="#FF212024"/>
             </Label.Background>
         </Label>
         

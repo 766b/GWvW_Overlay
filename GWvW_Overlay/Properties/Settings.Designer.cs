@@ -73,7 +73,7 @@ namespace GWvW_Overlay.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.78")]
         public double opticity_tracker {
             get {
                 return ((double)(this["opticity_tracker"]));

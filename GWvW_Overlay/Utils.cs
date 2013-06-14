@@ -20,6 +20,24 @@ namespace GWvW_Overlay
                 sw.WriteLine(data);
             }
         }
+
+        public string fileSize(string file)
+        {
+            if (!File.Exists(file))
+                return "0";
+
+            FileInfo info = new FileInfo(file);
+            return readableFileSize(info.Length);
+        }
+
+        public string readableFileSize(long size) 
+        {
+            if(size <= 0) return "0";
+            string[] units = new string[] { "B", "KB", "MB", "GB", "TB" };
+            int digitGroups = (int) (Math.Log10(size)/Math.Log10(1024));
+            return string.Format("{0:0.00} {1}", size / Math.Pow(1024, digitGroups), units[digitGroups]);
+        }
+
         public string getJSON(string file)
         {
             string s;

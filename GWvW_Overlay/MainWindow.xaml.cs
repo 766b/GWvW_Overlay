@@ -166,6 +166,29 @@ namespace GWvW_Overlay
             LogWindow.Show();
             if (!(bool)Properties.Settings.Default["show_tracker"])
                 LogWindow.Hide();
+
+            //Test
+            /*
+            Dictionary<string, string> dict1 = new Dictionary<string, string>() { { "time", DateTime.Now.ToString("t") }, { "objective", "Objective Name" }, { "owner_color", "green" }, { "owner", "released" } };
+            Dictionary<string, string> dict2 = new Dictionary<string, string>() { { "time", DateTime.Now.ToString("t") }, { "objective", "Objective Name" }, { "owner_color", "red" }, { "owner", "[Tag] Name" } };
+
+            Dictionary<string, string> dict3 = new Dictionary<string, string>() 
+                                    { 
+                                        {"time", DateTime.Now.ToString("t")},
+                                        {"objective",  "Objective Name"},
+                                        {"from", "Server Name 1"},
+                                        {"from_color", "blue"},
+                                        {"to", "Server Name 2"},
+                                        {"to_color", "green"},
+                                    };
+
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                LogWindow.AddEventLog(dict1, true);
+                LogWindow.AddEventLog(dict2, true);
+                LogWindow.AddEventLog(dict3, false);
+            }));*/
+
         }
 
         public void buildMenu()

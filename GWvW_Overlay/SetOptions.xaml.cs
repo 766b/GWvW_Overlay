@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 //using System.Configuration;
 
 using System.Windows.Threading;
-
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -26,6 +25,7 @@ namespace GWvW_Overlay
     public partial class SetOptions : Window 
     {
         Keyboard.KeyboardListener KListener = new Keyboard.KeyboardListener();
+        Utils Utils = new Utils();
         public bool listenForKey = false;
 
         CampLogger track;
@@ -35,9 +35,9 @@ namespace GWvW_Overlay
             track = tracker;
             KListener.KeyDown += new Keyboard.RawKeyEventHandler(KListener_KeyDown);
             txtbox_hotkey.Text = Properties.Settings.Default["hotkey"].ToString();
+
+            lblCacheSize.Content = string.Format("Guild_Details Cache File Size: {0}", Utils.fileSize("Resources/guild_details.json"));
         }
-
-
 
         void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
         {

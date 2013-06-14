@@ -109,20 +109,20 @@ namespace GWvW_Overlay
         }
         public SolidColorBrush getColor(string color)
         {
-            if (color == null) color = "black";
-
+            if (color == null) color = "white";
+            
             switch (color.ToLower())
             { 
                 case "red":
-                    return Brushes.DarkRed;
+                    return Brushes.Firebrick;
                 case "green":
-                    return Brushes.DarkGreen; //.Green;
+                    return Brushes.Green; //.Green;
                 case "blue":
-                    return Brushes.DarkBlue;
+                    return Brushes.SteelBlue;
                 case "black":
                     return Brushes.Black;
                 case "white":
-                    return Brushes.White;
+                    return (SolidColorBrush)(new System.Windows.Media.BrushConverter().ConvertFromString("#FFEEEEEE")); //Brushes.White;
                 default:
                     return Brushes.Black;
             }
@@ -147,7 +147,7 @@ namespace GWvW_Overlay
             if ((bool)Properties.Settings.Default["tracker_saved"] == false)
                 return;
             
-            eventLog.IsEnabled = false;
+            //eventLog.IsEnabled = false;
 
             IntPtr handle = new WindowInteropHelper(this).Handle;
             Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
@@ -162,7 +162,7 @@ namespace GWvW_Overlay
             if ((bool)Properties.Settings.Default["tracker_saved"] == false)
                 return;
 
-            eventLog.IsEnabled = true;
+            //eventLog.IsEnabled = true;
 
             IntPtr handle = new WindowInteropHelper(this).Handle;
             Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Transparent);

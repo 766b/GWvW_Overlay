@@ -14,6 +14,10 @@ Usage
 
 Changes
 ============
+(6/14/2013)
+- Check for updates before application starts
+- Changed color theme of tracker window
+
 (6/13/2013)
 - Fixed code that caused claims not to trigger
 - Fixed disappearing tracker window
