@@ -56,7 +56,7 @@
             <TextBlock Height="85" Canvas.Left="10" TextWrapping="Wrap" Text="Position the windows and click the button below to make it unobtrusive to your game play. [Alt+Tab] to reset. Can also be reset in Options. If you don't need event log but want the timers, just resize the window until you can't see the bottom portion." Canvas.Top="10" Width="310" Foreground="Black"/>
             <Button x:Name="btnSetHide" Content="I don't need this. Hide it." HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" BorderBrush="Red" Canvas.Left="74" Canvas.Top="122" Click="btnSetHide_Click" RenderTransformOrigin="0.404,1.045"/>
         </Canvas>
-        <Label x:Name="lblBLTitle" Content="GWvW Overlay Tracker" VerticalAlignment="Top" RenderTransformOrigin="-0.947,0.038" FontSize="18" Height="26" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold" Foreground="#FFDD9900">
+        <Label x:Name="lblBLTitle" Content="GWvW Overlay Tracker" VerticalAlignment="Top" FontSize="18" Height="26" Padding="0" HorizontalContentAlignment="Center" FontWeight="Bold" Foreground="#FFDD9900">
             <Label.Background>
                 <SolidColorBrush Color="#FF212024"/>
             </Label.Background>

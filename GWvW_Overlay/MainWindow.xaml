@@ -10,6 +10,7 @@
         <local:getIMG x:Key="getIMG" />
         <local:getClaimed x:Key="getClaimed" />
         <local:getName x:Key="getName" />
+        <local:getMatches x:Key="getMatches" /> 
     </Window.Resources>
 
     <Grid>
@@ -62,6 +63,49 @@
                     <ImageBrush ImageSource="Resources/panel2.png"/>
                 </Label.Background>
             </Label>
+
+
+            <Canvas Visibility="Hidden" Name="cnvsMatchSelection" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="389" Background="#FF363639" Canvas.Top="30" Canvas.Left="-200">
+                <Label Content="Match Selection" Width="389" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
+                    <Label.Background>
+                        <SolidColorBrush Color="#FF212024"/>
+                    </Label.Background>
+                </Label>
+                <ListBox Name="lstbxMatchSelection" Height="282" Canvas.Left="10" Canvas.Top="31" Width="369" Background="{x:Null}" Foreground="#FFEEEEEE" BorderThickness="0" BorderBrush="{x:Null}"
+                     ItemsSource="{Binding Path=Match}" DisplayMemberPath="wvw_match_string" SelectedValuePath="wvw_match_id" SelectedValue="{Binding Path=Matches}">
+
+                </ListBox>
+                <Label x:Name="lblSelectionOK" Content="OK" Width="63" Height="43" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="312" Canvas.Top="335" MouseDown="lblSelectionOK_Click">
+                    <Label.Style>
+                        <Style>
+                            <Setter Property="Panel.Background" Value="#FF212024" />
+                            <Style.Triggers>
+                                <Trigger Property="Panel.IsMouseOver" Value="True">
+                                    <Setter Property="Panel.Background" Value="#FF000000" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <!--MouseDown="lblSelectionOK_Click" MouseEnter="lblSelectionOK_Enter" MouseLeave="lblSelectionOK_Leave"  World_Names_> World -->
+                <Canvas Height="2" Canvas.Top="318" Width="176" Background="#FFDD9900"/>
+                <Label Content="OR" Width="34" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="177" Canvas.Top="306"/>
+                <Canvas Height="2" Canvas.Top="318" Width="173" Background="#FFDD9900" Canvas.Left="215"/>
+                <ComboBox Name="cmbbxMatchSelection" Canvas.Left="114" Canvas.Top="337" Width="184" Foreground="Black" ItemsSource="{Binding Path=World}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=World_Names_}" />
+                <Label Content="Home Server: " Width="99" Height="26" FontSize="14" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="10" Canvas.Top="337" FontWeight="Bold"/>
+                <CheckBox Name="chkbxAutoMatchSelect" Content="Automatic Match Selection" Canvas.Left="114" Canvas.Top="363" Foreground="#FFDD9900">
+                    <CheckBox.ToolTip>
+                        <ToolTip>
+                            <StackPanel>
+                                <TextBlock FontWeight="Bold">Auto Match Selection</TextBlock>
+                                <TextBlock>After choosing your home server, your matches will be selected automatically.</TextBlock>
+                            </StackPanel>
+                        </ToolTip>
+                    </CheckBox.ToolTip>
+                </CheckBox>
+            </Canvas>
         </Canvas>
+
+        
     </Grid>
 </Window>

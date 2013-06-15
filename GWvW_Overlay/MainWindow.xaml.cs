@@ -325,6 +325,7 @@ namespace GWvW_Overlay
         public void rtvWorldNames()
         {
             WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.getJSON(@"https://api.guildwars2.com/v1/world_names.json"));
+            WvwMatch.World.Sort((x, y) => x.name.CompareTo(y.name));
         }
 
         public void rtvObjectiveNames()
@@ -337,6 +338,7 @@ namespace GWvW_Overlay
         public void rtvMatches()
         {
             jsonMatches = JsonConvert.DeserializeObject<Matches_>(Utils.getJSON("https://api.guildwars2.com/v1/wvw/matches.json"));
+            jsonMatches.wvw_matches.Sort((x, y) => x.wvw_match_id.CompareTo(y.wvw_match_id));
             WvwMatch.Match = jsonMatches.wvw_matches;
             jsonMatches = null;
         }
@@ -657,6 +659,15 @@ namespace GWvW_Overlay
             UnhookWinEvent(hhook);
             LogWindow.Close();
             Properties.Settings.Default.Save();
+        }
+
+        private void lblSelectionOK_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != MouseButton.Left)
+                return;
+
+            Console.WriteLine("{0} --- {1} --- {2}", lstbxMatchSelection.SelectedValue, cmbbxMatchSelection.SelectedValue, chkbxAutoMatchSelect.IsChecked);
+
         }
     }
 }

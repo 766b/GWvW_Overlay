@@ -146,6 +146,21 @@ namespace GWvW_Overlay
         }
     }
 
+    public class getMatches : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (values.Length < 4)
+                return "Value count is low";
+
+            return string.Format("{0}. {1} vs {2} vs {3}", values[0], values[1], values[2], values[3]);
+        }
+        public object[] ConvertBack(object values, Type[] targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class ObjectiveNames_
     {
         public List<WvwObjective> wvw_objectives { get; set; }
@@ -422,12 +437,22 @@ namespace GWvW_Overlay
             Options.blid = dict;
         }
 
+        public void ListWorlds()
+        {
+            foreach (var x in World)
+            {
+                Console.WriteLine("<ComboBoxItem Content=\"{0}\"/>", x.name);
+            }
+        }
+
         public Dictionary<string, string> getMatchesList()
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
             foreach (var x in Match)
             {
-                ret.Add(x.wvw_match_id, string.Format("{0}. {1} vs {2} vs {3}", x.wvw_match_id, getServerName(x.red_world_id), getServerName(x.blue_world_id), getServerName(x.green_world_id)));
+                string match_name = string.Format("{0}. {3} vs {2} vs {1}", x.wvw_match_id, getServerName(x.red_world_id), getServerName(x.blue_world_id), getServerName(x.green_world_id));
+                x.wvw_match_string = match_name;
+                ret.Add(x.wvw_match_id, match_name);
             }
             return ret.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
         }
@@ -471,6 +496,7 @@ namespace GWvW_Overlay
         public int red_world_id { get; set; }
         public int blue_world_id { get; set; }
         public int green_world_id { get; set; }
+        public string wvw_match_string { get; set; }
     }
 
     // World Names
