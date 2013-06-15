@@ -20,12 +20,36 @@ namespace GWvW_Overlay
         private double _top_base;
 
         public int id { get; set; }
-        public string name { get; set; }
+        
         public string map { get; set; }
         public int points { get; set; }
         public string type {get; set; }
         public double res_width { get; set; }
         public double res_height { get; set; }
+
+        public string name_de { get; set; }
+        public string name_en { get; set; }
+        public string name_es { get; set; }
+        public string name_fr { get; set; }
+
+        public string name {
+            get 
+            {
+                switch (Properties.Settings.Default["show_names_lang"].ToString())
+                {
+                    case "English":
+                        return name_en;
+                    case "German":
+                        return name_de;
+                    case "Spanish":
+                        return name_es;
+                    case "French":
+                        return name_fr;
+                    default:
+                        return name_en;
+                }
+            }
+        }
 
         public double top_base
         {

@@ -166,5 +166,17 @@ namespace GWvW_Overlay.Properties {
                 this["tracker_show_event"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("English")]
+        public string show_names_lang {
+            get {
+                return ((string)(this["show_names_lang"]));
+            }
+            set {
+                this["show_names_lang"] = value;
+            }
+        }
     }
 }

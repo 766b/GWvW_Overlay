@@ -37,6 +37,23 @@ namespace GWvW_Overlay
             txtbox_hotkey.Text = Properties.Settings.Default["hotkey"].ToString();
 
             lblCacheSize.Content = string.Format("Guild_Details Cache File Size: {0}", Utils.fileSize("Resources/guild_details.json"));
+
+            switch (Properties.Settings.Default["show_names_lang"].ToString())
+            {
+                case "English":
+                    langEnglish.IsChecked = true; break;
+                case "German":
+                    langGerman.IsChecked = true; break;
+                case "Spanish":
+                    langSpanish.IsChecked = true; break;
+                case "French":
+                    langFrench.IsChecked = true; break;
+                default:
+                    Properties.Settings.Default["show_names_lang"] = "English";
+                    Properties.Settings.Default.Save();
+                    langEnglish.IsChecked = true;
+                    break;
+            }
         }
 
         void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
@@ -98,6 +115,13 @@ namespace GWvW_Overlay
             }
             Properties.Settings.Default.Save();
 
+        }
+
+        private void langSelection_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default["show_names_lang"] = (string)((RadioButton)sender).Tag;
+            Properties.Settings.Default.Save();
+            Console.WriteLine(Properties.Settings.Default["show_names_lang"]);
         }
     }
 }
