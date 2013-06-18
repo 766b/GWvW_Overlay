@@ -178,5 +178,29 @@ namespace GWvW_Overlay.Properties {
                 this["show_names_lang"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int home_server {
+            get {
+                return ((int)(this["home_server"]));
+            }
+            set {
+                this["home_server"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool auto_matchup {
+            get {
+                return ((bool)(this["auto_matchup"]));
+            }
+            set {
+                this["auto_matchup"] = value;
+            }
+        }
     }
 }

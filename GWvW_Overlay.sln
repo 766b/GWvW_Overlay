@@ -18,12 +18,15 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_ConfigurationName = Any
-		BuildVersion_BuildVersioningStyle = None.None.None.None
-		BuildVersion_UpdateAssemblyVersion = False
-		BuildVersion_UpdateFileVersion = False
-		BuildVersion_StartDate = 1975/10/21
-		BuildVersion_AssemblyInfoFilename = 
 		BuildVersion_UseUniversalClock = False
+		BuildVersion_AssemblyInfoFilename = 
+		BuildVersion_StartDate = 1975/10/21
+		BuildVersion_UpdateFileVersion = False
+		BuildVersion_UpdateAssemblyVersion = False
+		BuildVersion_BuildVersioningStyle = None.None.None.None
+		BuildVersion_ConfigurationName = Any
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

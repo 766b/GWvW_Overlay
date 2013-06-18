@@ -42,7 +42,7 @@ namespace GWvW_Overlay
         [DllImport("user32.dll")]
         static extern bool UnhookWinEvent(IntPtr hWinEventHook);
 
-        static WinEventDelegate procDelegate = new WinEventDelegate(WinEventProc);
+        static WinEventDelegate procDelegate = WinEventProc;
 
         Keyboard.KeyboardListener KListener = new Keyboard.KeyboardListener();
         IntPtr hhook;
@@ -92,18 +92,13 @@ namespace GWvW_Overlay
             if (wTitle.ToString() == "Guild Wars 2" && inGame != true)
             {
                 inGame = true;
-                handle_this.ClickTroughActivate();
-                //Console.WriteLine("Setting click-trough");              
+                handle_this.ClickTroughActivate();           
             }
             else if (wTitle.ToString() != "Guild Wars 2" && inGame == true)
             {
                 inGame = false;
                 handle_this.ClickTroughVoid();
-                //Console.WriteLine("Voiding click-trough");                
             }
-
-            
-            
         }
         public MainWindow()
         {
@@ -113,32 +108,38 @@ namespace GWvW_Overlay
             hhook = SetWinEventHook(Natives.EVENT_SYSTEM_FOREGROUND, Natives.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero,
                 procDelegate, 0, 0, Natives.WINEVENT_SKIPOWNPROCESS); // | Natives.WINEVENT_SKIPOWNPROCESS
 
-            MainWindow1.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            MainWindow1.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             
             
-            KListener.KeyDown += new Keyboard.RawKeyEventHandler(KListener_KeyDown);
-            KListener.KeyUp += new Keyboard.RawKeyEventHandler(KListener_KeyUp);
+            KListener.KeyDown += KListener_KeyDown;
+            KListener.KeyUp += KListener_KeyUp;
 
             t1.Interval = 4000;
-            t1.Elapsed += new System.Timers.ElapsedEventHandler(rtvMatchDetails);
+            t1.Elapsed += rtvMatchDetails;
             t1.Start();
 
             t2.Interval = 1000;
-            t2.Elapsed += new System.Timers.ElapsedEventHandler(updatePosition);
+            t2.Elapsed += updatePosition;
             t2.Start();
             
 
             t3.Interval = 1000;
-            t3.Elapsed += new System.Timers.ElapsedEventHandler(updateTimers);
+            t3.Elapsed += UpdateTimers;
 
             handle_this = this;
 
-            rtvMatchDetails(null, null);
             rtvWorldNames();
             rtvMatches();
-            rtvObjectiveNames();
+
+            Console.WriteLine(CmbbxMatchSelection.Items.Count);
+            foreach (World_Names_ item in CmbbxMatchSelection.Items)
+            {
+                if (item.id == (int)Properties.Settings.Default["home_server"])
+                    CmbbxMatchSelection.SelectedItem = item;
+            }
 
             buildMenu();
+
         }
 
         public void updatePosition(Object source, System.Timers.ElapsedEventArgs e)
@@ -172,6 +173,7 @@ namespace GWvW_Overlay
             if (!(bool)Properties.Settings.Default["show_tracker"])
                 LogWindow.Hide();
 
+
             //Test
             /*
             Dictionary<string, string> dict1 = new Dictionary<string, string>() { { "time", DateTime.Now.ToString("t") }, { "objective", "Objective Name" }, { "owner_color", "green" }, { "owner", "released" } };
@@ -194,6 +196,40 @@ namespace GWvW_Overlay
                 LogWindow.AddEventLog(dict3, false);
             }));*/
 
+            if (!(bool) Properties.Settings.Default["auto_matchup"])
+            {
+                cnvsMatchSelection.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                cnvsMatchSelection.Visibility = Visibility.Hidden;
+                AutoMatchSetActiveMatch();
+            }
+
+            //rtvMatchDetails(null, null);
+        }
+
+        public void GetBorderlandSelection()
+        {
+            CnvsBlSelection.Visibility = Visibility.Visible;
+            LblBlueBl.Content = WvwMatch.getServerName("blue");
+            LblGreenBl.Content = WvwMatch.getServerName("green");
+            LblRedBl.Content = WvwMatch.getServerName("red");
+        }
+
+        public void AutoMatchSetActiveMatch()
+        {
+            foreach (var Match in WvwMatch.Match)
+            {
+                if (Match.blue_world_id == (int)Properties.Settings.Default["home_server"]
+                    || Match.green_world_id == (int)Properties.Settings.Default["home_server"]
+                    || Match.red_world_id == (int)Properties.Settings.Default["home_server"])
+                {
+                    WvwMatch.Options.active_match = Match.wvw_match_id;
+                    break;
+                }
+            }
         }
 
         public void buildMenu()
@@ -208,14 +244,14 @@ namespace GWvW_Overlay
                 MenuItem i = new MenuItem();
                 i.Header = x.Value;
                 i.Tag = x.Key;
-                i.Click += new RoutedEventHandler(matchSelected);
+                i.Click += matchSelected;
                 matches.Items.Add(i);
             }
             mainMenu.Items.Add(matches);
 
             MenuItem menu_options = new MenuItem();
             menu_options.Header = "Options";
-            menu_options.Click += new RoutedEventHandler(showOptionsWindow);
+            menu_options.Click += showOptionsWindow;
             mainMenu.Items.Add(menu_options);
 
             if (WvwMatch.Options.active_match != null)
@@ -223,22 +259,22 @@ namespace GWvW_Overlay
                 MenuItem bl_blue = new MenuItem();
                 bl_blue.Header = string.Format("Blue Borderland ({0})", WvwMatch.getServerName("blue"));
                 bl_blue.Tag = "BlueHome";
-                bl_blue.Click += new RoutedEventHandler(borderlandSelected);
+                bl_blue.Click += borderlandSelected;
 
                 MenuItem bl_red = new MenuItem();
                 bl_red.Header = string.Format("Red Borderland ({0})", WvwMatch.getServerName("red"));
                 bl_red.Tag = "RedHome";
-                bl_red.Click += new RoutedEventHandler(borderlandSelected);
+                bl_red.Click += borderlandSelected;
 
                 MenuItem bl_green = new MenuItem();
                 bl_green.Header = string.Format("Green Borderland ({0})", WvwMatch.getServerName("green"));
                 bl_green.Tag = "GreenHome";
-                bl_green.Click += new RoutedEventHandler(borderlandSelected);
+                bl_green.Click += borderlandSelected;
 
                 MenuItem bl_eb = new MenuItem();
                 bl_eb.Header = "Eternal Battleground";
                 bl_eb.Tag = "Center";
-                bl_eb.Click += new RoutedEventHandler(borderlandSelected);
+                bl_eb.Click += borderlandSelected;
 
                 mainMenu.Items.Add(new Separator());
                 
@@ -250,18 +286,18 @@ namespace GWvW_Overlay
             }
             MenuItem exit_app = new MenuItem();
             exit_app.Header = "Exit";
-            exit_app.Click += new RoutedEventHandler(exitApp);
+            exit_app.Click += exitApp;
             mainMenu.Items.Add(exit_app);
             this.ContextMenu = mainMenu;
         }
 
-        public void updateTimers(Object source, System.Timers.ElapsedEventArgs e)
+        public void UpdateTimers(Object source, System.Timers.ElapsedEventArgs e)
         {
 
             if (WvwMatch.Details == null)
                 return;
 
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { LogWindow.ResetText("camp"); }));
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.ResetText("camp")));
             DateTime cur = DateTime.Now;
             string eventCamps = "";
 
@@ -335,6 +371,7 @@ namespace GWvW_Overlay
 
         public void rtvObjectiveNames()
         {
+            return;
             ObjectiveNames = JsonConvert.DeserializeObject<ObjectiveNames_>(Utils.getJSON(@"Resources/objectives.json"));
             WvwMatch.ObjectiveNames = ObjectiveNames.wvw_objectives;
             ObjectiveNames.wvw_objectives = null;
@@ -394,10 +431,7 @@ namespace GWvW_Overlay
                                         {"to", WvwMatch.getServerName(Match_Details.maps[map].objectives[obj].owner)},
                                         {"to_color", Match_Details.maps[map].objectives[obj].owner},
                                     };
-                                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                                {
-                                    LogWindow.AddEventLog(dict, false);
-                                }));
+                                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, false)));
                             }
 
                             WvwMatch.Details.maps[map].objectives[obj].owner = Match_Details.maps[map].objectives[obj].owner;
@@ -557,20 +591,31 @@ namespace GWvW_Overlay
             WvwMatch.Options.active_match = (string)((MenuItem)sender).Tag;
             rtvMatchDetails(null, null);
             buildMenu();
-            ContextMenu.IsOpen = true;
-
+            //ContextMenu.IsOpen = true;
+            CnvsBlSelection.Visibility = Visibility.Visible;
         }
 
         public void borderlandSelected(object sender, EventArgs e)
         {
-            string selectedBL = (string)((MenuItem)sender).Tag;
-            WvwMatch.Options.active_bl = selectedBL;
-            Icons.ItemsSource = WvwMatch.Details.maps[WvwMatch.Options.blid[selectedBL]].objectives;
+            string selectedBl = null;
+
+            if (sender is Label)
+                selectedBl = (string) ((Label) sender).Tag;
+            if (sender is MenuItem)
+                selectedBl = (string) ((MenuItem) sender).Tag;
+            
+            if(selectedBl == null)
+                selectedBl = "Center";
+
+            WvwMatch.Options.active_bl = selectedBl;
+            Icons.ItemsSource = WvwMatch.Details.maps[WvwMatch.Options.blid[selectedBl]].objectives;
 
             if (LogWindow != null)
                 LogWindow.lblBLTitle.Content = WvwMatch.Options.active_bl_title;
 
-            this.InvalidateVisual();
+            InvalidateVisual();
+
+            CnvsBlSelection.Visibility = Visibility.Hidden;
         }
 
         public void exitApp(object sender, EventArgs e)
@@ -583,12 +628,21 @@ namespace GWvW_Overlay
         private void Drag(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
-            this.DragMove();
+                try
+                {
+                    DragMove();
+                }
+                catch
+                {
+                    
+                    
+                }
+            
         }
 
         private void showOptionsWindow(object sender, EventArgs e)
         {
-            SetOptions optWindow = new SetOptions(LogWindow);
+            SetOptions optWindow = new SetOptions(LogWindow, WvwMatch);
             optWindow.Show();
         }
 
@@ -612,6 +666,13 @@ namespace GWvW_Overlay
         {
             HwndSource hwndSource = (HwndSource)HwndSource.FromVisual((Window)sender);
             hwndSource.AddHook(DragHook);
+
+            Console.WriteLine(CmbbxMatchSelection.Items.Count);
+            foreach (World_Names_ item in CmbbxMatchSelection.Items)
+            {
+                if (item.id == (int)Properties.Settings.Default["home_server"])
+                    CmbbxMatchSelection.SelectedItem = item;
+            }
         }
 
         private IntPtr DragHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -659,7 +720,7 @@ namespace GWvW_Overlay
             return IntPtr.Zero;
         }
 
-        private void mainClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             UnhookWinEvent(hhook);
             LogWindow.Close();
@@ -671,8 +732,55 @@ namespace GWvW_Overlay
             if (e.ChangedButton != MouseButton.Left)
                 return;
 
-            Console.WriteLine("{0} --- {1} --- {2}", lstbxMatchSelection.SelectedValue, cmbbxMatchSelection.SelectedValue, chkbxAutoMatchSelect.IsChecked);
+            if (CmbbxMatchSelection.SelectedValue != null)
+                Properties.Settings.Default["home_server"] = CmbbxMatchSelection.SelectedValue;
 
+            if (ChkbxAutoMatchSelect.IsChecked != null && (bool)ChkbxAutoMatchSelect.IsChecked && CmbbxMatchSelection.SelectedValue != null)
+                Properties.Settings.Default["auto_matchup"] = CmbbxMatchSelection.SelectedValue;
+
+            else if (ChkbxAutoMatchSelect.IsChecked != null && (bool)ChkbxAutoMatchSelect.IsChecked && CmbbxMatchSelection.SelectedValue == null)
+            {
+                MessageBox.Show("Automatic Match Selection requires \"Home Server\" to be set.");
+                return;
+            }
+
+            if (ChkbxAutoMatchSelect.IsChecked != null && !(bool) ChkbxAutoMatchSelect.IsChecked &&
+                LstbxMatchSelection.SelectedItem != null)
+                WvwMatch.Options.active_match = (string)LstbxMatchSelection.SelectedValue;
+
+            if(LstbxMatchSelection.SelectedValue != null)
+
+            Properties.Settings.Default.Save();
+
+            Console.WriteLine(LstbxMatchSelection.SelectedItem);
+            AutoMatchSetActiveMatch();
+
+            rtvMatchDetails(null, null);
+            buildMenu();
+            cnvsMatchSelection.Visibility = Visibility.Hidden;
+
+            GetBorderlandSelection();
+        }
+
+        private void CmbbxMatchSelection_Change(object sender, SelectionChangedEventArgs e)
+        {
+            if (CmbbxMatchSelection.SelectedItem == null)
+                return;
+
+            World_Names_ selection = (World_Names_) CmbbxMatchSelection.SelectedItem;
+
+            Console.WriteLine(selection.name);
+
+            CnvsMatchUp.Visibility = Visibility.Hidden;
+            cnvsMatchSelection.Height = 100;
+        }
+
+        private void lblSelectionReset_Click(object sender, MouseButtonEventArgs e)
+        {
+            cnvsMatchSelection.Height = 400;
+            CnvsMatchUp.Visibility = Visibility.Visible;
+            CmbbxMatchSelection.SelectedItem = null;
+            LstbxMatchSelection.SelectedItem = null;
         }
     }
 }
