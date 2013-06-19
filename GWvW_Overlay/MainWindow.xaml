@@ -134,7 +134,7 @@
                 </Label>
                 <Canvas Name="CnvsMatchUp">
                     <Canvas Height="2" Canvas.Top="93" Width="176" Background="#FFDD9900" Canvas.Left="0"/>
-                    <Label Content="OR" Width="34" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="179" Canvas.Top="80"/>
+                    <Label Content="OR" Width="37" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="178" Canvas.Top="80"/>
                     <Canvas Height="2" Canvas.Top="93" Width="173" Background="#FFDD9900" Canvas.Left="216"/>
                 
                 <ListBox Name="LstbxMatchSelection" Height="282" Canvas.Left="10" Canvas.Top="108" Width="369" Background="{x:Null}" Foreground="#FFEEEEEE" BorderThickness="0" BorderBrush="{x:Null}"
