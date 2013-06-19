@@ -148,7 +148,7 @@
                     </Label.Style>
                 </Label>
                 <!--MouseDown="lblSelectionOK_Click" MouseEnter="lblSelectionOK_Enter" MouseLeave="lblSelectionOK_Leave"  World_Names_> World -->
-                <ComboBox Name="CmbbxMatchSelection" Canvas.Left="118" Canvas.Top="38" Width="184" Foreground="Black" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=World_Names_}" Style="{DynamicResource ComboBoxStyle}" SelectionChanged="CmbbxMatchSelection_Change" />
+                <ComboBox Name="CmbbxHomeServerSelection" Canvas.Left="118" Canvas.Top="38" Width="184" Foreground="Black" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=World_Names_}" Style="{DynamicResource ComboBoxStyle}" SelectionChanged="CmbbxMatchSelection_Change" />
                 <Label Content="Home Server: " Width="99" Height="26" FontSize="14" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="14" Canvas.Top="38" FontWeight="Bold"/>
                 <CheckBox Name="ChkbxAutoMatchSelect" Content="Automatic Match Selection" Canvas.Left="118" Canvas.Top="64" Foreground="#FFDD9900" Style="{DynamicResource CheckBoxStyle}">
                     <CheckBox.ToolTip>

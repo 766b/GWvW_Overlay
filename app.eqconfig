@@ -1,0 +1,26 @@
+﻿<config Version="2">
+  <OutputFolder>$(AppDir)</OutputFolder>
+  <ReportFolderNetFull>$(SystemRoot)\Temp\EQATECProfilerLogs</ReportFolderNetFull>
+  <ReportFolderNetCF>\Temp\EQATECProfilerLogs</ReportFolderNetCF>
+  <AutoSnapshot>Main OnStop ApplicationEnd</AutoSnapshot>
+  <TinyMethodAction>Skip</TinyMethodAction>
+  <ServerControlHost />
+  <ServerControlPort>4515</ServerControlPort>
+  <RuntimeModuleLogLevel>Errors</RuntimeModuleLogLevel>
+  <ExcludeFiles>
+    <ExcludeFile>packages\System.Json.4.0.20126.16343\lib\net40\System.Json.dll</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\bin\temp\GWvW_Overlay.exe</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\obj\Release\TempPE\Properties.Resources.Designer.cs.dll</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\obj\Release\GWvW_Overlay.exe</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\obj\Debug\TempPE\Properties.Resources.Designer.cs.dll</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\obj\Debug\GWvW_Overlay.exe</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\bin\temp\Newtonsoft.Json.dll</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\bin\Release\Newtonsoft.Json.dll</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\bin\Debug\Newtonsoft.Json.dll</ExcludeFile>
+    <ExcludeFile>Newtonsoft.Json.dll</ExcludeFile>
+    <ExcludeFile>GWvW_Overlay\bin\Release\GWvW_Overlay.exe</ExcludeFile>
+  </ExcludeFiles>
+  <SignActions />
+  <AppType>FullNet</AppType>
+  <InputFolderOK>true</InputFolderOK>
+</config>

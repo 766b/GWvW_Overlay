@@ -131,11 +131,11 @@ namespace GWvW_Overlay
             rtvWorldNames();
             rtvMatches();
 
-            Console.WriteLine(CmbbxMatchSelection.Items.Count);
-            foreach (World_Names_ item in CmbbxMatchSelection.Items)
+            Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
+            foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
             {
                 if (item.id == (int)Properties.Settings.Default["home_server"])
-                    CmbbxMatchSelection.SelectedItem = item;
+                    CmbbxHomeServerSelection.SelectedItem = item;
             }
 
             buildMenu();
@@ -205,6 +205,7 @@ namespace GWvW_Overlay
             {
                 cnvsMatchSelection.Visibility = Visibility.Hidden;
                 AutoMatchSetActiveMatch();
+                GetBorderlandSelection();
             }
 
             //rtvMatchDetails(null, null);
@@ -227,6 +228,7 @@ namespace GWvW_Overlay
                     || Match.red_world_id == (int)Properties.Settings.Default["home_server"])
                 {
                     WvwMatch.Options.active_match = Match.wvw_match_id;
+                    rtvMatchDetails(null, null);
                     break;
                 }
             }
@@ -366,7 +368,9 @@ namespace GWvW_Overlay
         public void rtvWorldNames()
         {
             WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.getJSON(@"https://api.guildwars2.com/v1/world_names.json"));
-            WvwMatch.World.Sort((x, y) => x.name.CompareTo(y.name));
+
+            Console.WriteLine(WvwMatch.World.Count);
+            WvwMatch.World.Sort((x, y) => y.name != null ? (x.name != null ? x.name.CompareTo(y.name) : 0) : 0);
         }
 
         public void rtvObjectiveNames()
@@ -592,7 +596,8 @@ namespace GWvW_Overlay
             rtvMatchDetails(null, null);
             buildMenu();
             //ContextMenu.IsOpen = true;
-            CnvsBlSelection.Visibility = Visibility.Visible;
+
+            GetBorderlandSelection();
         }
 
         public void borderlandSelected(object sender, EventArgs e)
@@ -667,11 +672,11 @@ namespace GWvW_Overlay
             HwndSource hwndSource = (HwndSource)HwndSource.FromVisual((Window)sender);
             hwndSource.AddHook(DragHook);
 
-            Console.WriteLine(CmbbxMatchSelection.Items.Count);
-            foreach (World_Names_ item in CmbbxMatchSelection.Items)
+            Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
+            foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
             {
                 if (item.id == (int)Properties.Settings.Default["home_server"])
-                    CmbbxMatchSelection.SelectedItem = item;
+                    CmbbxHomeServerSelection.SelectedItem = item;
             }
         }
 
@@ -732,42 +737,58 @@ namespace GWvW_Overlay
             if (e.ChangedButton != MouseButton.Left)
                 return;
 
-            if (CmbbxMatchSelection.SelectedValue != null)
-                Properties.Settings.Default["home_server"] = CmbbxMatchSelection.SelectedValue;
-
-            if (ChkbxAutoMatchSelect.IsChecked != null && (bool)ChkbxAutoMatchSelect.IsChecked && CmbbxMatchSelection.SelectedValue != null)
-                Properties.Settings.Default["auto_matchup"] = CmbbxMatchSelection.SelectedValue;
-
-            else if (ChkbxAutoMatchSelect.IsChecked != null && (bool)ChkbxAutoMatchSelect.IsChecked && CmbbxMatchSelection.SelectedValue == null)
+            if (CmbbxHomeServerSelection.SelectedValue == null && LstbxMatchSelection.SelectedValue == null)
+            {
+                MessageBox.Show("Please select the Home Server or one of the avaliable matches.");
+                return;
+            }
+            //If auto-match-up is TRUE and home-server is NOT selected
+            if (ChkbxAutoMatchSelect.IsChecked != null && (bool)ChkbxAutoMatchSelect.IsChecked &&
+                CmbbxHomeServerSelection.SelectedValue == null)
             {
                 MessageBox.Show("Automatic Match Selection requires \"Home Server\" to be set.");
                 return;
             }
 
-            if (ChkbxAutoMatchSelect.IsChecked != null && !(bool) ChkbxAutoMatchSelect.IsChecked &&
-                LstbxMatchSelection.SelectedItem != null)
-                WvwMatch.Options.active_match = (string)LstbxMatchSelection.SelectedValue;
+            //Check if auto-match-up is TRUE and home-server is selected
+            if (ChkbxAutoMatchSelect.IsChecked != null && (bool) ChkbxAutoMatchSelect.IsChecked &&
+                CmbbxHomeServerSelection.SelectedValue != null)
+            {
+                Properties.Settings.Default["auto_matchup"] = (bool)ChkbxAutoMatchSelect.IsChecked;
+                Properties.Settings.Default["home_server"] = CmbbxHomeServerSelection.SelectedValue;
+                Properties.Settings.Default.Save();
+                goto SaveAndSelect;
+            }
 
-            if(LstbxMatchSelection.SelectedValue != null)
+            // If home-server is set go to BL selection
+            if (CmbbxHomeServerSelection.SelectedValue != null)
+            {
+                Properties.Settings.Default["home_server"] = CmbbxHomeServerSelection.SelectedValue;
+                Properties.Settings.Default.Save();
+                goto SaveAndSelect;
+            }
 
-            Properties.Settings.Default.Save();
+            if (LstbxMatchSelection.SelectedItem != null)
+            {
+                WvwMatch.Options.active_match = (string) LstbxMatchSelection.SelectedValue;
+                rtvMatchDetails(null, null);
+                goto RetriveAndSelect;
+            }
 
-            Console.WriteLine(LstbxMatchSelection.SelectedItem);
+        SaveAndSelect:
             AutoMatchSetActiveMatch();
-
-            rtvMatchDetails(null, null);
+        RetriveAndSelect:
             buildMenu();
             cnvsMatchSelection.Visibility = Visibility.Hidden;
-
             GetBorderlandSelection();
         }
 
         private void CmbbxMatchSelection_Change(object sender, SelectionChangedEventArgs e)
         {
-            if (CmbbxMatchSelection.SelectedItem == null)
+            if (CmbbxHomeServerSelection.SelectedItem == null)
                 return;
 
-            World_Names_ selection = (World_Names_) CmbbxMatchSelection.SelectedItem;
+            World_Names_ selection = (World_Names_) CmbbxHomeServerSelection.SelectedItem;
 
             Console.WriteLine(selection.name);
 
@@ -779,7 +800,7 @@ namespace GWvW_Overlay
         {
             cnvsMatchSelection.Height = 400;
             CnvsMatchUp.Visibility = Visibility.Visible;
-            CmbbxMatchSelection.SelectedItem = null;
+            CmbbxHomeServerSelection.SelectedItem = null;
             LstbxMatchSelection.SelectedItem = null;
         }
     }

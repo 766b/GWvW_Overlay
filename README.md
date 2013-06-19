@@ -14,6 +14,11 @@ Usage
 
 Changes
 ============
+(6/18/2013)
+- Added new interface for match selection
+- Added automatic match selection based on pre-selected home server
+- Fixed the bug that would cause crash when server name is "null"
+
 (6/14/2013)
 - Check for updates before application starts
 - Changed color theme of tracker window
