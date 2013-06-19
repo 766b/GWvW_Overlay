@@ -28,42 +28,41 @@ namespace GWvW_Overlay
     public class Guild
     {
         Utils Utils = new Utils();
-        Guild_Details_ Guild_Details = new Guild_Details_();
         Dictionary<string, List<string>> GuildDict = new Dictionary<string, List<string>>();
 
-        private int changeCounter = 0;
-        private string jsonCacheFile = "Resources/guild_details.json";
+        private int _changeCounter = 0;
+        private const string JsonCacheFile = "Resources/guild_details.json";
 
         public Guild()
         {
             // Load cached guild details
-            if (File.Exists(jsonCacheFile))
-                GuildDict = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(File.ReadAllText(jsonCacheFile));
+            if (File.Exists(JsonCacheFile))
+                GuildDict = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(File.ReadAllText(JsonCacheFile));
         }
 
-        public List<string> getGuildByID(string ID)
+        public List<string> GetGuildById(string id)
         {
-            if (ID == null)
+            if (id == null)
                 return null;
 
-            if (!GuildDict.ContainsKey(ID))
+            if (!GuildDict.ContainsKey(id))
             {
-                var Data = JsonConvert.DeserializeObject<Guild_Details_>(Utils.getJSON(string.Format(@"https://api.guildwars2.com/v1/guild_details.json?guild_id={0}", ID)));
-                GuildDict.Add(ID, new List<string>() { Data.guild_name, Data.tag });
-                changeCounter++;
+                var data = JsonConvert.DeserializeObject<Guild_Details_>(Utils.GetJson(string.Format(@"https://api.guildwars2.com/v1/guild_details.json?guild_id={0}", id)));
+                GuildDict.Add(id, new List<string>() { data.guild_name, data.tag });
+                _changeCounter++;
             }
 
-            if (changeCounter > 3)
+            if (_changeCounter > 3)
             {
-                changeCounter = 0;
+                _changeCounter = 0;
                 Save();
             }
-            return new List<string>() { GuildDict[ID][0], GuildDict[ID][1] };
+            return new List<string>() { GuildDict[id][0], GuildDict[id][1] };
         }
 
         public void Save()
         {
-            Utils.saveJson(jsonCacheFile, JsonConvert.SerializeObject(GuildDict));
+            Utils.SaveJson(JsonCacheFile, JsonConvert.SerializeObject(GuildDict));
         }
 
     }

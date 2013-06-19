@@ -1,49 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-//using System.Configuration;
-
 using System.Windows.Threading;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace GWvW_Overlay
 {
-    /// <summary>
-    /// Interaction logic for SetOptions.xaml
-    /// </summary>
-    public partial class SetOptions : Window 
+    public partial class SetOptions
     {
-        Keyboard.KeyboardListener KListener = new Keyboard.KeyboardListener();
-        Utils Utils = new Utils();
-        public bool listenForKey = false;
+        readonly Keyboard.KeyboardListener _kListener = new Keyboard.KeyboardListener();
+        public Utils Utils = new Utils();
+        public bool ListenForKey = false;
 
-        private CampLogger track;
+        private readonly CampLogger _track;
 
         public SetOptions(CampLogger tracker, WvwMatch_ matchUp)
         {
             InitializeComponent();
-            track = tracker;
+            _track = tracker;
             DataContext = matchUp;
 
-            KListener.KeyDown += new Keyboard.RawKeyEventHandler(KListener_KeyDown);
+            _kListener.KeyDown += KListener_KeyDown;
             txtbox_hotkey.Text = Properties.Settings.Default["hotkey"].ToString();
         }
 
         void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
         {
-            if (listenForKey)
+            if (ListenForKey)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                 {
@@ -59,12 +41,12 @@ namespace GWvW_Overlay
                 Properties.Settings.Default["hotkey"] = txtbox_hotkey.Text;
                 Properties.Settings.Default.Save();
             }
-            listenForKey = (!listenForKey) ? true : false;
+            ListenForKey = (!ListenForKey);
             btnNewHotkey.Content = (btnNewHotkey.Content.ToString() != "Save") ? "Save" : "New Hotkey";
 
         }
 
-        private void saveSettings(object sender, System.ComponentModel.CancelEventArgs e)
+        private void SaveSettings(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Properties.Settings.Default.Save();
         }
@@ -74,13 +56,13 @@ namespace GWvW_Overlay
             Properties.Settings.Default["tracker_position_top"] = 10.0;
             Properties.Settings.Default["tracker_position_left"] = 10.0;
             Properties.Settings.Default.Save();
-            track.cnvsPromt.Visibility = Visibility.Visible;
-            track.ClickTroughVoid();
+            _track.cnvsPromt.Visibility = Visibility.Visible;
+            _track.ClickTroughVoid();
         }
 
         private void chkTrackerDisplay_Click(object sender, RoutedEventArgs e)
         {
-            track.Visibility = track.Visibility == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
+            _track.Visibility = _track.Visibility == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void chkEventLog_Click(object sender, RoutedEventArgs e)
@@ -88,12 +70,12 @@ namespace GWvW_Overlay
             if (!(bool)Properties.Settings.Default["tracker_show_event"])
             {
                 Properties.Settings.Default["tracker_height"] = 140.0;
-                track.Height = 140;
+                _track.Height = 140;
             }
             else
             {
                 Properties.Settings.Default["tracker_height"] = 300.0;
-                track.Height = 300;
+                _track.Height = 300;
             }
             Properties.Settings.Default.Save();
 
@@ -101,14 +83,14 @@ namespace GWvW_Overlay
 
         private void langSelection_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default["show_names_lang"] = (string)((RadioButton)sender).Tag;
+            Properties.Settings.Default["show_names_lang"] = ((RadioButton)sender).Tag;
             Properties.Settings.Default.Save();
             Console.WriteLine(Properties.Settings.Default["show_names_lang"]);
         }
 
-        private void onLoad(object sender, RoutedEventArgs e)
+        private void OnLoad(object sender, RoutedEventArgs e)
         {
-            lblCacheSize.Content = string.Format("Guild_Details Cache File Size: {0}", Utils.fileSize("Resources/guild_details.json"));
+            lblCacheSize.Content = string.Format("Guild_Details Cache File Size: {0}", Utils.FileSize("Resources/guild_details.json"));
 
             switch (Properties.Settings.Default["show_names_lang"].ToString())
             {

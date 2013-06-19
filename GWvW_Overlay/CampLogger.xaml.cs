@@ -1,29 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
-using System.Windows.Threading;
-//using System.Runtime.InteropServices;
 using System.Windows.Interop;
-
 
 namespace GWvW_Overlay
 {
-
-    /// <summary>
-    /// Interaction logic for CampLogger.xaml
-    /// </summary>
-    public partial class CampLogger : Window
+    public partial class CampLogger
     {
         public CampLogger()
         {
@@ -41,73 +26,43 @@ namespace GWvW_Overlay
             {
                 if (data["owner"] != "released")
                 {
-                    TextRange owner = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
-                    owner.Text = string.Format(" {0}\n", data["owner"]);
-                    owner.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(data["owner_color"]));
+                    var owner = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format(" {0}\n", data["owner"])};
+                    owner.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(data["owner_color"]));
                     owner.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
                 }
 
-                TextRange obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
+                var obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format(data["owner"] == "released" ? "{0} {1}: claim released.\n" : "{0} {1}: claimed by ", data["time"], data["objective"])};
 
-                if(data["owner"] == "released")
-                    obj.Text = string.Format("{0} {1}: claim released.\n", data["time"], data["objective"]);
-                else
-                    obj.Text = string.Format("{0} {1}: claimed by ", data["time"], data["objective"]);
-
-                obj.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(null));
+                obj.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(null));
                 obj.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
 
             }
             else
             {
-                TextRange from_to_to = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
-                from_to_to.Text = string.Format("{0}\n", data["to"]);
-                from_to_to.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(data["to_color"]));
-                from_to_to.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                var fromToTo = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format("{0}\n", data["to"])};
+                fromToTo.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(data["to_color"]));
+                fromToTo.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
 
-                TextRange from_to = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
-                from_to.Text = string.Format(" to ");
-                from_to.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(null));
-                from_to.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+                var fromTo = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format(" to ")};
+                fromTo.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(null));
+                fromTo.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
 
-                TextRange from_to_from = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
-                from_to_from.Text = string.Format("{0}", data["from"]);
-                from_to_from.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(data["from_color"]));
-                from_to_from.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                var fromToFrom = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format("{0}", data["from"])};
+                fromToFrom.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(data["from_color"]));
+                fromToFrom.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
 
-                TextRange obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart);
-                obj.Text = string.Format("{0} {1}: ", data["time"], data["objective"]);
-                obj.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(null));
+                var obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format("{0} {1}: ", data["time"], data["objective"])};
+                obj.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(null));
                 obj.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
             }
-        }
-
-        public void AddCampLog(Dictionary<string, string> data)
-        {/*
-            TextRange owner = new TextRange(eventCamp.Document.ContentEnd, eventCamp.Document.ContentEnd);
-            owner.Text = string.Format("{0}\t", data["time_left"]);
-            owner.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(null));
-            owner.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
-            
-            TextRange obj = new TextRange(eventCamp.Document.ContentEnd, eventCamp.Document.ContentEnd);
-            obj.Text = string.Format("{0}\n", data["objective"]);
-            obj.ApplyPropertyValue(TextElement.ForegroundProperty, getColor(null));
-            obj.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);*/
         }
 
         public void ResetText()
         {
             eventLog.Document.Blocks.Clear();
-            //eventCamp.Document.Blocks.Clear();
         }
-        public void ResetText(string box)
-        {
-            if (box == "camp")
-            {
-                //eventCamp.Document.Blocks.Clear();
-            }
-        }
-        public SolidColorBrush getColor(string color)
+
+        public SolidColorBrush GetColor(string color)
         {
             if (color == null) color = "white";
             
@@ -122,7 +77,7 @@ namespace GWvW_Overlay
                 case "black":
                     return Brushes.Black;
                 case "white":
-                    return (SolidColorBrush)(new System.Windows.Media.BrushConverter().ConvertFromString("#FFEEEEEE")); //Brushes.White;
+                    return (SolidColorBrush)(new BrushConverter().ConvertFromString("#FFEEEEEE"));
                 default:
                     return Brushes.Black;
             }
@@ -131,7 +86,7 @@ namespace GWvW_Overlay
         private void Drag(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+                DragMove();
         }
 
         private void btnSetClicktrough_Click(object sender, RoutedEventArgs e)
@@ -146,15 +101,13 @@ namespace GWvW_Overlay
         {
             if ((bool)Properties.Settings.Default["tracker_saved"] == false)
                 return;
-            
-            //eventLog.IsEnabled = false;
 
             IntPtr handle = new WindowInteropHelper(this).Handle;
             Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
 
             // Weird fix for disappearing window when switching between dual screen.
-            this.Topmost = false; 
-            this.Topmost = true;
+            Topmost = false; 
+            Topmost = true;
         }
 
         public void ClickTroughActivate()
@@ -162,16 +115,12 @@ namespace GWvW_Overlay
             if ((bool)Properties.Settings.Default["tracker_saved"] == false)
                 return;
 
-            //eventLog.IsEnabled = true;
-
             IntPtr handle = new WindowInteropHelper(this).Handle;
             Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Transparent);
 
             // Weird fix for disappearing window when switching between dual screen.
-            this.Topmost = false;
-            this.Topmost = true;
-
-
+            Topmost = false;
+            Topmost = true;
         }
 
         private void btnSetHide_Click(object sender, RoutedEventArgs e)
@@ -181,7 +130,7 @@ namespace GWvW_Overlay
             Properties.Settings.Default.Save();
         }
 
-        private void saveSettings(object sender, System.ComponentModel.CancelEventArgs e)
+        private void SaveSettings(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Properties.Settings.Default.Save();
         }

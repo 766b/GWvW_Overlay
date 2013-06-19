@@ -1,25 +1,14 @@
 ﻿/*
  * Objective names https://gist.github.com/codemasher/bac2b4f87e7af128087e (smiley.1438)
- * 
- * 
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
-
-using System.Threading;
 using System.Windows.Threading;
 using Newtonsoft.Json;
 using System.Windows.Interop;
@@ -27,12 +16,7 @@ using System.Runtime.InteropServices;
 
 namespace GWvW_Overlay
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
-
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
         
@@ -42,31 +26,30 @@ namespace GWvW_Overlay
         [DllImport("user32.dll")]
         static extern bool UnhookWinEvent(IntPtr hWinEventHook);
 
-        static WinEventDelegate procDelegate = WinEventProc;
+        static readonly WinEventDelegate ProcDelegate = WinEventProc;
 
-        Keyboard.KeyboardListener KListener = new Keyboard.KeyboardListener();
-        IntPtr hhook;
+        readonly Keyboard.KeyboardListener _kListener = new Keyboard.KeyboardListener();
+        readonly IntPtr _hhook;
 
-        static MainWindow handle_this;
+        static MainWindow _handleThis;
 
-        bool ResetMatch = false;
-        static bool inGame = false;
-        private bool? _adjustingHeight = null;
+        bool _resetMatch;
+        static bool _inGame;
+        private bool? _adjustingHeight;
 
-        System.Timers.Timer t1 = new System.Timers.Timer();
-        System.Timers.Timer t2 = new System.Timers.Timer();
-        System.Timers.Timer t3 = new System.Timers.Timer();
+        readonly System.Timers.Timer _t1 = new System.Timers.Timer();
+        readonly System.Timers.Timer _t2 = new System.Timers.Timer();
+        readonly System.Timers.Timer _t3 = new System.Timers.Timer();
 
         //JSON Data
-        Match_Details_ Match_Details = new Match_Details_();
-        ObjectiveNames_ ObjectiveNames = new ObjectiveNames_();
-        WvwMatch_ WvwMatch = new WvwMatch_();
-        Matches_ jsonMatches = new Matches_();
+        Match_Details_ _matchDetails = new Match_Details_();
+        readonly WvwMatch_ WvwMatch = new WvwMatch_();
+        Matches_ _jsonMatches = new Matches_();
 
-        Utils Utils = new Utils();
-        Guild GuildData = new Guild();
+        public Utils Utils = new Utils();
+        public Guild GuildData = new Guild();
 
-        CampLogger LogWindow = new CampLogger();
+        readonly CampLogger LogWindow = new CampLogger();
 
         public void ClickTroughActivate()
         {
@@ -86,50 +69,50 @@ namespace GWvW_Overlay
 
         static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
-            StringBuilder wTitle = new StringBuilder(13);
+            var wTitle = new StringBuilder(13);
             Natives.GetWindowText(hwnd, wTitle, 13);
 
-            if (wTitle.ToString() == "Guild Wars 2" && inGame != true)
+            if (wTitle.ToString() == "Guild Wars 2" && _inGame != true)
             {
-                inGame = true;
-                handle_this.ClickTroughActivate();           
+                _inGame = true;
+                _handleThis.ClickTroughActivate();           
             }
-            else if (wTitle.ToString() != "Guild Wars 2" && inGame == true)
+            else if (wTitle.ToString() != "Guild Wars 2" && _inGame)
             {
-                inGame = false;
-                handle_this.ClickTroughVoid();
+                _inGame = false;
+                _handleThis.ClickTroughVoid();
             }
         }
         public MainWindow()
         {
             InitializeComponent();
-            this.SourceInitialized += Window_SourceInitialized;
+            SourceInitialized += Window_SourceInitialized;
 
-            hhook = SetWinEventHook(Natives.EVENT_SYSTEM_FOREGROUND, Natives.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero,
-                procDelegate, 0, 0, Natives.WINEVENT_SKIPOWNPROCESS); // | Natives.WINEVENT_SKIPOWNPROCESS
+            _hhook = SetWinEventHook(Natives.EVENT_SYSTEM_FOREGROUND, Natives.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero,
+                ProcDelegate, 0, 0, Natives.WINEVENT_SKIPOWNPROCESS); // | Natives.WINEVENT_SKIPOWNPROCESS
 
             MainWindow1.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             
             
-            KListener.KeyDown += KListener_KeyDown;
-            KListener.KeyUp += KListener_KeyUp;
+            _kListener.KeyDown += KListener_KeyDown;
+            _kListener.KeyUp += KListener_KeyUp;
 
-            t1.Interval = 4000;
-            t1.Elapsed += rtvMatchDetails;
-            t1.Start();
+            _t1.Interval = 4000;
+            _t1.Elapsed += RtvMatchDetails;
+            _t1.Start();
 
-            t2.Interval = 1000;
-            t2.Elapsed += updatePosition;
-            t2.Start();
+            _t2.Interval = 1000;
+            _t2.Elapsed += UpdatePosition;
+            _t2.Start();
             
 
-            t3.Interval = 1000;
-            t3.Elapsed += UpdateTimers;
+            _t3.Interval = 1000;
+            _t3.Elapsed += UpdateTimers;
 
-            handle_this = this;
+            _handleThis = this;
 
-            rtvWorldNames();
-            rtvMatches();
+            RtvWorldNames();
+            RtvMatches();
 
             Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
             foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
@@ -138,16 +121,16 @@ namespace GWvW_Overlay
                     CmbbxHomeServerSelection.SelectedItem = item;
             }
 
-            buildMenu();
+            BuildMenu();
 
         }
 
-        public void updatePosition(Object source, System.Timers.ElapsedEventArgs e)
+        public void UpdatePosition(Object source, System.Timers.ElapsedEventArgs e)
         {
             if (WvwMatch.Details == null)
                 return;
 
-            foreach (Map map in WvwMatch.Details.maps)
+            foreach (Map map in WvwMatch.Details.Maps)
             {
                 foreach (Objective obj in map.objectives)
                 {
@@ -155,17 +138,18 @@ namespace GWvW_Overlay
 
                     if (obj.ObjData.top != 0.0)
                     {
+                        Objective obj1 = obj;
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
-                            obj.ObjData.left = this.Width * (obj.ObjData.left_base / obj.ObjData.res_width);
-                            obj.ObjData.top = this.Height * (obj.ObjData.top_base / obj.ObjData.res_height);
+                            obj1.ObjData.left = Width * (obj1.ObjData.left_base / obj1.ObjData.res_width);
+                            obj1.ObjData.top = Height * (obj1.ObjData.top_base / obj1.ObjData.res_height);
                         }));
                     }
                 }
             }
         }
 
-        private void onLoad(object sender, RoutedEventArgs e)
+        private void OnLoad(object sender, RoutedEventArgs e)
         {
             DataContext = WvwMatch;
 
@@ -221,101 +205,89 @@ namespace GWvW_Overlay
 
         public void AutoMatchSetActiveMatch()
         {
-            foreach (var Match in WvwMatch.Match)
+            foreach (var match in WvwMatch.Match)
             {
-                if (Match.blue_world_id == (int)Properties.Settings.Default["home_server"]
-                    || Match.green_world_id == (int)Properties.Settings.Default["home_server"]
-                    || Match.red_world_id == (int)Properties.Settings.Default["home_server"])
+                if (match.blue_world_id == (int)Properties.Settings.Default["home_server"]
+                    || match.green_world_id == (int)Properties.Settings.Default["home_server"]
+                    || match.red_world_id == (int)Properties.Settings.Default["home_server"])
                 {
-                    WvwMatch.Options.active_match = Match.wvw_match_id;
-                    rtvMatchDetails(null, null);
+                    WvwMatch.Options.active_match = match.wvw_match_id;
+                    RtvMatchDetails(null, null);
                     break;
                 }
             }
         }
 
-        public void buildMenu()
+        public void BuildMenu()
         {
-            ContextMenu mainMenu = new ContextMenu();
+            var mainMenu = new ContextMenu();
 
-            MenuItem matches = new MenuItem();
-            matches.Header = "Matches";
-            var y = WvwMatch.getMatchesList();
+            var matches = new MenuItem {Header = "Matches"};
+            var y = WvwMatch.GetMatchesList();
             foreach (var x in y)
             {
-                MenuItem i = new MenuItem();
-                i.Header = x.Value;
-                i.Tag = x.Key;
-                i.Click += matchSelected;
+                var i = new MenuItem {Header = x.Value, Tag = x.Key};
+                i.Click += MatchSelected;
                 matches.Items.Add(i);
             }
             mainMenu.Items.Add(matches);
 
-            MenuItem menu_options = new MenuItem();
-            menu_options.Header = "Options";
-            menu_options.Click += showOptionsWindow;
-            mainMenu.Items.Add(menu_options);
+            var menuOptions = new MenuItem {Header = "Options"};
+            menuOptions.Click += ShowOptionsWindow;
+            mainMenu.Items.Add(menuOptions);
 
             if (WvwMatch.Options.active_match != null)
             {
-                MenuItem bl_blue = new MenuItem();
-                bl_blue.Header = string.Format("Blue Borderland ({0})", WvwMatch.getServerName("blue"));
-                bl_blue.Tag = "BlueHome";
-                bl_blue.Click += borderlandSelected;
+                var blBlue = new MenuItem {Header = string.Format("Blue Borderland ({0})", WvwMatch.getServerName("blue")),Tag = "BlueHome"};
+                blBlue.Click += BorderlandSelected;
 
-                MenuItem bl_red = new MenuItem();
-                bl_red.Header = string.Format("Red Borderland ({0})", WvwMatch.getServerName("red"));
-                bl_red.Tag = "RedHome";
-                bl_red.Click += borderlandSelected;
+                var blRed = new MenuItem {Header = string.Format("Red Borderland ({0})", WvwMatch.getServerName("red")),Tag = "RedHome"};
+                blRed.Click += BorderlandSelected;
 
-                MenuItem bl_green = new MenuItem();
-                bl_green.Header = string.Format("Green Borderland ({0})", WvwMatch.getServerName("green"));
-                bl_green.Tag = "GreenHome";
-                bl_green.Click += borderlandSelected;
+                var blGreen = new MenuItem {Header = string.Format("Green Borderland ({0})", WvwMatch.getServerName("green")), Tag = "GreenHome"};
+                blGreen.Click += BorderlandSelected;
 
-                MenuItem bl_eb = new MenuItem();
-                bl_eb.Header = "Eternal Battleground";
-                bl_eb.Tag = "Center";
-                bl_eb.Click += borderlandSelected;
+                var blEb = new MenuItem {Header = "Eternal Battleground", Tag = "Center"};
+                blEb.Click += BorderlandSelected;
 
                 mainMenu.Items.Add(new Separator());
                 
-                mainMenu.Items.Add(bl_blue);
-                mainMenu.Items.Add(bl_green);
-                mainMenu.Items.Add(bl_red);
-                mainMenu.Items.Add(bl_eb);
+                mainMenu.Items.Add(blBlue);
+                mainMenu.Items.Add(blGreen);
+                mainMenu.Items.Add(blRed);
+                mainMenu.Items.Add(blEb);
                 
             }
-            MenuItem exit_app = new MenuItem();
-            exit_app.Header = "Exit";
-            exit_app.Click += exitApp;
-            mainMenu.Items.Add(exit_app);
-            this.ContextMenu = mainMenu;
+            var exitApp = new MenuItem {Header = "Exit"};
+            exitApp.Click += ExitApp;
+
+            mainMenu.Items.Add(exitApp);
+            ContextMenu = mainMenu;
         }
 
         public void UpdateTimers(Object source, System.Timers.ElapsedEventArgs e)
         {
-
             if (WvwMatch.Details == null)
                 return;
 
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.ResetText("camp")));
-            DateTime cur = DateTime.Now;
+            AdjustScore();
+
+            var cur = DateTime.Now;
             string eventCamps = "";
 
-            for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
+            for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
             {
                 int map = i;
 
-                for (int m = 0; m < WvwMatch.Details.maps[map].objectives.Count; m++)
+                for (int m = 0; m < WvwMatch.Details.Maps[map].objectives.Count; m++)
                 {
                     int obj = m;
 
-                    TimeSpan diff = cur.Subtract(WvwMatch.Details.maps[map].objectives[obj].last_change);
+                    TimeSpan diff = cur.Subtract(WvwMatch.Details.Maps[map].objectives[obj].last_change);
                     TimeSpan left = TimeSpan.FromMinutes(5) - diff;
                     if (diff < TimeSpan.FromMinutes(5)) 
                     {
-                        if (WvwMatch.Details.maps[map].objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
+                        if (WvwMatch.Details.Maps[map].objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].type)
                         {
                            /* Dictionary<string, string> dict = new Dictionary<string, string>()
                             {
@@ -327,18 +299,18 @@ namespace GWvW_Overlay
                             {
                                 LogWindow.AddCampLog(dict);
                             }));*/
-                            eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.maps[map].objectives[obj].ObjData.name);
+                            eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.Maps[map].objectives[obj].ObjData.name);
                         }
 
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
-                            WvwMatch.Details.maps[map].objectives[obj].time_left = left.ToString(@"mm\:ss");
+                            WvwMatch.Details.Maps[map].objectives[obj].time_left = left.ToString(@"mm\:ss");
                         }));
                     } 
                     else 
                     {
 
-                        if (WvwMatch.Details.maps[map].objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
+                        if (WvwMatch.Details.Maps[map].objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].type)
                         {
                             /*Dictionary<string, string> dict = new Dictionary<string, string>()
                             {
@@ -350,11 +322,11 @@ namespace GWvW_Overlay
                             {
                                 LogWindow.AddCampLog(dict);
                             }));*/
-                            eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.maps[map].objectives[obj].ObjData.name);
+                            eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.Maps[map].objectives[obj].ObjData.name);
                         }
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
-                            WvwMatch.Details.maps[map].objectives[obj].time_left = " ";
+                            WvwMatch.Details.Maps[map].objectives[obj].time_left = " ";
                         }));
                     }
                 }
@@ -363,108 +335,106 @@ namespace GWvW_Overlay
             {
                 LogWindow.txtblk_eventCamp.Text = eventCamps;
             }));
-        }  
+        }
 
-        public void rtvWorldNames()
+        public void AdjustScore()
         {
-            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.getJSON(@"https://api.guildwars2.com/v1/world_names.json"));
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                RedBarGlobal.Width = ScoreBoard.Width * (WvwMatch.Details.Scores[0] / WvwMatch.Details.ScoresSum);
+                BlueBarGlobal.Width = (ScoreBoard.Width * (WvwMatch.Details.Scores[1] / WvwMatch.Details.ScoresSum)) + 1;
+
+                //not impl
+                RedBarBL.Width = 40;
+                BlueBarBL.Width = 10;
+            }));
+        }
+
+        public void RtvWorldNames()
+        {
+            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.GetJson(@"https://api.guildwars2.com/v1/world_names.json"));
 
             Console.WriteLine(WvwMatch.World.Count);
-            WvwMatch.World.Sort((x, y) => y.name != null ? (x.name != null ? x.name.CompareTo(y.name) : 0) : 0);
+            WvwMatch.World.Sort((x, y) => y.name != null ? (x.name != null ? String.Compare(x.name, y.name, StringComparison.Ordinal) : 0) : 0);
         }
 
-        public void rtvObjectiveNames()
+        public void RtvMatches()
         {
-            return;
-            ObjectiveNames = JsonConvert.DeserializeObject<ObjectiveNames_>(Utils.getJSON(@"Resources/objectives.json"));
-            WvwMatch.ObjectiveNames = ObjectiveNames.wvw_objectives;
-            ObjectiveNames.wvw_objectives = null;
-        }
-
-        public void rtvMatches()
-        {
-            jsonMatches = JsonConvert.DeserializeObject<Matches_>(Utils.getJSON("https://api.guildwars2.com/v1/wvw/matches.json"));
-            jsonMatches.wvw_matches.Sort((x, y) => x.wvw_match_id.CompareTo(y.wvw_match_id));
-            WvwMatch.Match = jsonMatches.wvw_matches;
-            jsonMatches = null;
+            _jsonMatches = JsonConvert.DeserializeObject<Matches_>(Utils.GetJson("https://api.guildwars2.com/v1/wvw/matches.json"));
+            _jsonMatches.wvw_matches.Sort((x, y) => y.wvw_match_id != null ? (x.wvw_match_id != null ? String.Compare(x.wvw_match_id, y.wvw_match_id, StringComparison.Ordinal) : 0) : 0);
+            WvwMatch.Match = _jsonMatches.wvw_matches;
+            _jsonMatches = null;
         }
         
-        public void rtvMatchDetails(Object source, System.Timers.ElapsedEventArgs e)
+        public void RtvMatchDetails(Object source, System.Timers.ElapsedEventArgs e)
         {
             if (WvwMatch.Options.active_match == null)
                 return;
 
-            Match_Details = JsonConvert.DeserializeObject<Match_Details_>(Utils.getJSON("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + WvwMatch.Options.active_match));
+            _matchDetails = JsonConvert.DeserializeObject<Match_Details_>(Utils.GetJson("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + WvwMatch.Options.active_match));
 
-            if (WvwMatch.Details == null || ResetMatch)
+            if (WvwMatch.Details == null || _resetMatch)
             {
                 LogWindow.ResetText();
-                WvwMatch.Details = Match_Details;
-                ResetMatch = false;
+                WvwMatch.Details = _matchDetails;
+                _resetMatch = false;
                 WvwMatch.GetBLID();
             }
             else
             { 
-                WvwMatch.Details.match_id = Match_Details.match_id;
-                WvwMatch.Details.scores = Match_Details.scores;
-                for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
+                WvwMatch.Details.match_id = _matchDetails.match_id;
+                WvwMatch.Details.Scores = _matchDetails.Scores;
+                for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
                 {
                     int map = i;
-                    WvwMatch.Details.maps[map].scores = Match_Details.maps[map].scores;
+                    WvwMatch.Details.Maps[map].scores = _matchDetails.Maps[map].scores;
 
-                    for (int m = 0; m < Match_Details.maps[map].objectives.Count; m++)
+                    for (int m = 0; m < _matchDetails.Maps[map].objectives.Count; m++)
                     {
                         int obj = m;
 
                         //Caching Guild info
-                        if(Match_Details.maps[map].objectives[obj].owner_guild != null)
+                        if(_matchDetails.Maps[map].objectives[obj].owner_guild != null)
                         {
-                            GuildData.getGuildByID(Match_Details.maps[map].objectives[obj].owner_guild);
+                            GuildData.GetGuildById(_matchDetails.Maps[map].objectives[obj].owner_guild);
                         }
 
-                        if (WvwMatch.Details.maps[map].objectives[obj].owner != Match_Details.maps[map].objectives[obj].owner)
+                        if (WvwMatch.Details.Maps[map].objectives[obj].owner != _matchDetails.Maps[map].objectives[obj].owner)
                         {
-                            if (WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
+                            if (WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].type)
                             {
-                                Dictionary<string, string> dict = new Dictionary<string, string>() 
+                                var dict = new Dictionary<string, string>
                                     { 
                                         {"time", DateTime.Now.ToString("t")},
-                                        {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
-                                        {"from", WvwMatch.getServerName(WvwMatch.Details.maps[map].objectives[obj].owner)},
-                                        {"from_color", WvwMatch.Details.maps[map].objectives[obj].owner},
-                                        {"to", WvwMatch.getServerName(Match_Details.maps[map].objectives[obj].owner)},
-                                        {"to_color", Match_Details.maps[map].objectives[obj].owner},
+                                        {"objective", WvwMatch.Details.Maps[map].objectives[obj].ObjData.name},
+                                        {"from", WvwMatch.getServerName(WvwMatch.Details.Maps[map].objectives[obj].owner)},
+                                        {"from_color", WvwMatch.Details.Maps[map].objectives[obj].owner},
+                                        {"to", WvwMatch.getServerName(_matchDetails.Maps[map].objectives[obj].owner)},
+                                        {"to_color", _matchDetails.Maps[map].objectives[obj].owner},
                                     };
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, false)));
                             }
 
-                            WvwMatch.Details.maps[map].objectives[obj].owner = Match_Details.maps[map].objectives[obj].owner;
-                            WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
-                            WvwMatch.Details.maps[map].objectives[obj].last_change = DateTime.Now;
+                            WvwMatch.Details.Maps[map].objectives[obj].owner = _matchDetails.Maps[map].objectives[obj].owner;
+                            WvwMatch.Details.Maps[map].objectives[obj].owner_guild = _matchDetails.Maps[map].objectives[obj].owner_guild;
+                            WvwMatch.Details.Maps[map].objectives[obj].last_change = DateTime.Now;
                         }
-                        if (WvwMatch.Details.maps[map].objectives[obj].owner_guild != Match_Details.maps[map].objectives[obj].owner_guild &&
-                            WvwMatch.Details.maps[map].objectives[obj].owner == Match_Details.maps[map].objectives[obj].owner)
+                        if (WvwMatch.Details.Maps[map].objectives[obj].owner_guild != _matchDetails.Maps[map].objectives[obj].owner_guild &&
+                            WvwMatch.Details.Maps[map].objectives[obj].owner == _matchDetails.Maps[map].objectives[obj].owner)
                         {
-                            WvwMatch.Details.maps[map].objectives[obj].owner_guild = Match_Details.maps[map].objectives[obj].owner_guild;
+                            WvwMatch.Details.Maps[map].objectives[obj].owner_guild = _matchDetails.Maps[map].objectives[obj].owner_guild;
 
-                            if (WvwMatch.Options.active_bl == WvwMatch.Details.maps[map].type)
+                            if (WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].type)
                             {
-                                var GuildInfo = GuildData.getGuildByID(WvwMatch.Details.maps[map].objectives[obj].owner_guild);
-                                Dictionary<string, string> dict = new Dictionary<string, string>() 
-                                { 
-                                    {"time", DateTime.Now.ToString("t")},
-                                    {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
-                                    {"owner_color", WvwMatch.Details.maps[map].objectives[obj].owner}
-                                };
-                                if (GuildInfo == null)
-                                    dict.Add("owner", "released"); 
-                                else
-                                    dict.Add("owner", string.Format("[{1}] {0}", GuildInfo[0], GuildInfo[1]));
+                                var guildInfo = GuildData.GetGuildById(WvwMatch.Details.Maps[map].objectives[obj].owner_guild);
+                                var dict = new Dictionary<string, string>
+                                    {
+                                        {"time", DateTime.Now.ToString("t")},
+                                        {"objective", WvwMatch.Details.Maps[map].objectives[obj].ObjData.name},
+                                        {"owner_color", WvwMatch.Details.Maps[map].objectives[obj].owner}, {"owner", guildInfo == null ? "released" : string.Format("[{1}] {0}", guildInfo[0], guildInfo[1])}
+                                    };
 
-                                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                                {
-                                    LogWindow.AddEventLog(dict, true);
-                                }));
+                                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, true)));
                             }
                             
                         }
@@ -475,39 +445,30 @@ namespace GWvW_Overlay
             }
 
             // Fill objective names and icons positions
-            if(WvwMatch.Details.maps[3].objectives[0].ObjData.name == null)
+            if(WvwMatch.Details.Maps[3].objectives[0].ObjData.name == null)
             {
-                for (int i = 0; i < WvwMatch.Details.maps.Count; i++)
+                for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
                 {
                     int map = i;
-                    var ObjData = JsonConvert.DeserializeObject<List<WvwObjective>>(Utils.getJSON(string.Format("Resources/obj_{0}.json", WvwMatch.Details.maps[map].type)));
-                    foreach (var obj in ObjData)
+                    var objData = JsonConvert.DeserializeObject<List<WvwObjective>>(Utils.GetJson(string.Format("Resources/obj_{0}.json", WvwMatch.Details.Maps[map].type)));
+                    foreach (var obj in objData)
                     {
-                        for (int y = 0; y < WvwMatch.Details.maps[map].objectives.Count; y++)
+                        for (int y = 0; y < WvwMatch.Details.Maps[map].objectives.Count; y++)
                         {
-                            int objct = y;
-                            if (obj.id == WvwMatch.Details.maps[map].objectives[objct].id)
-                                WvwMatch.Details.maps[map].objectives[objct].ObjData = obj;
+                            var objct = y;
+                            if (obj.id == WvwMatch.Details.Maps[map].objectives[objct].id)
+                                WvwMatch.Details.Maps[map].objectives[objct].ObjData = obj;
                         }
                     }
                 }
             }
 
-            t3.Start();
+            _t3.Start();
         }
 
-        public ImageSource getPNG(string type, string color)
+        public ImageSource GetPng(string type, string color)
         {
-            string y;
-            if (color == "none")
-            {
-                y = string.Format("Resources/{0}.png", type);
-            }
-            else
-            {
-                y = string.Format("Resources/{0}_{1}.png", type, color.ToLower());
-                
-            }
+            var y = color == "none" ? string.Format("Resources/{0}.png", type) : string.Format("Resources/{0}_{1}.png", type, color.ToLower());
             ImageSource x = new BitmapImage(new Uri(y, UriKind.Relative));
             return x;
         }
@@ -584,36 +545,39 @@ namespace GWvW_Overlay
             }
         }
 
-        public void matchSelected(object sender, EventArgs e)
+        public void MatchSelected(object sender, EventArgs e)
         {
             if (WvwMatch.Options.active_match != (string)((MenuItem)sender).Tag)
             {
-                ResetMatch = true;
+                _resetMatch = true;
                 Icons.ItemsSource = null;
             }
 
             WvwMatch.Options.active_match = (string)((MenuItem)sender).Tag;
-            rtvMatchDetails(null, null);
-            buildMenu();
+            RtvMatchDetails(null, null);
+            BuildMenu();
             //ContextMenu.IsOpen = true;
 
             GetBorderlandSelection();
         }
 
-        public void borderlandSelected(object sender, EventArgs e)
+        public void BorderlandSelected(object sender, EventArgs e)
         {
             string selectedBl = null;
 
-            if (sender is Label)
-                selectedBl = (string) ((Label) sender).Tag;
-            if (sender is MenuItem)
-                selectedBl = (string) ((MenuItem) sender).Tag;
+            var label = sender as Label;
+            if (label != null)
+                selectedBl = (string) label.Tag;
+
+            var item = sender as MenuItem;
+            if (item != null)
+                selectedBl = (string) item.Tag;
             
             if(selectedBl == null)
                 selectedBl = "Center";
 
             WvwMatch.Options.active_bl = selectedBl;
-            Icons.ItemsSource = WvwMatch.Details.maps[WvwMatch.Options.blid[selectedBl]].objectives;
+            Icons.ItemsSource = WvwMatch.Details.Maps[WvwMatch.Options.blid[selectedBl]].objectives;
 
             if (LogWindow != null)
                 LogWindow.lblBLTitle.Content = WvwMatch.Options.active_bl_title;
@@ -623,9 +587,9 @@ namespace GWvW_Overlay
             CnvsBlSelection.Visibility = Visibility.Hidden;
         }
 
-        public void exitApp(object sender, EventArgs e)
+        public void ExitApp(object sender, EventArgs e)
         {
-            UnhookWinEvent(hhook);
+            UnhookWinEvent(_hhook);
             LogWindow.Close();
             Application.Current.Shutdown();
         }
@@ -645,23 +609,15 @@ namespace GWvW_Overlay
             
         }
 
-        private void showOptionsWindow(object sender, EventArgs e)
+        private void ShowOptionsWindow(object sender, EventArgs e)
         {
-            SetOptions optWindow = new SetOptions(LogWindow, WvwMatch);
+            var optWindow = new SetOptions(LogWindow, WvwMatch);
             optWindow.Show();
         }
 
-        private void opcSlider_change(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            Slider x = (Slider)sender;
-            MainWindow1.Opacity = x.Value;
-        }
-
-        
-
         public static Point GetMousePosition() // mouse position relative to screen
         {
-            Natives.Win32Point w32Mouse = new Natives.Win32Point();
+            var w32Mouse = new Natives.Win32Point();
             Natives.GetCursorPos(ref w32Mouse);
             return new Point(w32Mouse.X, w32Mouse.Y);
         }
@@ -669,8 +625,8 @@ namespace GWvW_Overlay
 
         private void Window_SourceInitialized(object sender, EventArgs ea)
         {
-            HwndSource hwndSource = (HwndSource)HwndSource.FromVisual((Window)sender);
-            hwndSource.AddHook(DragHook);
+            var hwndSource = (HwndSource)HwndSource.FromVisual((Window)sender);
+            if (hwndSource != null) hwndSource.AddHook(DragHook);
 
             Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
             foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
@@ -682,19 +638,23 @@ namespace GWvW_Overlay
 
         private IntPtr DragHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            double _aspectRatio = WvwMatch.Options.width / WvwMatch.Options.height;
+            double aspectRatio = WvwMatch.Options.width / WvwMatch.Options.height;
             switch ((Natives.WM)msg)
             {
                 case Natives.WM.WINDOWPOSCHANGING:
                     {
-                        Natives.WINDOWPOS pos = (Natives.WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(Natives.WINDOWPOS));
+                        var pos = (Natives.WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(Natives.WINDOWPOS));
 
                         if ((pos.flags & (int)Natives.SWP.NOMOVE) != 0)
                             return IntPtr.Zero;
 
-                        Window wnd = (Window)HwndSource.FromHwnd(hwnd).RootVisual;
-                        if (wnd == null)
-                            return IntPtr.Zero;
+                        var hwndSource = HwndSource.FromHwnd(hwnd);
+                        if (hwndSource != null)
+                        {
+                            var wnd = (Window)hwndSource.RootVisual;
+                            if (wnd == null)
+                                return IntPtr.Zero;
+                        }
 
                         // determine what dimension is changed by detecting the mouse position relative to the 
                         // window bounds. if gripped in the corner, either will work.
@@ -709,9 +669,9 @@ namespace GWvW_Overlay
                         }
 
                         if (_adjustingHeight.Value)
-                            pos.cy = (int)(pos.cx / _aspectRatio); // adjusting height to width change
+                            pos.cy = (int)(pos.cx / aspectRatio); // adjusting height to width change
                         else
-                            pos.cx = (int)(pos.cy * _aspectRatio); // adjusting width to heigth change
+                            pos.cx = (int)(pos.cy * aspectRatio); // adjusting width to heigth change
 
                         Marshal.StructureToPtr(pos, lParam, true);
                         handled = true;
@@ -727,7 +687,7 @@ namespace GWvW_Overlay
 
         private void MainClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            UnhookWinEvent(hhook);
+            UnhookWinEvent(_hhook);
             LogWindow.Close();
             Properties.Settings.Default.Save();
         }
@@ -771,14 +731,14 @@ namespace GWvW_Overlay
             if (LstbxMatchSelection.SelectedItem != null)
             {
                 WvwMatch.Options.active_match = (string) LstbxMatchSelection.SelectedValue;
-                rtvMatchDetails(null, null);
+                RtvMatchDetails(null, null);
                 goto RetriveAndSelect;
             }
 
         SaveAndSelect:
             AutoMatchSetActiveMatch();
         RetriveAndSelect:
-            buildMenu();
+            BuildMenu();
             cnvsMatchSelection.Visibility = Visibility.Hidden;
             GetBorderlandSelection();
         }
@@ -788,7 +748,7 @@ namespace GWvW_Overlay
             if (CmbbxHomeServerSelection.SelectedItem == null)
                 return;
 
-            World_Names_ selection = (World_Names_) CmbbxHomeServerSelection.SelectedItem;
+            var selection = (World_Names_) CmbbxHomeServerSelection.SelectedItem;
 
             Console.WriteLine(selection.name);
 

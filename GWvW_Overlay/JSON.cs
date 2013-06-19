@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using GWvW_Overlay.Annotations;
 
 namespace GWvW_Overlay
 {
@@ -192,18 +191,20 @@ namespace GWvW_Overlay
     public class Match_Details_
     {
         public string match_id { get; set; }
-        public List<int> scores { get; set; }
-        public List<Map> maps { get; set; }
+        public List<int> Scores { get; set; }
+        public List<Map> Maps { get; set; }
+
+        public double ScoresSum
+        {
+            get { return Scores.Sum(); }
+        }
     }
 
     public class Objective : INotifyPropertyChanged
     {
-        Guild GuildData;
-
         public Objective()
         {
             ObjData = new WvwObjective();
-            //GuildData = new Guild();
         }
         public WvwObjective ObjData { get; set; }
         public int id { get; set; }
@@ -307,8 +308,8 @@ namespace GWvW_Overlay
         public int _active_blid;
         private string _active_map_img = "Resources/mapeb.png";
 
-        private double _width = 500;
-        private double _height = 500;
+        private double _width = 400;
+        private double _height = 400;
 
         private string _active_bl_title;
         public string _active_match;// = "1-1";
@@ -348,29 +349,28 @@ namespace GWvW_Overlay
             {
                 if (value != _active_bl)
                 {
-                    if (value == "RedHome")
+                    switch (value)
                     {
-                        active_bl_title = "Red Borderlands";
-                        active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(374.412, 498.355); //"498.355" Width="374.412"
-                    }
-                    else if (value == "GreenHome")
-                    {
-                        active_bl_title = "Green Borderlands";
-                        active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(374.412, 498.355);
-                    }
-                    else if (value == "BlueHome")
-                    {
-                        active_bl_title = "Blue Borderlands";
-                        active_map_img = "Resources/mapbl.png";
-                        ChangeWindowSize(374.412, 498.355);
-                    }
-                    else
-                    {
-                        active_bl_title = "Eternal Battlegrounds";
-                        active_map_img = "Resources/mapeb.png";
-                        ChangeWindowSize(500, 500);
+                        case "RedHome":
+                            active_bl_title = "Red Borderlands";
+                            active_map_img = "Resources/mapbl.png";
+                            ChangeWindowSize(274.412, 398.355); //374.412 498.355
+                            break;
+                        case "GreenHome":
+                            active_bl_title = "Green Borderlands";
+                            active_map_img = "Resources/mapbl.png";
+                            ChangeWindowSize(274.412, 398.355);
+                            break;
+                        case "BlueHome":
+                            active_bl_title = "Blue Borderlands";
+                            active_map_img = "Resources/mapbl.png";
+                            ChangeWindowSize(274.412, 398.355);
+                            break;
+                        default:
+                            active_bl_title = "Eternal Battlegrounds";
+                            active_map_img = "Resources/mapeb.png";
+                            ChangeWindowSize(400, 400);
+                            break;
                     }
 
                     _active_bl = value;
@@ -453,10 +453,10 @@ namespace GWvW_Overlay
         public void GetBLID()
         {
             Dictionary<string, int> dict = new Dictionary<string, int>();
-            for (int i = 0; i < Details.maps.Count; i++)
+            for (int i = 0; i < Details.Maps.Count; i++)
             {
                 int map_id = i;
-                dict.Add(Details.maps[map_id].type, map_id);
+                dict.Add(Details.Maps[map_id].type, map_id);
             }
             Options.blid = dict;
         }
@@ -469,14 +469,14 @@ namespace GWvW_Overlay
             }
         }
 
-        public Dictionary<string, string> getMatchesList()
+        public Dictionary<string, string> GetMatchesList()
         {
-            Dictionary<string, string> ret = new Dictionary<string, string>();
+            var ret = new Dictionary<string, string>();
             foreach (var x in Match)
             {
-                string match_name = string.Format("{0}. {3} vs {2} vs {1}", x.wvw_match_id, getServerName(x.red_world_id), getServerName(x.blue_world_id), getServerName(x.green_world_id));
-                x.wvw_match_string = match_name;
-                ret.Add(x.wvw_match_id, match_name);
+                var matchName = string.Format("{0}. {3} vs {2} vs {1}", x.wvw_match_id, getServerName(x.red_world_id), getServerName(x.blue_world_id), getServerName(x.green_world_id));
+                x.wvw_match_string = matchName;
+                ret.Add(x.wvw_match_id, matchName);
             }
             return ret.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
         }

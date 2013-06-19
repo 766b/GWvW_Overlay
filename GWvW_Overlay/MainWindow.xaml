@@ -3,7 +3,7 @@
         mc:Ignorable="d" x:Name="MainWindow1" x:Class="GWvW_Overlay.MainWindow" Title="GWvW Overlay" 
         WindowStartupLocation="CenterScreen" WindowStyle="None" Height="{Binding Options.height}" Width="{Binding Options.width}" MinHeight="{Binding Options.height}" MinWidth="{Binding Options.width}"
         Foreground="{x:Null}" Background="{x:Null}" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
-        AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="{Binding Source={x:Static Properties:Settings.Default}, Path=opticity}" MouseDown="Drag" Loaded="onLoad"
+        AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="{Binding Source={x:Static Properties:Settings.Default}, Path=opticity}" MouseDown="Drag" Loaded="OnLoad"
         xmlns:Properties="clr-namespace:GWvW_Overlay.Properties" Closing="MainClosing">
 
     <Window.Resources>
@@ -19,7 +19,7 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                     <Canvas Panel.ZIndex="200">
-                    <Image Height="24" Width="24" Stretch="Fill">
+                        <Image Height="24" Width="24" Stretch="Fill">
                         <Image.Source>
                             <MultiBinding Converter="{StaticResource getIMG}">
                                 <Binding Path="ObjData.type"/>
@@ -28,7 +28,7 @@
                         </Image.Source>
                     </Image>
                     <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                    <Label Content="{Binding Path=ObjData.name, Converter={StaticResource getName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White" />
+                    <Label Content="{Binding Path=ObjData.name, Converter={StaticResource getName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
                         <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=owner_guild, Converter={StaticResource getClaimed}}">
                             <!--<Image.ToolTip>
                                 <StackPanel>
@@ -43,7 +43,7 @@
             <ItemsPanelTemplate>
                 <Canvas>
                     <Canvas.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="{Binding Options.active_map_img}" />
+                        <ImageBrush Stretch="Fill" ImageSource="{Binding Options.active_map_img}" />
                     </Canvas.Background>
                 </Canvas>
             </ItemsPanelTemplate>
@@ -57,11 +57,18 @@
     </ItemsControl>
 
         <Canvas HorizontalAlignment="Center">
-            <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="300" Canvas.Left="-150" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
+            <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="200" Canvas.Left="-100" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
                 <Label.Background>
                     <ImageBrush ImageSource="Resources/panel2.png"/>
                 </Label.Background>
             </Label>
+            <Canvas Name="ScoreBoard" Height="9" Width="280" Canvas.Left="-140" Canvas.Top="24" Background="Green" Visibility="Hidden">
+                <TextBlock Name="RedBarGlobal" Width="0" Canvas.Left="0" Background="Firebrick" Height="4"></TextBlock>
+                <TextBlock Name="BlueBarGlobal" Canvas.Left="{Binding ElementName=RedBarGlobal, Path=Width}" Background="SteelBlue" Height="4"></TextBlock>
+                <Canvas Height="1" Width="280" Canvas.Top="4" Background="Black" />
+                <TextBlock Name="RedBarBL" Width="0" Canvas.Top="5" Canvas.Left="0" Background="Firebrick" Height="4"></TextBlock>
+                <TextBlock Name="BlueBarBL" Canvas.Top="5" Canvas.Left="{Binding ElementName=RedBarBL, Path=Width}" Background="SteelBlue" Height="4"></TextBlock>
+            </Canvas>
 
             <Canvas Name="CnvsBlSelection"  Visibility="Hidden" Height="150" Width="213" Canvas.Left="-99" Canvas.Top="41" Background="#FF363639">
                 <Label Content="Borderland Selection" Width="213" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
@@ -69,7 +76,7 @@
                         <SolidColorBrush Color="#FF212024"/>
                     </Label.Background>
                 </Label>
-                <Label x:Name="LblGreenBl" Content="Green" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Canvas.Left="10" Canvas.Top="31" Foreground="Green" Tag="GreenHome" MouseDown="borderlandSelected" >
+                <Label x:Name="LblGreenBl" Content="Green" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Canvas.Left="10" Canvas.Top="31" Foreground="Green" Tag="GreenHome" MouseDown="BorderlandSelected" >
                     <Label.Style>
                         <Style>
                             <Setter Property="Panel.Background" Value="#FF212024" />
@@ -81,7 +88,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="LblBlueBl" Content="Blue" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="SteelBlue" Canvas.Left="10" Canvas.Top="60" Tag="BlueHome" MouseDown="borderlandSelected">
+                <Label x:Name="LblBlueBl" Content="Blue" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="SteelBlue" Canvas.Left="10" Canvas.Top="60" Tag="BlueHome" MouseDown="BorderlandSelected">
                     <Label.Style>
                         <Style>
                             <Setter Property="Panel.Background" Value="#FF212024" />
@@ -93,7 +100,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="LblRedBl" Content="Red" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="Firebrick" Canvas.Left="10" Canvas.Top="89" Tag="RedHome" MouseDown="borderlandSelected">
+                <Label x:Name="LblRedBl" Content="Red" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="Firebrick" Canvas.Left="10" Canvas.Top="89" Tag="RedHome" MouseDown="BorderlandSelected">
                     <Label.Style>
                         <Style>
                             <Setter Property="Panel.Background" Value="#FF212024" />
@@ -105,7 +112,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="LblEbBl" Content="Eternal Battlegrounds" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFC5C5C5" Canvas.Left="10" Canvas.Top="118" Tag="Center" MouseDown="borderlandSelected">
+                <Label x:Name="LblEbBl" Content="Eternal Battlegrounds" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFC5C5C5" Canvas.Left="10" Canvas.Top="118" Tag="Center" MouseDown="BorderlandSelected">
                     <Label.Style>
                         <Style>
                             <Setter Property="Panel.Background" Value="#FF212024" />
@@ -119,7 +126,7 @@
                 </Label>
             </Canvas>
 
-            <Canvas Visibility="Visible" Name="cnvsMatchSelection" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="389" Background="#FF363639" Canvas.Top="61" Canvas.Left="-205">
+            <Canvas Visibility="Visible" Name="cnvsMatchSelection" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="389" Background="#FF363639" Canvas.Top="0" Canvas.Left="-195">
                 <Label Content="Match Selection" Width="389" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
                     <Label.Background>
                         <SolidColorBrush Color="#FF212024"/>
