@@ -296,9 +296,19 @@ namespace GWvW_Overlay
 
     public class Map
     {
-        public string type { get; set; }
-        public List<int> scores { get; set; }
-        public List<Objective> objectives { get; set; }
+        public string Type { get; set; }
+        public List<int> Scores { get; set; }
+        public List<Objective> Objectives { get; set; }
+
+        public double ScoresSum
+        {
+            get { return Scores.Sum(); }
+        }
+
+        public int CountObjType(string type, string color)
+        {
+            return Objectives.Count(obj => obj.ObjData.type.ToLower() == type.ToLower() && obj.owner.ToLower() == color.ToLower());
+        }
     }
 
     public class Options_ : INotifyPropertyChanged
@@ -306,6 +316,8 @@ namespace GWvW_Overlay
         private string _active_bl = "Center";
         public Dictionary<string, int> blid;
         public int _active_blid;
+        public string HomeServerColor;
+
         private string _active_map_img = "Resources/mapeb.png";
 
         private double _width = 400;
@@ -353,22 +365,22 @@ namespace GWvW_Overlay
                     {
                         case "RedHome":
                             active_bl_title = "Red Borderlands";
-                            active_map_img = "Resources/mapbl.png";
+                            active_map_img = "Resources/mapbl_normal.png";
                             ChangeWindowSize(274.412, 398.355); //374.412 498.355
                             break;
                         case "GreenHome":
                             active_bl_title = "Green Borderlands";
-                            active_map_img = "Resources/mapbl.png";
+                            active_map_img = "Resources/mapbl_normal.png";
                             ChangeWindowSize(274.412, 398.355);
                             break;
                         case "BlueHome":
                             active_bl_title = "Blue Borderlands";
-                            active_map_img = "Resources/mapbl.png";
+                            active_map_img = "Resources/mapbl_normal.png";
                             ChangeWindowSize(274.412, 398.355);
                             break;
                         default:
                             active_bl_title = "Eternal Battlegrounds";
-                            active_map_img = "Resources/mapeb.png";
+                            active_map_img = "Resources/mapeb_normal.png";
                             ChangeWindowSize(400, 400);
                             break;
                     }
@@ -456,7 +468,7 @@ namespace GWvW_Overlay
             for (int i = 0; i < Details.Maps.Count; i++)
             {
                 int map_id = i;
-                dict.Add(Details.Maps[map_id].type, map_id);
+                dict.Add(Details.Maps[map_id].Type, map_id);
             }
             Options.blid = dict;
         }
@@ -506,6 +518,25 @@ namespace GWvW_Overlay
                     return x.name;
             }
             return string.Format("SERVER_{0}_NOT_FOUND", ID);
+        }
+
+        public string HomeServerColor
+        {
+            get { return Options.HomeServerColor ?? (Options.HomeServerColor = GetServerColor()); }
+        }
+
+        public string GetServerColor()
+        {
+            foreach (var x in Match)
+            {
+                if ((int)Properties.Settings.Default["home_server"] == x.red_world_id)// && x.red_world_id == id)
+                    return "red";
+                if ((int)Properties.Settings.Default["home_server"] == x.green_world_id)// && x.green_world_id == id)
+                    return "green";
+                if ((int)Properties.Settings.Default["home_server"] == x.blue_world_id)// && x.blue_world_id == id)
+                    return "blue";
+            }
+            return "black";
         }
     }
 

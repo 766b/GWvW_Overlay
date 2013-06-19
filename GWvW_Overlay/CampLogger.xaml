@@ -22,8 +22,37 @@
                 <DropShadowEffect BlurRadius="2" ShadowDepth="1"/>
             </TextBlock.Effect>
         </TextBlock>
-        <Canvas Margin="0,135,0,5" Background="#FFDD9900" />
-        <RichTextBox x:Name="eventLog" Foreground="{x:Null}" IsReadOnly="True" SelectionBrush="{x:Null}" Focusable="False" Margin="-1,136,-1,-261" Grid.RowSpan="2" Background="{x:Null}">
+
+        <Canvas Margin="0,135,0,185" Background="#FFDD9900" Grid.RowSpan="2">
+            <Ellipse Width="15" Height="15" Canvas.Left="20" Canvas.Top="1" Fill="OrangeRed" StrokeThickness="0"/>
+            <Ellipse Width="20" Height="20" Canvas.Left="3" Canvas.Top="1" Fill="#FFC9C9C9" StrokeThickness="0"/>
+
+            <Ellipse Width="15" Height="15" Canvas.Left="57" Canvas.Top="1" Fill="OrangeRed" StrokeThickness="0"/>
+            <Ellipse Width="20" Height="20" Canvas.Left="40" Canvas.Top="1" Fill="#FFC9C9C9" StrokeThickness="0"/>
+
+            <Ellipse Width="15" Height="15" Canvas.Left="94" Canvas.Top="1" Fill="OrangeRed" StrokeThickness="0"/>
+            <Ellipse Width="20" Height="20" Canvas.Left="77" Canvas.Top="1" Fill="#FFC9C9C9" StrokeThickness="0"/>
+
+            <Ellipse Width="15" Height="15" Canvas.Left="132" Canvas.Top="1" Fill="OrangeRed" StrokeThickness="0"/>
+            <Ellipse Width="20" Height="20" Canvas.Left="115" Canvas.Top="1" Fill="#FFC9C9C9" StrokeThickness="0"/>
+            
+            <Image Source="Resources/Icon/camp_icon.png" Canvas.Left="5" Canvas.Top="4"/>
+            <Image Source="Resources/Icon/tower_icon.png" Canvas.Left="45" Canvas.Top="3" Width="10"/>
+            <Image Source="Resources/Icon/keep_icon.png" Canvas.Left="80" Canvas.Top="4"/>
+            <Image Source="Resources/Icon/castle_icon.png" Canvas.Left="118" Canvas.Top="3"/>
+            
+            <Label Name="LblKeepCount" Content="3" Canvas.Left="94" Canvas.Top="-5"/>
+            <Label Name="LblTowerCount" Content="3" Canvas.Left="57" Canvas.Top="-5"/>
+            <Label Name="LblCampCount" Content="2" Canvas.Left="19" Canvas.Top="-5"/>
+            <Label Name="LblCastleCount" Content="0" Canvas.Left="131" Canvas.Top="-5"/>
+
+            <Canvas Name="RedScoreLocal" Width="1" Height="4" Background="Firebrick" Canvas.Left="158" Canvas.Top="5"></Canvas>
+            <Canvas Name="BlueScoreLocal" Width="1" Height="4" Background="SteelBlue" Canvas.Left="158" Canvas.Top="9"></Canvas>
+            <Canvas Name="GreenScoreLocal" Width="1" Height="4" Background="Green" Canvas.Left="158" Canvas.Top="13"></Canvas>
+
+            
+        </Canvas>
+        <RichTextBox x:Name="eventLog" Foreground="{x:Null}" IsReadOnly="True" SelectionBrush="{x:Null}" Focusable="False" Margin="-1,21,-1,-263" Background="{x:Null}" Grid.Row="1">
             <RichTextBox.Effect>
                 <DropShadowEffect BlurRadius="2" ShadowDepth="1"/>
             </RichTextBox.Effect>
@@ -51,7 +80,7 @@
             </RichTextBox.BorderBrush>
         </RichTextBox>
 
-        <Canvas x:Name="cnvsPromt" Background="#FFE6E6E6" Height="148" VerticalAlignment="Top" Panel.ZIndex="150" Visibility="Visible" Grid.RowSpan="2" Margin="1,31,-1,0">
+        <Canvas x:Name="cnvsPromt" Background="#FFE6E6E6" Height="148" VerticalAlignment="Top" Panel.ZIndex="150" Visibility="Hidden" Grid.RowSpan="2" Margin="1,31,-1,0">
             <Button x:Name="btnSetClicktrough" Content="Save Position and Click-trough" HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" Grid.Row="1" BorderBrush="Red" Click="btnSetClicktrough_Click" Canvas.Left="74" Canvas.Top="95"/>
             <TextBlock Height="85" Canvas.Left="10" TextWrapping="Wrap" Text="Position the windows and click the button below to make it unobtrusive to your game play. [Alt+Tab] to reset. Can also be reset in Options. If you don't need event log but want the timers, just resize the window until you can't see the bottom portion." Canvas.Top="10" Width="310" Foreground="Black"/>
             <Button x:Name="btnSetHide" Content="I don't need this. Hide it." HorizontalAlignment="Left" VerticalAlignment="Top" Width="178" BorderBrush="Red" Canvas.Left="74" Canvas.Top="122" Click="btnSetHide_Click" RenderTransformOrigin="0.404,1.045"/>

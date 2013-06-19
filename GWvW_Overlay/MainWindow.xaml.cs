@@ -132,7 +132,7 @@ namespace GWvW_Overlay
 
             foreach (Map map in WvwMatch.Details.Maps)
             {
-                foreach (Objective obj in map.objectives)
+                foreach (Objective obj in map.Objectives)
                 {
                     DateTime cur = DateTime.Now;
 
@@ -279,15 +279,15 @@ namespace GWvW_Overlay
             {
                 int map = i;
 
-                for (int m = 0; m < WvwMatch.Details.Maps[map].objectives.Count; m++)
+                for (int m = 0; m < WvwMatch.Details.Maps[map].Objectives.Count; m++)
                 {
                     int obj = m;
 
-                    TimeSpan diff = cur.Subtract(WvwMatch.Details.Maps[map].objectives[obj].last_change);
+                    TimeSpan diff = cur.Subtract(WvwMatch.Details.Maps[map].Objectives[obj].last_change);
                     TimeSpan left = TimeSpan.FromMinutes(5) - diff;
                     if (diff < TimeSpan.FromMinutes(5)) 
                     {
-                        if (WvwMatch.Details.Maps[map].objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].type)
+                        if (WvwMatch.Details.Maps[map].Objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                         {
                            /* Dictionary<string, string> dict = new Dictionary<string, string>()
                             {
@@ -299,18 +299,18 @@ namespace GWvW_Overlay
                             {
                                 LogWindow.AddCampLog(dict);
                             }));*/
-                            eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.Maps[map].objectives[obj].ObjData.name);
+                            eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name);
                         }
 
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
-                            WvwMatch.Details.Maps[map].objectives[obj].time_left = left.ToString(@"mm\:ss");
+                            WvwMatch.Details.Maps[map].Objectives[obj].time_left = left.ToString(@"mm\:ss");
                         }));
                     } 
                     else 
                     {
 
-                        if (WvwMatch.Details.Maps[map].objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].type)
+                        if (WvwMatch.Details.Maps[map].Objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                         {
                             /*Dictionary<string, string> dict = new Dictionary<string, string>()
                             {
@@ -322,11 +322,11 @@ namespace GWvW_Overlay
                             {
                                 LogWindow.AddCampLog(dict);
                             }));*/
-                            eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.Maps[map].objectives[obj].ObjData.name);
+                            eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name);
                         }
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
-                            WvwMatch.Details.Maps[map].objectives[obj].time_left = " ";
+                            WvwMatch.Details.Maps[map].Objectives[obj].time_left = " ";
                         }));
                     }
                 }
@@ -339,6 +339,25 @@ namespace GWvW_Overlay
 
         public void AdjustScore()
         {
+            //Tracker
+            
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    if(LogWindow != null)
+                    {
+                        LogWindow.RedScoreLocal.Width = 120 * (WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores[0] / WvwMatch.Details.Maps[WvwMatch.Options.active_blid].ScoresSum);
+                        LogWindow.BlueScoreLocal.Width = 120 * (WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores[1] / WvwMatch.Details.Maps[WvwMatch.Options.active_blid].ScoresSum);
+                        LogWindow.GreenScoreLocal.Width = 120 * (WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores[2] / WvwMatch.Details.Maps[WvwMatch.Options.active_blid].ScoresSum);
+
+                        LogWindow.LblCampCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("camp", WvwMatch.HomeServerColor);
+                        LogWindow.LblTowerCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("tower", WvwMatch.HomeServerColor);
+                        LogWindow.LblCastleCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("castle", WvwMatch.HomeServerColor);
+                        LogWindow.LblKeepCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("keep", WvwMatch.HomeServerColor);
+                    }
+            }));
+            
+
+            //Main map
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
             {
                 RedBarGlobal.Width = ScoreBoard.Width * (WvwMatch.Details.Scores[0] / WvwMatch.Details.ScoresSum);
@@ -375,10 +394,14 @@ namespace GWvW_Overlay
 
             if (WvwMatch.Details == null || _resetMatch)
             {
-                LogWindow.ResetText();
-                WvwMatch.Details = _matchDetails;
-                _resetMatch = false;
-                WvwMatch.GetBLID();
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    LogWindow.ResetText();
+                }));
+                    WvwMatch.Details = _matchDetails;
+                    _resetMatch = false;
+                    WvwMatch.GetBLID();
+                
             }
             else
             { 
@@ -387,51 +410,51 @@ namespace GWvW_Overlay
                 for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
                 {
                     int map = i;
-                    WvwMatch.Details.Maps[map].scores = _matchDetails.Maps[map].scores;
+                    WvwMatch.Details.Maps[map].Scores = _matchDetails.Maps[map].Scores;
 
-                    for (int m = 0; m < _matchDetails.Maps[map].objectives.Count; m++)
+                    for (int m = 0; m < _matchDetails.Maps[map].Objectives.Count; m++)
                     {
                         int obj = m;
 
                         //Caching Guild info
-                        if(_matchDetails.Maps[map].objectives[obj].owner_guild != null)
+                        if(_matchDetails.Maps[map].Objectives[obj].owner_guild != null)
                         {
-                            GuildData.GetGuildById(_matchDetails.Maps[map].objectives[obj].owner_guild);
+                            GuildData.GetGuildById(_matchDetails.Maps[map].Objectives[obj].owner_guild);
                         }
 
-                        if (WvwMatch.Details.Maps[map].objectives[obj].owner != _matchDetails.Maps[map].objectives[obj].owner)
+                        if (WvwMatch.Details.Maps[map].Objectives[obj].owner != _matchDetails.Maps[map].Objectives[obj].owner)
                         {
-                            if (WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].type)
+                            if (WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                             {
                                 var dict = new Dictionary<string, string>
                                     { 
                                         {"time", DateTime.Now.ToString("t")},
-                                        {"objective", WvwMatch.Details.Maps[map].objectives[obj].ObjData.name},
-                                        {"from", WvwMatch.getServerName(WvwMatch.Details.Maps[map].objectives[obj].owner)},
-                                        {"from_color", WvwMatch.Details.Maps[map].objectives[obj].owner},
-                                        {"to", WvwMatch.getServerName(_matchDetails.Maps[map].objectives[obj].owner)},
-                                        {"to_color", _matchDetails.Maps[map].objectives[obj].owner},
+                                        {"objective", WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name},
+                                        {"from", WvwMatch.getServerName(WvwMatch.Details.Maps[map].Objectives[obj].owner)},
+                                        {"from_color", WvwMatch.Details.Maps[map].Objectives[obj].owner},
+                                        {"to", WvwMatch.getServerName(_matchDetails.Maps[map].Objectives[obj].owner)},
+                                        {"to_color", _matchDetails.Maps[map].Objectives[obj].owner},
                                     };
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, false)));
                             }
 
-                            WvwMatch.Details.Maps[map].objectives[obj].owner = _matchDetails.Maps[map].objectives[obj].owner;
-                            WvwMatch.Details.Maps[map].objectives[obj].owner_guild = _matchDetails.Maps[map].objectives[obj].owner_guild;
-                            WvwMatch.Details.Maps[map].objectives[obj].last_change = DateTime.Now;
+                            WvwMatch.Details.Maps[map].Objectives[obj].owner = _matchDetails.Maps[map].Objectives[obj].owner;
+                            WvwMatch.Details.Maps[map].Objectives[obj].owner_guild = _matchDetails.Maps[map].Objectives[obj].owner_guild;
+                            WvwMatch.Details.Maps[map].Objectives[obj].last_change = DateTime.Now;
                         }
-                        if (WvwMatch.Details.Maps[map].objectives[obj].owner_guild != _matchDetails.Maps[map].objectives[obj].owner_guild &&
-                            WvwMatch.Details.Maps[map].objectives[obj].owner == _matchDetails.Maps[map].objectives[obj].owner)
+                        if (WvwMatch.Details.Maps[map].Objectives[obj].owner_guild != _matchDetails.Maps[map].Objectives[obj].owner_guild &&
+                            WvwMatch.Details.Maps[map].Objectives[obj].owner == _matchDetails.Maps[map].Objectives[obj].owner)
                         {
-                            WvwMatch.Details.Maps[map].objectives[obj].owner_guild = _matchDetails.Maps[map].objectives[obj].owner_guild;
+                            WvwMatch.Details.Maps[map].Objectives[obj].owner_guild = _matchDetails.Maps[map].Objectives[obj].owner_guild;
 
-                            if (WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].type)
+                            if (WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                             {
-                                var guildInfo = GuildData.GetGuildById(WvwMatch.Details.Maps[map].objectives[obj].owner_guild);
+                                var guildInfo = GuildData.GetGuildById(WvwMatch.Details.Maps[map].Objectives[obj].owner_guild);
                                 var dict = new Dictionary<string, string>
                                     {
                                         {"time", DateTime.Now.ToString("t")},
-                                        {"objective", WvwMatch.Details.Maps[map].objectives[obj].ObjData.name},
-                                        {"owner_color", WvwMatch.Details.Maps[map].objectives[obj].owner}, {"owner", guildInfo == null ? "released" : string.Format("[{1}] {0}", guildInfo[0], guildInfo[1])}
+                                        {"objective", WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name},
+                                        {"owner_color", WvwMatch.Details.Maps[map].Objectives[obj].owner}, {"owner", guildInfo == null ? "released" : string.Format("[{1}] {0}", guildInfo[0], guildInfo[1])}
                                     };
 
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, true)));
@@ -445,19 +468,19 @@ namespace GWvW_Overlay
             }
 
             // Fill objective names and icons positions
-            if(WvwMatch.Details.Maps[3].objectives[0].ObjData.name == null)
+            if(WvwMatch.Details.Maps[3].Objectives[0].ObjData.name == null)
             {
                 for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
                 {
                     int map = i;
-                    var objData = JsonConvert.DeserializeObject<List<WvwObjective>>(Utils.GetJson(string.Format("Resources/obj_{0}.json", WvwMatch.Details.Maps[map].type)));
+                    var objData = JsonConvert.DeserializeObject<List<WvwObjective>>(Utils.GetJson(string.Format("Resources/obj_{0}.json", WvwMatch.Details.Maps[map].Type)));
                     foreach (var obj in objData)
                     {
-                        for (int y = 0; y < WvwMatch.Details.Maps[map].objectives.Count; y++)
+                        for (int y = 0; y < WvwMatch.Details.Maps[map].Objectives.Count; y++)
                         {
                             var objct = y;
-                            if (obj.id == WvwMatch.Details.Maps[map].objectives[objct].id)
-                                WvwMatch.Details.Maps[map].objectives[objct].ObjData = obj;
+                            if (obj.id == WvwMatch.Details.Maps[map].Objectives[objct].id)
+                                WvwMatch.Details.Maps[map].Objectives[objct].ObjData = obj;
                         }
                     }
                 }
@@ -577,7 +600,7 @@ namespace GWvW_Overlay
                 selectedBl = "Center";
 
             WvwMatch.Options.active_bl = selectedBl;
-            Icons.ItemsSource = WvwMatch.Details.Maps[WvwMatch.Options.blid[selectedBl]].objectives;
+            Icons.ItemsSource = WvwMatch.Details.Maps[WvwMatch.Options.blid[selectedBl]].Objectives;
 
             if (LogWindow != null)
                 LogWindow.lblBLTitle.Content = WvwMatch.Options.active_bl_title;

@@ -48,7 +48,16 @@ namespace GWvW_Overlay
             if (!GuildDict.ContainsKey(id))
             {
                 var data = JsonConvert.DeserializeObject<Guild_Details_>(Utils.GetJson(string.Format(@"https://api.guildwars2.com/v1/guild_details.json?guild_id={0}", id)));
-                GuildDict.Add(id, new List<string>() { data.guild_name, data.tag });
+                try
+                {
+                    GuildDict.Add(id, new List<string>() { data.guild_name, data.tag });
+                }
+                catch (Exception e)
+                {
+                    
+                    Console.WriteLine("Error " + "occurred: {0}", e);
+                }
+                
                 _changeCounter++;
             }
 
