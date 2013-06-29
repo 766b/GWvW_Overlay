@@ -27,7 +27,7 @@
     <InstallUrl>https://dl.dropboxusercontent.com/u/10680644/gwvw/</InstallUrl>
     <SupportUrl>https://github.com/Awaken6389/GWvW_Overlay</SupportUrl>
     <ProductName>GWvW Overlay</ProductName>
-    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationRevision>37</ApplicationRevision>
     <ApplicationVersion>0.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -100,6 +100,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CampLogger.xaml.cs">
       <DependentUpon>CampLogger.xaml</DependentUpon>
     </Compile>
@@ -113,6 +116,10 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Utils.cs" />
+    <Page Include="About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CampLogger.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,11 +203,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\mapbl.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\camp_green.png" />
     <Resource Include="Resources\camp_red.png">
       <CustomToolNamespace>camp_red</CustomToolNamespace>
@@ -237,11 +239,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\mapeb.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\panel2.png" />

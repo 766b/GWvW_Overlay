@@ -258,6 +258,10 @@ namespace GWvW_Overlay
                 mainMenu.Items.Add(blEb);
                 
             }
+            var aboutWin = new MenuItem { Header = "About" };
+            aboutWin.Click += ShowAboutWin;
+            mainMenu.Items.Add(aboutWin);
+
             var exitApp = new MenuItem {Header = "Exit"};
             exitApp.Click += ExitApp;
 
@@ -636,6 +640,12 @@ namespace GWvW_Overlay
         {
             var optWindow = new SetOptions(LogWindow, WvwMatch);
             optWindow.Show();
+        }
+
+        private void ShowAboutWin(object sender, EventArgs e)
+        {
+            var aboutWindow = new About();
+            aboutWindow.Show();
         }
 
         public static Point GetMousePosition() // mouse position relative to screen

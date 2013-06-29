@@ -69,8 +69,8 @@ namespace GWvW_Overlay
         {
             if (!(bool)Properties.Settings.Default["tracker_show_event"])
             {
-                Properties.Settings.Default["tracker_height"] = 140.0;
-                _track.Height = 140;
+                Properties.Settings.Default["tracker_height"] = 157.0;
+                _track.Height = 157;
             }
             else
             {

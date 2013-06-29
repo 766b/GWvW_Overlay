@@ -41,16 +41,15 @@
             <Image Source="Resources/Icon/keep_icon.png" Canvas.Left="80" Canvas.Top="4"/>
             <Image Source="Resources/Icon/castle_icon.png" Canvas.Left="118" Canvas.Top="3"/>
             
-            <Label Name="LblKeepCount" Content="3" Canvas.Left="94" Canvas.Top="-5"/>
-            <Label Name="LblTowerCount" Content="3" Canvas.Left="57" Canvas.Top="-5"/>
-            <Label Name="LblCampCount" Content="2" Canvas.Left="19" Canvas.Top="-5"/>
-            <Label Name="LblCastleCount" Content="0" Canvas.Left="131" Canvas.Top="-5"/>
+            <Label Name="LblKeepCount" Canvas.Left="94" Canvas.Top="-5"/>
+            <Label Name="LblTowerCount" Canvas.Left="57" Canvas.Top="-5"/>
+            <Label Name="LblCampCount" Canvas.Left="19" Canvas.Top="-5"/>
+            <Label Name="LblCastleCount" Canvas.Left="131" Canvas.Top="-5"/>
 
             <Canvas Name="RedScoreLocal" Width="1" Height="4" Background="Firebrick" Canvas.Left="158" Canvas.Top="5"></Canvas>
             <Canvas Name="BlueScoreLocal" Width="1" Height="4" Background="SteelBlue" Canvas.Left="158" Canvas.Top="9"></Canvas>
             <Canvas Name="GreenScoreLocal" Width="1" Height="4" Background="Green" Canvas.Left="158" Canvas.Top="13"></Canvas>
-
-            
+            <Canvas/>
         </Canvas>
         <RichTextBox x:Name="eventLog" Foreground="{x:Null}" IsReadOnly="True" SelectionBrush="{x:Null}" Focusable="False" Margin="-1,21,-1,-263" Background="{x:Null}" Grid.Row="1">
             <RichTextBox.Effect>

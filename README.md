@@ -14,6 +14,10 @@ Usage
 
 Changes
 ============
+(6/28/2013)
+- Added objective counter
+- Added About window
+
 (6/18/2013)
 - Added new interface for match selection
 - Added automatic match selection based on pre-selected home server

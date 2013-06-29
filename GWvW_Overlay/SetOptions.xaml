@@ -43,7 +43,7 @@
                 <Button x:Name="btnResetPos" Content="Reset Position" Canvas.Left="267" Canvas.Top="10" Width="105" Click="btnResetPos_Click"/>
                 <CheckBox x:Name="chkTrackerDisplay" Content="Display Tracker" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding show_tracker, Source={x:Static Properties:Settings.Default}}" Click="chkTrackerDisplay_Click"/>
                 <CheckBox x:Name="chkCamp" Content="Show camp timers" Canvas.Left="10" Canvas.Top="52" Visibility="Hidden" />
-                <CheckBox x:Name="chkEventLog" Content="Show event log" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding tracker_show_event, Source={x:Static Properties:Settings.Default}}" Click="chkEventLog_Click"/>
+                <CheckBox x:Name="chkEventLog" Content="Show event log" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding tracker_show_event, Source={x:Static Properties:Settings.Default}}" Click="chkEventLog_Click" />
                 <Label x:Name="lblCacheSize" Content="Label" Canvas.Left="10" Canvas.Top="50" Width="362"/>
             </Canvas>
         </GroupBox>

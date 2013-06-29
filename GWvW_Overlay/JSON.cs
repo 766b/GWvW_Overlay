@@ -318,12 +318,12 @@ namespace GWvW_Overlay
         public int _active_blid;
         public string HomeServerColor;
 
-        private string _active_map_img = "Resources/mapeb.png";
+        private string _active_map_img = "Resources/mapeb_normal.png";
 
         private double _width = 400;
         private double _height = 400;
 
-        private string _active_bl_title;
+        private string _active_bl_title = "Eternal Battlegrounds";
         public string _active_match;// = "1-1";
 
         public int active_blid
