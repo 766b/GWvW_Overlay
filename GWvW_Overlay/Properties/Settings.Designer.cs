@@ -202,5 +202,53 @@ namespace GWvW_Overlay.Properties {
                 this["auto_matchup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("274.412")]
+        public double main_bl_width {
+            get {
+                return ((double)(this["main_bl_width"]));
+            }
+            set {
+                this["main_bl_width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("398.355")]
+        public double main_bl_height {
+            get {
+                return ((double)(this["main_bl_height"]));
+            }
+            set {
+                this["main_bl_height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public double main_eb_width {
+            get {
+                return ((double)(this["main_eb_width"]));
+            }
+            set {
+                this["main_eb_width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public double main_eb_height {
+            get {
+                return ((double)(this["main_eb_height"]));
+            }
+            set {
+                this["main_eb_height"] = value;
+            }
+        }
     }
 }

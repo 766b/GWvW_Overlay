@@ -638,7 +638,7 @@ namespace GWvW_Overlay
 
         private void ShowOptionsWindow(object sender, EventArgs e)
         {
-            var optWindow = new SetOptions(LogWindow, WvwMatch);
+            var optWindow = new SetOptions(LogWindow, WvwMatch, MainWindow1);
             optWindow.Show();
         }
 

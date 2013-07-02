@@ -359,35 +359,32 @@ namespace GWvW_Overlay
             get { return _active_bl; }
             set
             {
-                if (value != _active_bl)
+                switch (value)
                 {
-                    switch (value)
-                    {
-                        case "RedHome":
-                            active_bl_title = "Red Borderlands";
-                            active_map_img = "Resources/mapbl_normal.png";
-                            ChangeWindowSize(274.412, 398.355); //374.412 498.355
-                            break;
-                        case "GreenHome":
-                            active_bl_title = "Green Borderlands";
-                            active_map_img = "Resources/mapbl_normal.png";
-                            ChangeWindowSize(274.412, 398.355);
-                            break;
-                        case "BlueHome":
-                            active_bl_title = "Blue Borderlands";
-                            active_map_img = "Resources/mapbl_normal.png";
-                            ChangeWindowSize(274.412, 398.355);
-                            break;
-                        default:
-                            active_bl_title = "Eternal Battlegrounds";
-                            active_map_img = "Resources/mapeb_normal.png";
-                            ChangeWindowSize(400, 400);
-                            break;
-                    }
-
-                    _active_bl = value;
-                    OnPropertyChanged();
+                    case "RedHome":
+                        active_bl_title = "Red Borderlands";
+                        active_map_img = "Resources/mapbl_normal.png";
+                        ChangeWindowSize(false);
+                        break;
+                    case "GreenHome":
+                        active_bl_title = "Green Borderlands";
+                        active_map_img = "Resources/mapbl_normal.png";
+                        ChangeWindowSize(false);
+                        break;
+                    case "BlueHome":
+                        active_bl_title = "Blue Borderlands";
+                        active_map_img = "Resources/mapbl_normal.png";
+                        ChangeWindowSize(false);
+                        break;
+                    default:
+                        active_bl_title = "Eternal Battlegrounds";
+                        active_map_img = "Resources/mapeb_normal.png";
+                        ChangeWindowSize(true);
+                        break;
                 }
+
+                _active_bl = value;
+                OnPropertyChanged();
             }
         }
 
@@ -428,6 +425,14 @@ namespace GWvW_Overlay
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public void ChangeWindowSize(bool etrnBattle)
+        {
+            if (etrnBattle)
+                ChangeWindowSize(Properties.Settings.Default.main_eb_width, Properties.Settings.Default.main_eb_height);
+            else
+                ChangeWindowSize(Properties.Settings.Default.main_bl_width, Properties.Settings.Default.main_bl_height);
         }
 
         public void ChangeWindowSize(double Width, double Height)

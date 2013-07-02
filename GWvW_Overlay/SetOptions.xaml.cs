@@ -12,11 +12,15 @@ namespace GWvW_Overlay
         public bool ListenForKey = false;
 
         private readonly CampLogger _track;
-
-        public SetOptions(CampLogger tracker, WvwMatch_ matchUp)
+        private WvwMatch_ _matchUp;
+        private MainWindow _mainWin1;
+        public SetOptions(CampLogger tracker, WvwMatch_ matchUp, MainWindow mainWin1)
         {
             InitializeComponent();
             _track = tracker;
+            _matchUp = matchUp;
+            _mainWin1 = mainWin1;
+
             DataContext = matchUp;
 
             _kListener.KeyDown += KListener_KeyDown;
@@ -42,8 +46,8 @@ namespace GWvW_Overlay
                 Properties.Settings.Default.Save();
             }
             ListenForKey = (!ListenForKey);
+            HotkeyAlert.Visibility = HotkeyAlert.IsVisible ? Visibility.Hidden : Visibility.Visible;
             btnNewHotkey.Content = (btnNewHotkey.Content.ToString() != "Save") ? "Save" : "New Hotkey";
-
         }
 
         private void SaveSettings(object sender, System.ComponentModel.CancelEventArgs e)
@@ -51,13 +55,27 @@ namespace GWvW_Overlay
             Properties.Settings.Default.Save();
         }
 
-        private void btnResetPos_Click(object sender, RoutedEventArgs e)
+        private void btnResetPosTracker_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default["tracker_position_top"] = 10.0;
             Properties.Settings.Default["tracker_position_left"] = 10.0;
             Properties.Settings.Default.Save();
             _track.cnvsPromt.Visibility = Visibility.Visible;
             _track.ClickTroughVoid();
+        }
+
+        private void btnResetPosMain_Click(object sender, RoutedEventArgs e)
+        {
+            if (_matchUp.Options.active_bl == "Center")
+            {
+                _mainWin1.Height = Properties.Settings.Default.main_eb_height;
+                _mainWin1.Width = Properties.Settings.Default.main_eb_width;
+            }
+            else
+            {
+                _mainWin1.Height = Properties.Settings.Default.main_bl_height;
+                _mainWin1.Width = Properties.Settings.Default.main_bl_width;
+            }
         }
 
         private void chkTrackerDisplay_Click(object sender, RoutedEventArgs e)

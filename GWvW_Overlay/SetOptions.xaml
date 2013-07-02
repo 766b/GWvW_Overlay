@@ -23,6 +23,7 @@
                 <Label x:Name="lblNewKey" Content=" " HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="104" Canvas.Left="268" Canvas.Top="13" />
                 <TextBox x:Name="txtbox_hotkey" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" Canvas.Left="68" Canvas.Top="10" IsReadOnly="True"/>
                 <Button x:Name="btnNewHotkey" Content="New Hotkey" Height="23" Canvas.Left="167" Canvas.Top="9" Width="96" Click="btnNewHotkey_Click"/>
+                <Label Content="Press any key" Name="HotkeyAlert" Visibility="Hidden" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="123" Canvas.Left="268" Canvas.Top="7" Foreground="#FF9C0000" />
             </Canvas>
 
 
@@ -38,13 +39,19 @@
                 <Label Content="Objective Names: " Canvas.Left="10" Canvas.Top="5"/>
             </Canvas>
         </GroupBox>
-        <GroupBox Header="Tracker" HorizontalAlignment="Left" Height="99" Margin="10,109,0,0" VerticalAlignment="Top" Width="394">
+        <GroupBox Header="Reset" HorizontalAlignment="Left" Height="99" Margin="277,109,0,0" VerticalAlignment="Top" Width="127">
             <Canvas>
-                <Button x:Name="btnResetPos" Content="Reset Position" Canvas.Left="267" Canvas.Top="10" Width="105" Click="btnResetPos_Click"/>
+                <Button x:Name="BtnResetPosTrack" Content="Tracker Window" Canvas.Left="10" Canvas.Top="10" Width="95" Click="btnResetPosTracker_Click"/>
+                <Button x:Name="BtnResetPosMain" Content="Main Window" Canvas.Left="10" Canvas.Top="37" Width="95" Click="btnResetPosMain_Click"/>
+            </Canvas>
+        </GroupBox>
+        <GroupBox Header="Tracker" HorizontalAlignment="Left" Height="99" Margin="10,109,0,0" VerticalAlignment="Top" Width="262">
+            <Canvas>
+                
                 <CheckBox x:Name="chkTrackerDisplay" Content="Display Tracker" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding show_tracker, Source={x:Static Properties:Settings.Default}}" Click="chkTrackerDisplay_Click"/>
                 <CheckBox x:Name="chkCamp" Content="Show camp timers" Canvas.Left="10" Canvas.Top="52" Visibility="Hidden" />
                 <CheckBox x:Name="chkEventLog" Content="Show event log" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding tracker_show_event, Source={x:Static Properties:Settings.Default}}" Click="chkEventLog_Click" />
-                <Label x:Name="lblCacheSize" Content="Label" Canvas.Left="10" Canvas.Top="50" Width="362"/>
+                <Label x:Name="lblCacheSize" Content="Label" Canvas.Left="10" Canvas.Top="50" Width="230"/>
             </Canvas>
         </GroupBox>
         <GroupBox Header="Auto Match Selection" HorizontalAlignment="Left" Height="85" Margin="10,402,0,0" VerticalAlignment="Top" Width="394">

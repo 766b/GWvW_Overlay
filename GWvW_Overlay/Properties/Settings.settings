@@ -47,5 +47,17 @@
     <Setting Name="auto_matchup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="main_bl_width" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">274.412</Value>
+    </Setting>
+    <Setting Name="main_bl_height" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">398.355</Value>
+    </Setting>
+    <Setting Name="main_eb_width" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">400</Value>
+    </Setting>
+    <Setting Name="main_eb_height" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">400</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
