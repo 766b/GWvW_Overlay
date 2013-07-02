@@ -14,6 +14,9 @@ Usage
 
 Changes
 ============
+(7/02/2013)
+- Added reset option for main window
+
 (6/28/2013)
 - Added objective counter
 - Added About window
