@@ -14,6 +14,10 @@ Usage
 
 Changes
 ============
+(9/17/2013)
+- Replaced outdated borderlands map
+- Added new icons for Bloodlust objectives
+
 (7/02/2013)
 - Added reset option for main window
 

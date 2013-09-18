@@ -86,6 +86,7 @@ namespace GWvW_Overlay
         public MainWindow()
         {
             InitializeComponent();
+            MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 50.0;
             SourceInitialized += Window_SourceInitialized;
 
             _hhook = SetWinEventHook(Natives.EVENT_SYSTEM_FOREGROUND, Natives.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero,
@@ -609,8 +610,8 @@ namespace GWvW_Overlay
             if (LogWindow != null)
                 LogWindow.lblBLTitle.Content = WvwMatch.Options.active_bl_title;
 
-            InvalidateVisual();
-
+            MainWindow1.InvalidateVisual();
+            
             CnvsBlSelection.Visibility = Visibility.Hidden;
         }
 
@@ -697,7 +698,6 @@ namespace GWvW_Overlay
 
                             double diffWidth = Math.Min(Math.Abs(p.X - pos.x), Math.Abs(p.X - pos.x - pos.cx));
                             double diffHeight = Math.Min(Math.Abs(p.Y - pos.y), Math.Abs(p.Y - pos.y - pos.cy));
-
                             _adjustingHeight = diffHeight > diffWidth;
                         }
 
