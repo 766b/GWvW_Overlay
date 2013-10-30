@@ -76,8 +76,10 @@ namespace GWvW_Overlay
                     return Brushes.SteelBlue;
                 case "black":
                     return Brushes.Black;
+                case "neutral":
+                    return (SolidColorBrush)(new BrushConverter().ConvertFromString("#FFEEEE"));
                 case "white":
-                    return (SolidColorBrush)(new BrushConverter().ConvertFromString("#FFEEEEEE"));
+                    return (SolidColorBrush)(new BrushConverter().ConvertFromString("#FFEEEE"));
                 default:
                     return Brushes.Black;
             }

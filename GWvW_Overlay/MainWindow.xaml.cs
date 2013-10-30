@@ -287,6 +287,8 @@ namespace GWvW_Overlay
                 for (int m = 0; m < WvwMatch.Details.Maps[map].Objectives.Count; m++)
                 {
                     int obj = m;
+                    if (WvwMatch.Details.Maps[map].Objectives[obj].id >= 62) // Skip Ruins of Power. No the best way to go about it...
+                        continue; 
 
                     TimeSpan diff = cur.Subtract(WvwMatch.Details.Maps[map].Objectives[obj].last_change);
                     TimeSpan left = TimeSpan.FromMinutes(5) - diff;

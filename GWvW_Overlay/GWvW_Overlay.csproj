@@ -27,7 +27,7 @@
     <InstallUrl>https://dl.dropboxusercontent.com/u/10680644/gwvw/</InstallUrl>
     <SupportUrl>https://github.com/Awaken6389/GWvW_Overlay</SupportUrl>
     <ProductName>GWvW Overlay</ProductName>
-    <ApplicationRevision>40</ApplicationRevision>
+    <ApplicationRevision>41</ApplicationRevision>
     <ApplicationVersion>0.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -166,11 +166,11 @@
     <Resource Include="Resources\orchard_blue.png" />
     <Resource Include="Resources\orchard_green.png" />
     <Resource Include="Resources\orchard_red.png" />
-    <Resource Include="Resources\orchard_white.png" />
+    <Resource Include="Resources\orchard_neutral.png" />
     <Resource Include="Resources\pray_blue.png" />
     <Resource Include="Resources\pray_green.png" />
     <Resource Include="Resources\pray_red.png" />
-    <Resource Include="Resources\pray_white.png" />
+    <Resource Include="Resources\pray_neutral.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -193,15 +193,15 @@
     <Resource Include="Resources\bauers_blue.png" />
     <Resource Include="Resources\bauers_green.png" />
     <Resource Include="Resources\bauers_red.png" />
-    <Resource Include="Resources\bauers_white.png" />
+    <Resource Include="Resources\bauers_neutral.png" />
     <Resource Include="Resources\carvers_blue.png" />
     <Resource Include="Resources\carvers_green.png" />
     <Resource Include="Resources\carvers_red.png" />
-    <Resource Include="Resources\carvers_white.png" />
+    <Resource Include="Resources\carvers_neutral.png" />
     <Resource Include="Resources\hollow_blue.png" />
     <Resource Include="Resources\hollow_green.png" />
     <Resource Include="Resources\hollow_red.png" />
-    <Resource Include="Resources\hollow_white.png" />
+    <Resource Include="Resources\hollow_neutral.png" />
     <Content Include="Resources\obj_BlueHome.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -266,7 +266,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
+      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

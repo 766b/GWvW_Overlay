@@ -519,7 +519,8 @@ namespace GWvW_Overlay
                     {
                         case "red": return getServerName(x.red_world_id); 
                         case "blue": return getServerName(x.blue_world_id); 
-                        case "green": return getServerName(x.green_world_id); 
+                        case "green": return getServerName(x.green_world_id);
+                        case "neutral": return "Neutral"; 
                     }
                 }
             }
@@ -552,7 +553,7 @@ namespace GWvW_Overlay
                 if ((int)Properties.Settings.Default["home_server"] == x.blue_world_id)// && x.blue_world_id == id)
                     return "blue";
             }
-            return "black";
+            return "white";
         }
     }
 

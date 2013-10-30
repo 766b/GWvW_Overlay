@@ -14,6 +14,11 @@ Usage
 
 Changes
 ============
+(10/29/2013)
+- Fixed neutral icons for Ruins of Power
+- Removed timers from Ruins of Power
+- Fixed minor issues related to Ruins of Power
+
 (9/17/2013)
 - Replaced outdated borderlands map
 - Added new icons for Bloodlust objectives
