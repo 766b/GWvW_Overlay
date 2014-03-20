@@ -752,27 +752,20 @@ namespace GWvW_Overlay
                 Properties.Settings.Default["auto_matchup"] = (bool)ChkbxAutoMatchSelect.IsChecked;
                 Properties.Settings.Default["home_server"] = CmbbxHomeServerSelection.SelectedValue;
                 Properties.Settings.Default.Save();
-                goto SaveAndSelect;
+                AutoMatchSetActiveMatch();
             }
-
             // If home-server is set go to BL selection
-            if (CmbbxHomeServerSelection.SelectedValue != null)
+            else if (CmbbxHomeServerSelection.SelectedValue != null)
             {
                 Properties.Settings.Default["home_server"] = CmbbxHomeServerSelection.SelectedValue;
                 Properties.Settings.Default.Save();
-                goto SaveAndSelect;
+                AutoMatchSetActiveMatch();
             }
-
-            if (LstbxMatchSelection.SelectedItem != null)
+            else if (LstbxMatchSelection.SelectedItem != null)
             {
                 WvwMatch.Options.active_match = (string) LstbxMatchSelection.SelectedValue;
                 RtvMatchDetails(null, null);
-                goto RetriveAndSelect;
             }
-
-        SaveAndSelect:
-            AutoMatchSetActiveMatch();
-        RetriveAndSelect:
             BuildMenu();
             cnvsMatchSelection.Visibility = Visibility.Hidden;
             GetBorderlandSelection();
