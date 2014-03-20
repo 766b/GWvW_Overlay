@@ -1,5 +1,6 @@
 ﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        xmlns:local="clr-namespace:GWvW_Overlay" 
+        xmlns:local="clr-namespace:GWvW_Overlay"
+        xmlns:localization ="clr-namespace:GWvW_Overlay.Resources.Lang"
         mc:Ignorable="d" x:Name="MainWindow1" x:Class="GWvW_Overlay.MainWindow" Title="GWvW Overlay" 
         WindowStartupLocation="CenterScreen" WindowStyle="None" Height="{Binding Options.height}" Width="{Binding Options.width}" MinHeight="{Binding Options.height}" MinWidth="{Binding Options.width}"
         Foreground="{x:Null}" Background="{x:Null}" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
@@ -8,53 +9,61 @@
 
     <Window.Resources>
         <local:getIMG x:Key="getIMG" />
-        <local:getClaimed x:Key="getClaimed" />
+        <local:getClaimedImage x:Key="getClaimedImage" />
         <local:getName x:Key="getName" />
-        <local:getMatches x:Key="getMatches" /> 
+        <local:getMatches x:Key="getMatches" />
+        <local:getClaimed x:Key="getClaimed"/>
+        <localization:LocalizedStrings x:Key="LocalizedStrings" />
     </Window.Resources>
 
     <Grid>
-        
-    <ItemsControl Name="Icons">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
+
+        <ItemsControl Name="Icons">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
                     <Canvas Panel.ZIndex="200">
+                        <Canvas.ToolTip>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                        <Label Content="{Binding Path=Locale.ownedTime, Source={StaticResource LocalizedStrings}}"/>
+                                        <Label Content="{Binding Path=ownedTime}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding Path=owner_guild, Converter={StaticResource getClaimed}}">
+                                        <Label Content="{Binding Path=Locale.ownedBy, Source={StaticResource LocalizedStrings}}"/>
+                                        <Label Content="{Binding Path=ownerName}"/>
+                                    </StackPanel>
+                            </StackPanel>
+                        </Canvas.ToolTip>
                         <Image Height="24" Width="24" Stretch="Fill">
-                        <Image.Source>
-                            <MultiBinding Converter="{StaticResource getIMG}">
-                                <Binding Path="ObjData.type"/>
-                                <Binding Path="owner"/>
-                            </MultiBinding>
-                        </Image.Source>
-                    </Image>
-                    <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                    <Label Content="{Binding Path=ObjData.name, Converter={StaticResource getName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=owner_guild, Converter={StaticResource getClaimed}}">
-                            <!--<Image.ToolTip>
-                                <StackPanel>
-                                    <TextBlock>Claimed</TextBlock>
-                                </StackPanel>
-                            </Image.ToolTip>-->
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource getIMG}">
+                                    <Binding Path="ObjData.type"/>
+                                    <Binding Path="owner"/>
+                                </MultiBinding>
+                            </Image.Source>
                         </Image>
+                        <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                        <Label Content="{Binding Path=ObjData.name, Converter={StaticResource getName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=owner_guild, Converter={StaticResource getClaimedImage}}"/>
                     </Canvas>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Canvas>
-                    <Canvas.Background>
-                        <ImageBrush Stretch="Fill" ImageSource="{Binding Options.active_map_img}" />
-                    </Canvas.Background>
-                </Canvas>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemContainerStyle>
-            <Style TargetType="{x:Type ContentPresenter}">
-                <Setter Property="Canvas.Left" Value="{Binding ObjData.left}" />
-                <Setter Property="Canvas.Top" Value="{Binding ObjData.top}" />
-            </Style>
-        </ItemsControl.ItemContainerStyle>
-    </ItemsControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas>
+                        <Canvas.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="{Binding Options.active_map_img}" />
+                        </Canvas.Background>
+                    </Canvas>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="{x:Type ContentPresenter}">
+                    <Setter Property="Canvas.Left" Value="{Binding ObjData.left}" />
+                    <Setter Property="Canvas.Top" Value="{Binding ObjData.top}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
 
         <Canvas HorizontalAlignment="Center">
             <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="200" Canvas.Left="-100" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
@@ -136,11 +145,11 @@
                     <Canvas Height="2" Canvas.Top="93" Width="176" Background="#FFDD9900" Canvas.Left="0"/>
                     <Label Content="OR" Width="37" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="178" Canvas.Top="80"/>
                     <Canvas Height="2" Canvas.Top="93" Width="173" Background="#FFDD9900" Canvas.Left="216"/>
-                
-                <ListBox Name="LstbxMatchSelection" Height="282" Canvas.Left="10" Canvas.Top="108" Width="369" Background="{x:Null}" Foreground="#FFEEEEEE" BorderThickness="0" BorderBrush="{x:Null}"
+
+                    <ListBox Name="LstbxMatchSelection" Height="282" Canvas.Left="10" Canvas.Top="108" Width="369" Background="{x:Null}" Foreground="#FFEEEEEE" BorderThickness="0" BorderBrush="{x:Null}"
                      ItemsSource="{Binding Path=Match}" DisplayMemberPath="wvw_match_string" SelectedValuePath="wvw_match_id" SelectedValue="{Binding Path=Matches}">
 
-                </ListBox>
+                    </ListBox>
                 </Canvas>
                 <Label x:Name="lblSelectionOK" Content="OK" Width="63" Height="24" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFDD9900" Canvas.Left="316" Canvas.Top="36" MouseDown="lblSelectionOK_Click">
                     <Label.Style>
@@ -182,6 +191,6 @@
             </Canvas>
         </Canvas>
 
-        
+
     </Grid>
 </Window>

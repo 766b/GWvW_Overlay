@@ -30,7 +30,6 @@ namespace GWvW_Overlay
         Utils Utils = new Utils();
         Dictionary<string, List<string>> GuildDict = new Dictionary<string, List<string>>();
 
-        private int _changeCounter = 0;
         private const string JsonCacheFile = "Resources/guild_details.json";
 
         public Guild()
@@ -57,15 +56,10 @@ namespace GWvW_Overlay
                     
                     Console.WriteLine("Error " + "occurred: {0}", e);
                 }
-                
-                _changeCounter++;
             }
 
-            if (_changeCounter > 3)
-            {
-                _changeCounter = 0;
-                Save();
-            }
+        
+            Save();
             return new List<string>() { GuildDict[id][0], GuildDict[id][1] };
         }
 
