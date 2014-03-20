@@ -19,7 +19,7 @@ namespace GWvW_Overlay
     public partial class MainWindow
     {
         delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
-        
+
         [DllImport("user32.dll")]
         static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
 
@@ -75,7 +75,7 @@ namespace GWvW_Overlay
             if (wTitle.ToString() == "Guild Wars 2" && _inGame != true)
             {
                 _inGame = true;
-                _handleThis.ClickTroughActivate();           
+                _handleThis.ClickTroughActivate();
             }
             else if (wTitle.ToString() != "Guild Wars 2" && _inGame)
             {
@@ -93,8 +93,8 @@ namespace GWvW_Overlay
                 ProcDelegate, 0, 0, Natives.WINEVENT_SKIPOWNPROCESS); // | Natives.WINEVENT_SKIPOWNPROCESS
 
             MainWindow1.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            
-            
+
+
             _kListener.KeyDown += KListener_KeyDown;
             _kListener.KeyUp += KListener_KeyUp;
 
@@ -105,7 +105,7 @@ namespace GWvW_Overlay
             _t2.Interval = 1000;
             _t2.Elapsed += UpdatePosition;
             _t2.Start();
-            
+
 
             _t3.Interval = 1000;
             _t3.Elapsed += UpdateTimers;
@@ -181,7 +181,7 @@ namespace GWvW_Overlay
                 LogWindow.AddEventLog(dict3, false);
             }));*/
 
-            if (!(bool) Properties.Settings.Default["auto_matchup"])
+            if (!(bool)Properties.Settings.Default["auto_matchup"])
             {
                 cnvsMatchSelection.Visibility = Visibility.Visible;
 
@@ -223,47 +223,47 @@ namespace GWvW_Overlay
         {
             var mainMenu = new ContextMenu();
 
-            var matches = new MenuItem {Header = "Matches"};
+            var matches = new MenuItem { Header = "Matches" };
             var y = WvwMatch.GetMatchesList();
             foreach (var x in y)
             {
-                var i = new MenuItem {Header = x.Value, Tag = x.Key};
+                var i = new MenuItem { Header = x.Value, Tag = x.Key };
                 i.Click += MatchSelected;
                 matches.Items.Add(i);
             }
             mainMenu.Items.Add(matches);
 
-            var menuOptions = new MenuItem {Header = "Options"};
+            var menuOptions = new MenuItem { Header = "Options" };
             menuOptions.Click += ShowOptionsWindow;
             mainMenu.Items.Add(menuOptions);
 
             if (WvwMatch.Options.active_match != null)
             {
-                var blBlue = new MenuItem {Header = string.Format("Blue Borderland ({0})", WvwMatch.getServerName("blue")),Tag = "BlueHome"};
+                var blBlue = new MenuItem { Header = string.Format("Blue Borderland ({0})", WvwMatch.getServerName("blue")), Tag = "BlueHome" };
                 blBlue.Click += BorderlandSelected;
 
-                var blRed = new MenuItem {Header = string.Format("Red Borderland ({0})", WvwMatch.getServerName("red")),Tag = "RedHome"};
+                var blRed = new MenuItem { Header = string.Format("Red Borderland ({0})", WvwMatch.getServerName("red")), Tag = "RedHome" };
                 blRed.Click += BorderlandSelected;
 
-                var blGreen = new MenuItem {Header = string.Format("Green Borderland ({0})", WvwMatch.getServerName("green")), Tag = "GreenHome"};
+                var blGreen = new MenuItem { Header = string.Format("Green Borderland ({0})", WvwMatch.getServerName("green")), Tag = "GreenHome" };
                 blGreen.Click += BorderlandSelected;
 
-                var blEb = new MenuItem {Header = "Eternal Battleground", Tag = "Center"};
+                var blEb = new MenuItem { Header = "Eternal Battleground", Tag = "Center" };
                 blEb.Click += BorderlandSelected;
 
                 mainMenu.Items.Add(new Separator());
-                
+
                 mainMenu.Items.Add(blBlue);
                 mainMenu.Items.Add(blGreen);
                 mainMenu.Items.Add(blRed);
                 mainMenu.Items.Add(blEb);
-                
+
             }
             var aboutWin = new MenuItem { Header = "About" };
             aboutWin.Click += ShowAboutWin;
             mainMenu.Items.Add(aboutWin);
 
-            var exitApp = new MenuItem {Header = "Exit"};
+            var exitApp = new MenuItem { Header = "Exit" };
             exitApp.Click += ExitApp;
 
             mainMenu.Items.Add(exitApp);
@@ -288,24 +288,24 @@ namespace GWvW_Overlay
                 {
                     int obj = m;
                     if (WvwMatch.Details.Maps[map].Objectives[obj].id >= 62) // Skip Ruins of Power. No the best way to go about it...
-                        continue; 
+                        continue;
 
                     TimeSpan diff = cur.Subtract(WvwMatch.Details.Maps[map].Objectives[obj].last_change);
                     TimeSpan left = TimeSpan.FromMinutes(5) - diff;
-                    if (diff < TimeSpan.FromMinutes(5)) 
+                    if (diff < TimeSpan.FromMinutes(5))
                     {
                         if (WvwMatch.Details.Maps[map].Objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                         {
-                           /* Dictionary<string, string> dict = new Dictionary<string, string>()
-                            {
-                                {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
-                                {"time_left", left.ToString(@"mm\:ss")}
-                            };
+                            /* Dictionary<string, string> dict = new Dictionary<string, string>()
+                             {
+                                 {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
+                                 {"time_left", left.ToString(@"mm\:ss")}
+                             };
 
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                LogWindow.AddCampLog(dict);
-                            }));*/
+                             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                             {
+                                 LogWindow.AddCampLog(dict);
+                             }));*/
                             eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name);
                         }
 
@@ -313,8 +313,8 @@ namespace GWvW_Overlay
                         {
                             WvwMatch.Details.Maps[map].Objectives[obj].time_left = left.ToString(@"mm\:ss");
                         }));
-                    } 
-                    else 
+                    }
+                    else
                     {
 
                         if (WvwMatch.Details.Maps[map].Objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
@@ -347,10 +347,10 @@ namespace GWvW_Overlay
         public void AdjustScore()
         {
             //Tracker
-            
+
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                 {
-                    if(LogWindow != null)
+                    if (LogWindow != null)
                     {
                         LogWindow.RedScoreLocal.Width = 120 * (WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores[0] / WvwMatch.Details.Maps[WvwMatch.Options.active_blid].ScoresSum);
                         LogWindow.BlueScoreLocal.Width = 120 * (WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores[1] / WvwMatch.Details.Maps[WvwMatch.Options.active_blid].ScoresSum);
@@ -361,8 +361,8 @@ namespace GWvW_Overlay
                         LogWindow.LblCastleCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("castle", WvwMatch.HomeServerColor);
                         LogWindow.LblKeepCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("keep", WvwMatch.HomeServerColor);
                     }
-            }));
-            
+                }));
+
 
             //Main map
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -391,7 +391,7 @@ namespace GWvW_Overlay
             WvwMatch.Match = _jsonMatches.wvw_matches;
             _jsonMatches = null;
         }
-        
+
         public void RtvMatchDetails(Object source, System.Timers.ElapsedEventArgs e)
         {
             if (WvwMatch.Options.active_match == null)
@@ -405,13 +405,13 @@ namespace GWvW_Overlay
                 {
                     LogWindow.ResetText();
                 }));
-                    WvwMatch.Details = _matchDetails;
-                    _resetMatch = false;
-                    WvwMatch.GetBLID();
-                
+                WvwMatch.Details = _matchDetails;
+                _resetMatch = false;
+                WvwMatch.GetBLID();
+
             }
             else
-            { 
+            {
                 WvwMatch.Details.match_id = _matchDetails.match_id;
                 WvwMatch.Details.Scores = _matchDetails.Scores;
                 for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
@@ -424,7 +424,7 @@ namespace GWvW_Overlay
                         int obj = m;
 
                         //Caching Guild info
-                        if(_matchDetails.Maps[map].Objectives[obj].owner_guild != null)
+                        if (_matchDetails.Maps[map].Objectives[obj].owner_guild != null)
                         {
                             GuildData.GetGuildById(_matchDetails.Maps[map].Objectives[obj].owner_guild);
                         }
@@ -466,7 +466,7 @@ namespace GWvW_Overlay
 
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, true)));
                             }
-                            
+
                         }
 
                     }
@@ -475,7 +475,7 @@ namespace GWvW_Overlay
             }
 
             // Fill objective names and icons positions
-            if(WvwMatch.Details.Maps[3].Objectives[0].ObjData.name == null)
+            if (WvwMatch.Details.Maps[3].Objectives[0].ObjData.name == null)
             {
                 for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
                 {
@@ -542,32 +542,33 @@ namespace GWvW_Overlay
                                 inGame = true;
                             }));
                         }*/
-                    /*}
-                    else
+                /*}
+                else
+                {
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                     {
-                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                        {
-                            IntPtr handle = new WindowInteropHelper(this).Handle;
-                            Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
-                            inGame = false;
-                        }));
+                        IntPtr handle = new WindowInteropHelper(this).Handle;
+                        Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
+                        inGame = false;
+                    }));
 
-                        LogWindow.ClickTroughVoid();
-                    }
-                } */
+                    LogWindow.ClickTroughVoid();
+                }
+            } */
 
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
                     IntPtr handle = new WindowInteropHelper(this).Handle;
                     Natives.ShowWindow(handle, 4);
                 }));
             }
         }
-        
+
         void KListener_KeyUp(object sender, Keyboard.RawKeyEventArgs args)
         {
             if (args.Key.ToString() == Properties.Settings.Default["hotkey"].ToString() && !(bool)Properties.Settings.Default["alwaysTop"])
             {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => 
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                 {
                     IntPtr handle = new WindowInteropHelper(this).Handle;
                     Natives.ShowWindow(handle, 6);
@@ -597,13 +598,13 @@ namespace GWvW_Overlay
 
             var label = sender as Label;
             if (label != null)
-                selectedBl = (string) label.Tag;
+                selectedBl = (string)label.Tag;
 
             var item = sender as MenuItem;
             if (item != null)
-                selectedBl = (string) item.Tag;
-            
-            if(selectedBl == null)
+                selectedBl = (string)item.Tag;
+
+            if (selectedBl == null)
                 selectedBl = "Center";
 
             WvwMatch.Options.active_bl = selectedBl;
@@ -613,7 +614,7 @@ namespace GWvW_Overlay
                 LogWindow.lblBLTitle.Content = WvwMatch.Options.active_bl_title;
 
             MainWindow1.InvalidateVisual();
-            
+
             CnvsBlSelection.Visibility = Visibility.Hidden;
         }
 
@@ -633,10 +634,10 @@ namespace GWvW_Overlay
                 }
                 catch
                 {
-                    
-                    
+
+
                 }
-            
+
         }
 
         private void ShowOptionsWindow(object sender, EventArgs e)
@@ -746,7 +747,7 @@ namespace GWvW_Overlay
             }
 
             //Check if auto-match-up is TRUE and home-server is selected
-            if (ChkbxAutoMatchSelect.IsChecked != null && (bool) ChkbxAutoMatchSelect.IsChecked &&
+            if (ChkbxAutoMatchSelect.IsChecked != null && (bool)ChkbxAutoMatchSelect.IsChecked &&
                 CmbbxHomeServerSelection.SelectedValue != null)
             {
                 Properties.Settings.Default["auto_matchup"] = (bool)ChkbxAutoMatchSelect.IsChecked;
@@ -763,7 +764,7 @@ namespace GWvW_Overlay
             }
             else if (LstbxMatchSelection.SelectedItem != null)
             {
-                WvwMatch.Options.active_match = (string) LstbxMatchSelection.SelectedValue;
+                WvwMatch.Options.active_match = (string)LstbxMatchSelection.SelectedValue;
                 RtvMatchDetails(null, null);
             }
             BuildMenu();
@@ -776,7 +777,7 @@ namespace GWvW_Overlay
             if (CmbbxHomeServerSelection.SelectedItem == null)
                 return;
 
-            var selection = (World_Names_) CmbbxHomeServerSelection.SelectedItem;
+            var selection = (World_Names_)CmbbxHomeServerSelection.SelectedItem;
 
             Console.WriteLine(selection.name);
 

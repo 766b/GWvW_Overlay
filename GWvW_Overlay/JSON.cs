@@ -19,10 +19,10 @@ namespace GWvW_Overlay
         private double _top_base;
 
         public int id { get; set; }
-        
+
         public string map { get; set; }
         public int points { get; set; }
-        public string type {get; set; }
+        public string type { get; set; }
         public double res_width { get; set; }
         public double res_height { get; set; }
 
@@ -31,8 +31,9 @@ namespace GWvW_Overlay
         public string name_es { get; set; }
         public string name_fr { get; set; }
 
-        public string name {
-            get 
+        public string name
+        {
+            get
             {
                 switch (Properties.Settings.Default["show_names_lang"].ToString())
                 {
@@ -59,7 +60,7 @@ namespace GWvW_Overlay
         public double left_base
         {
             set { _left_base = value; }
-            get { return _left_base;  }
+            get { return _left_base; }
         }
 
         public double top
@@ -119,7 +120,29 @@ namespace GWvW_Overlay
             throw new NotImplementedException();
         }
     }
+
     public class getClaimed : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null)
+            {
+                return "visible";
+            }
+            else
+            {
+                return "collapsed";
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class getClaimedImage : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -140,10 +163,10 @@ namespace GWvW_Overlay
         {
             if (values.Length == 1)
                 return getPNG(values[0], null);
-            if(values.Length == 2)
+            if (values.Length == 2)
                 return getPNG(values[0], values[1]);
 
-            
+
             return null;
         }
         public object[] ConvertBack(object values, Type[] targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -211,9 +234,35 @@ namespace GWvW_Overlay
         private string _owner;
         private string _owner_guild;
         public DateTime _last_change;
+        private DateTime _ownerChange = DateTime.Now;
         public string _time_left;
+        public String ownedTime
+        {
+            get
+            {
+                return DateTime.Now.Subtract(_ownerChange).ToString("hh\\:mm\\:ss");
+            }
+        }
 
-        public string time_left {
+        public String ownerName
+        {
+            get
+            {
+                if (_owner_guild != null)
+                {
+                    Guild guild = new Guild();
+                    List<String> guildInfo = guild.GetGuildById(_owner_guild);
+                    return String.Format("[{0}] {1}", guildInfo[1], guildInfo[0]);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        public string time_left
+        {
             get { return _time_left; }
             set
             {
@@ -229,7 +278,7 @@ namespace GWvW_Overlay
         {
             get
             {
-                if(owner_guild != null)
+                if (owner_guild != null)
                     return "Resources/claimed2.png";
                 else
                     return "Resources/empty.png";
@@ -278,6 +327,7 @@ namespace GWvW_Overlay
                 if (value != _owner && _owner != null)
                 {
                     _owner = value;
+                    _ownerChange = DateTime.Now;
                     last_change = DateTime.Now;
                     OnPropertyChanged();
                 }
@@ -345,9 +395,9 @@ namespace GWvW_Overlay
         }
 
         public string active_match
-        { 
+        {
             get { return _active_match; }
-            set 
+            set
             {
                 if (value != _active_match)
                 {
@@ -392,9 +442,9 @@ namespace GWvW_Overlay
         }
 
         public string active_map_img
-        { 
+        {
             get { return _active_map_img; }
-            set 
+            set
             {
                 if (value != _active_map_img)
                 {
@@ -453,8 +503,8 @@ namespace GWvW_Overlay
             width = Width;
             height = Height;
         }
-        
-        
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
         {
@@ -510,17 +560,17 @@ namespace GWvW_Overlay
         }
 
         public string getServerName(string color)
-        { 
-            foreach(var x in Match)
+        {
+            foreach (var x in Match)
             {
                 if (Options.active_match == x.wvw_match_id)
                 {
                     switch (color.ToLower())
                     {
-                        case "red": return getServerName(x.red_world_id); 
-                        case "blue": return getServerName(x.blue_world_id); 
+                        case "red": return getServerName(x.red_world_id);
+                        case "blue": return getServerName(x.blue_world_id);
                         case "green": return getServerName(x.green_world_id);
-                        case "neutral": return "Neutral"; 
+                        case "neutral": return "Neutral";
                     }
                 }
             }
@@ -578,7 +628,7 @@ namespace GWvW_Overlay
         private string _name;
 
         public int id { get; set; }
-        
+
         public string name
         {
             get { return _name; }
