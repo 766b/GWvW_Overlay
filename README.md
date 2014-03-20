@@ -1,8 +1,19 @@
+Remarks
+============
+This application does not behave like regular overlays, hooking an application to display it's informations (like mumble overlay or overwolf), instead the windows are set to stay above every other window.
+
+This behaviour prevents any instability due to the program.
+
 Install
 ============
 If you do not have the ability to compile the code, use the following binary (will be updated periodically)
-- GWvW_Overlay https://dl.dropboxusercontent.com/u/10680644/gwvw/setup.exe
+
+- GWvW_Overlay https://dl.dropboxusercontent.com/u/42390504/gwvw/setup.exe
 - .NET Framework 4.5 http://www.microsoft.com/en-us/download/details.aspx?id=30653
+
+Update
+============
+You do not need to do anything for the application to update, it will check if an update is available and update itself when needed.
 
 Usage
 ============
@@ -11,6 +22,9 @@ Usage
 - Select appropriate match up
 - Select specific borderlands
 - Press "Home" to show/hide overlay map.
+
+OR if you have a dual screen configuration :
+Just drag and drop the two windows on your second screen and set the opacity to 100%
 
 Changes
 ============
