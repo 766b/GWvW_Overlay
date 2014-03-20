@@ -1,4 +1,4 @@
-﻿<Window x:Uid="MainWindow1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:local="clr-namespace:GWvW_Overlay" 
         mc:Ignorable="d" x:Name="MainWindow1" x:Class="GWvW_Overlay.MainWindow" Title="GWvW Overlay" 
         WindowStartupLocation="CenterScreen" WindowStyle="None" Height="{Binding Options.height}" Width="{Binding Options.width}" MinHeight="{Binding Options.height}" MinWidth="{Binding Options.width}"
@@ -7,118 +7,118 @@
         xmlns:Properties="clr-namespace:GWvW_Overlay.Properties" Closing="MainClosing">
 
     <Window.Resources>
-        <local:getIMG x:Uid="local:getIMG_1" x:Key="getIMG" />
-        <local:getClaimed x:Uid="local:getClaimed_1" x:Key="getClaimed" />
-        <local:getName x:Uid="local:getName_1" x:Key="getName" />
-        <local:getMatches x:Uid="local:getMatches_1" x:Key="getMatches" />
+        <local:getIMG x:Key="getIMG" />
+        <local:getClaimed x:Key="getClaimed" />
+        <local:getName x:Key="getName" />
+        <local:getMatches x:Key="getMatches" /> 
     </Window.Resources>
 
-    <Grid x:Uid="Grid_1">
-
-        <ItemsControl x:Uid="Icons" Name="Icons">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate x:Uid="DataTemplate_1">
-                    <Canvas x:Uid="Canvas_1" Panel.ZIndex="200">
-                        <Image x:Uid="Image_1" Height="24" Width="24" Stretch="Fill">
-                            <Image.Source>
-                                <MultiBinding x:Uid="MultiBinding_1" Converter="{StaticResource getIMG}">
-                                    <Binding x:Uid="Binding_1" Path="ObjData.type"/>
-                                    <Binding x:Uid="Binding_2" Path="owner"/>
-                                </MultiBinding>
-                            </Image.Source>
-                        </Image>
-                        <Label x:Uid="Label_1" Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                        <Label x:Uid="Label_2" Content="{Binding Path=ObjData.name, Converter={StaticResource getName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                        <Image x:Uid="Image_2" Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=owner_guild, Converter={StaticResource getClaimed}}">
-                            <Image.ToolTip>
-                                <StackPanel x:Uid="StackPanel_1">
-                                    <Label x:Uid="TextBlock_/>
+    <Grid>
+        
+    <ItemsControl Name="Icons">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                    <Canvas Panel.ZIndex="200">
+                        <Image Height="24" Width="24" Stretch="Fill">
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource getIMG}">
+                                <Binding Path="ObjData.type"/>
+                                <Binding Path="owner"/>
+                            </MultiBinding>
+                        </Image.Source>
+                    </Image>
+                    <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                    <Label Content="{Binding Path=ObjData.name, Converter={StaticResource getName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=owner_guild, Converter={StaticResource getClaimed}}">
+                            <!--<Image.ToolTip>
+                                <StackPanel>
+                                    <TextBlock>Claimed</TextBlock>
                                 </StackPanel>
-                            </Image.ToolTip>
+                            </Image.ToolTip>-->
                         </Image>
                     </Canvas>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate x:Uid="ItemsPanelTemplate_1">
-                    <Canvas x:Uid="Canvas_2">
-                        <Canvas.Background>
-                            <ImageBrush x:Uid="ImageBrush_1" Stretch="Fill" ImageSource="{Binding Options.active_map_img}" />
-                        </Canvas.Background>
-                    </Canvas>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemContainerStyle>
-                <Style x:Uid="Style_1" TargetType="{x:Type ContentPresenter}">
-                    <Setter x:Uid="Setter_1" Property="Canvas.Left" Value="{Binding ObjData.left}" />
-                    <Setter x:Uid="Setter_2" Property="Canvas.Top" Value="{Binding ObjData.top}" />
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <Canvas>
+                    <Canvas.Background>
+                        <ImageBrush Stretch="Fill" ImageSource="{Binding Options.active_map_img}" />
+                    </Canvas.Background>
+                </Canvas>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemContainerStyle>
+            <Style TargetType="{x:Type ContentPresenter}">
+                <Setter Property="Canvas.Left" Value="{Binding ObjData.left}" />
+                <Setter Property="Canvas.Top" Value="{Binding ObjData.top}" />
+            </Style>
+        </ItemsControl.ItemContainerStyle>
+    </ItemsControl>
 
-        <Canvas x:Uid="Canvas_3" HorizontalAlignment="Center">
-            <Label x:Uid="Label_3" Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="200" Canvas.Left="-100" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
+        <Canvas HorizontalAlignment="Center">
+            <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="200" Canvas.Left="-100" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
                 <Label.Background>
-                    <ImageBrush x:Uid="ImageBrush_2" ImageSource="Resources/panel2.png"/>
+                    <ImageBrush ImageSource="Resources/panel2.png"/>
                 </Label.Background>
             </Label>
-            <Canvas x:Uid="ScoreBoard" Name="ScoreBoard" Height="9" Width="280" Canvas.Left="-140" Canvas.Top="24" Background="Green" Visibility="Hidden">
-                <TextBlock x:Uid="RedBarGlobal" Name="RedBarGlobal" Width="0" Canvas.Left="0" Background="Firebrick" Height="4"></TextBlock>
-                <TextBlock x:Uid="BlueBarGlobal" Name="BlueBarGlobal" Canvas.Left="{Binding ElementName=RedBarGlobal, Path=Width}" Background="SteelBlue" Height="4"></TextBlock>
-                <Canvas x:Uid="Canvas_4" Height="1" Width="280" Canvas.Top="4" Background="Black" />
-                <TextBlock x:Uid="RedBarBL" Name="RedBarBL" Width="0" Canvas.Top="5" Canvas.Left="0" Background="Firebrick" Height="4"></TextBlock>
-                <TextBlock x:Uid="BlueBarBL" Name="BlueBarBL" Canvas.Top="5" Canvas.Left="{Binding ElementName=RedBarBL, Path=Width}" Background="SteelBlue" Height="4"></TextBlock>
+            <Canvas Name="ScoreBoard" Height="9" Width="280" Canvas.Left="-140" Canvas.Top="24" Background="Green" Visibility="Hidden">
+                <TextBlock Name="RedBarGlobal" Width="0" Canvas.Left="0" Background="Firebrick" Height="4"></TextBlock>
+                <TextBlock Name="BlueBarGlobal" Canvas.Left="{Binding ElementName=RedBarGlobal, Path=Width}" Background="SteelBlue" Height="4"></TextBlock>
+                <Canvas Height="1" Width="280" Canvas.Top="4" Background="Black" />
+                <TextBlock Name="RedBarBL" Width="0" Canvas.Top="5" Canvas.Left="0" Background="Firebrick" Height="4"></TextBlock>
+                <TextBlock Name="BlueBarBL" Canvas.Top="5" Canvas.Left="{Binding ElementName=RedBarBL, Path=Width}" Background="SteelBlue" Height="4"></TextBlock>
             </Canvas>
 
-            <Canvas x:Uid="CnvsBlSelection" Name="CnvsBlSelection"  Visibility="Hidden" Height="150" Width="213" Canvas.Left="-99" Canvas.Top="41" Background="#FF363639">
-                <Label x:Uid="Label_4" Content="Borderland Selection" Width="213" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
+            <Canvas Name="CnvsBlSelection"  Visibility="Hidden" Height="150" Width="213" Canvas.Left="-99" Canvas.Top="41" Background="#FF363639">
+                <Label Content="Borderland Selection" Width="213" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
                     <Label.Background>
-                        <SolidColorBrush x:Uid="SolidColorBrush_1" Color="#FF212024"/>
+                        <SolidColorBrush Color="#FF212024"/>
                     </Label.Background>
                 </Label>
-                <Label x:Uid="LblGreenBl" x:Name="LblGreenBl" Content="Green" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Canvas.Left="10" Canvas.Top="31" Foreground="Green" Tag="GreenHome" MouseDown="BorderlandSelected" >
+                <Label x:Name="LblGreenBl" Content="Green" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Canvas.Left="10" Canvas.Top="31" Foreground="Green" Tag="GreenHome" MouseDown="BorderlandSelected" >
                     <Label.Style>
-                        <Style x:Uid="Style_2">
-                            <Setter x:Uid="Setter_3" Property="Panel.Background" Value="#FF212024" />
+                        <Style>
+                            <Setter Property="Panel.Background" Value="#FF212024" />
                             <Style.Triggers>
-                                <Trigger x:Uid="Trigger_1" Property="Panel.IsMouseOver" Value="True">
-                                    <Setter x:Uid="Setter_4" Property="Panel.Background" Value="#FF000000" />
+                                <Trigger Property="Panel.IsMouseOver" Value="True">
+                                    <Setter Property="Panel.Background" Value="#FF000000" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Uid="LblBlueBl" x:Name="LblBlueBl" Content="Blue" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="SteelBlue" Canvas.Left="10" Canvas.Top="60" Tag="BlueHome" MouseDown="BorderlandSelected">
+                <Label x:Name="LblBlueBl" Content="Blue" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="SteelBlue" Canvas.Left="10" Canvas.Top="60" Tag="BlueHome" MouseDown="BorderlandSelected">
                     <Label.Style>
-                        <Style x:Uid="Style_3">
-                            <Setter x:Uid="Setter_5" Property="Panel.Background" Value="#FF212024" />
+                        <Style>
+                            <Setter Property="Panel.Background" Value="#FF212024" />
                             <Style.Triggers>
-                                <Trigger x:Uid="Trigger_2" Property="UIElement.IsMouseOver" Value="True">
-                                    <Setter x:Uid="Setter_6" Property="Panel.Background" Value="#FF000000" />
+                                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                    <Setter Property="Panel.Background" Value="#FF000000" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Uid="LblRedBl" x:Name="LblRedBl" Content="Red" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="Firebrick" Canvas.Left="10" Canvas.Top="89" Tag="RedHome" MouseDown="BorderlandSelected">
+                <Label x:Name="LblRedBl" Content="Red" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="Firebrick" Canvas.Left="10" Canvas.Top="89" Tag="RedHome" MouseDown="BorderlandSelected">
                     <Label.Style>
-                        <Style x:Uid="Style_4">
-                            <Setter x:Uid="Setter_7" Property="Panel.Background" Value="#FF212024" />
+                        <Style>
+                            <Setter Property="Panel.Background" Value="#FF212024" />
                             <Style.Triggers>
-                                <Trigger x:Uid="Trigger_3" Property="UIElement.IsMouseOver" Value="True">
-                                    <Setter x:Uid="Setter_8" Property="Panel.Background" Value="#FF000000" />
+                                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                    <Setter Property="Panel.Background" Value="#FF000000" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Uid="LblEbBl" x:Name="LblEbBl" Content="Eternal Battlegrounds" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFC5C5C5" Canvas.Left="10" Canvas.Top="118" Tag="Center" MouseDown="BorderlandSelected">
+                <Label x:Name="LblEbBl" Content="Eternal Battlegrounds" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFC5C5C5" Canvas.Left="10" Canvas.Top="118" Tag="Center" MouseDown="BorderlandSelected">
                     <Label.Style>
-                        <Style x:Uid="Style_5">
-                            <Setter x:Uid="Setter_9" Property="Panel.Background" Value="#FF212024" />
+                        <Style>
+                            <Setter Property="Panel.Background" Value="#FF212024" />
                             <Style.Triggers>
-                                <Trigger x:Uid="Trigger_4" Property="UIElement.IsMouseOver" Value="True">
-                                    <Setter x:Uid="Setter_10" Property="Panel.Background" Value="#FF000000" />
+                                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                    <Setter Property="Panel.Background" Value="#FF000000" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -126,54 +126,54 @@
                 </Label>
             </Canvas>
 
-            <Canvas x:Uid="cnvsMatchSelection" Visibility="Visible" Name="cnvsMatchSelection" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="389" Background="#FF363639" Canvas.Top="0" Canvas.Left="-195">
-                <Label x:Uid="Label_5" Content="Match Selection" Width="389" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
+            <Canvas Visibility="Visible" Name="cnvsMatchSelection" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="389" Background="#FF363639" Canvas.Top="0" Canvas.Left="-195">
+                <Label Content="Match Selection" Width="389" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
                     <Label.Background>
-                        <SolidColorBrush x:Uid="SolidColorBrush_2" Color="#FF212024"/>
+                        <SolidColorBrush Color="#FF212024"/>
                     </Label.Background>
                 </Label>
-                <Canvas x:Uid="CnvsMatchUp" Name="CnvsMatchUp">
-                    <Canvas x:Uid="Canvas_5" Height="2" Canvas.Top="93" Width="176" Background="#FFDD9900" Canvas.Left="0"/>
-                    <Label x:Uid="Label_6" Content="OR" Width="37" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="178" Canvas.Top="80"/>
-                    <Canvas x:Uid="Canvas_6" Height="2" Canvas.Top="93" Width="173" Background="#FFDD9900" Canvas.Left="216"/>
-
-                    <ListBox x:Uid="LstbxMatchSelection" Name="LstbxMatchSelection" Height="282" Canvas.Left="10" Canvas.Top="108" Width="369" Background="{x:Null}" Foreground="#FFEEEEEE" BorderThickness="0" BorderBrush="{x:Null}"
+                <Canvas Name="CnvsMatchUp">
+                    <Canvas Height="2" Canvas.Top="93" Width="176" Background="#FFDD9900" Canvas.Left="0"/>
+                    <Label Content="OR" Width="37" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="178" Canvas.Top="80"/>
+                    <Canvas Height="2" Canvas.Top="93" Width="173" Background="#FFDD9900" Canvas.Left="216"/>
+                
+                <ListBox Name="LstbxMatchSelection" Height="282" Canvas.Left="10" Canvas.Top="108" Width="369" Background="{x:Null}" Foreground="#FFEEEEEE" BorderThickness="0" BorderBrush="{x:Null}"
                      ItemsSource="{Binding Path=Match}" DisplayMemberPath="wvw_match_string" SelectedValuePath="wvw_match_id" SelectedValue="{Binding Path=Matches}">
 
-                    </ListBox>
+                </ListBox>
                 </Canvas>
-                <Label x:Uid="lblSelectionOK" x:Name="lblSelectionOK" Content="OK" Width="63" Height="24" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFDD9900" Canvas.Left="316" Canvas.Top="36" MouseDown="lblSelectionOK_Click">
+                <Label x:Name="lblSelectionOK" Content="OK" Width="63" Height="24" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFDD9900" Canvas.Left="316" Canvas.Top="36" MouseDown="lblSelectionOK_Click">
                     <Label.Style>
-                        <Style x:Uid="Style_6">
-                            <Setter x:Uid="Setter_11" Property="Panel.Background" Value="#FF212024" />
+                        <Style>
+                            <Setter Property="Panel.Background" Value="#FF212024" />
                             <Style.Triggers>
-                                <Trigger x:Uid="Trigger_5" Property="Panel.IsMouseOver" Value="True">
-                                    <Setter x:Uid="Setter_12" Property="Panel.Background" Value="#FF000000" />
+                                <Trigger Property="Panel.IsMouseOver" Value="True">
+                                    <Setter Property="Panel.Background" Value="#FF000000" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </Label.Style>
                 </Label>
                 <!--MouseDown="lblSelectionOK_Click" MouseEnter="lblSelectionOK_Enter" MouseLeave="lblSelectionOK_Leave"  World_Names_> World -->
-                <ComboBox x:Uid="CmbbxHomeServerSelection" Name="CmbbxHomeServerSelection" Canvas.Left="118" Canvas.Top="38" Width="184" Foreground="Black" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=World_Names_}" Style="{DynamicResource ComboBoxStyle}" SelectionChanged="CmbbxMatchSelection_Change" />
-                <Label x:Uid="Label_7" Content="Home Server: " Width="99" Height="26" FontSize="14" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="14" Canvas.Top="38" FontWeight="Bold"/>
-                <CheckBox x:Uid="ChkbxAutoMatchSelect" Name="ChkbxAutoMatchSelect" Content="Automatic Match Selection" Canvas.Left="118" Canvas.Top="64" Foreground="#FFDD9900" Style="{DynamicResource CheckBoxStyle}">
+                <ComboBox Name="CmbbxHomeServerSelection" Canvas.Left="118" Canvas.Top="38" Width="184" Foreground="Black" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=World_Names_}" Style="{DynamicResource ComboBoxStyle}" SelectionChanged="CmbbxMatchSelection_Change" />
+                <Label Content="Home Server: " Width="99" Height="26" FontSize="14" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="14" Canvas.Top="38" FontWeight="Bold"/>
+                <CheckBox Name="ChkbxAutoMatchSelect" Content="Automatic Match Selection" Canvas.Left="118" Canvas.Top="64" Foreground="#FFDD9900" Style="{DynamicResource CheckBoxStyle}">
                     <CheckBox.ToolTip>
-                        <ToolTip x:Uid="ToolTip_1">
-                            <StackPanel x:Uid="StackPanel_2">
-                                <TextBlock x:Uid="TextBlock_2" FontWeight="Bold">Auto Match Selection</TextBlock>
-                                <TextBlock x:Uid="TextBlock_3">After choosing your home server, your matches will be selected automatically.</TextBlock>
+                        <ToolTip>
+                            <StackPanel>
+                                <TextBlock FontWeight="Bold">Auto Match Selection</TextBlock>
+                                <TextBlock>After choosing your home server, your matches will be selected automatically.</TextBlock>
                             </StackPanel>
                         </ToolTip>
                     </CheckBox.ToolTip>
                 </CheckBox>
-                <Label x:Uid="lblSelectionReset" x:Name="lblSelectionReset" Content="Reset" Width="63" Height="24" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFDD9900" Canvas.Left="316" Canvas.Top="64" MouseDown="lblSelectionReset_Click">
+                <Label x:Name="lblSelectionReset" Content="Reset" Width="63" Height="24" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFDD9900" Canvas.Left="316" Canvas.Top="64" MouseDown="lblSelectionReset_Click">
                     <Label.Style>
-                        <Style x:Uid="Style_7">
-                            <Setter x:Uid="Setter_13" Property="Panel.Background" Value="#FF212024" />
+                        <Style>
+                            <Setter Property="Panel.Background" Value="#FF212024" />
                             <Style.Triggers>
-                                <Trigger x:Uid="Trigger_6" Property="UIElement.IsMouseOver" Value="True">
-                                    <Setter x:Uid="Setter_14" Property="Panel.Background" Value="#FF000000" />
+                                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                                    <Setter Property="Panel.Background" Value="#FF000000" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -182,6 +182,6 @@
             </Canvas>
         </Canvas>
 
-
+        
     </Grid>
 </Window>
