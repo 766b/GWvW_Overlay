@@ -28,46 +28,53 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
-(10/29/2013)
+(21/03/2014)
+- Added localization support
+- Added a tooltip including :
+  - A timer for the current objective indicating the time since it is owned by the current faction
+  - The guild owning the objective
+- Some code cleaning
+
+(29/10/2013)
 - Fixed neutral icons for Ruins of Power
 - Removed timers from Ruins of Power
 - Fixed minor issues related to Ruins of Power
 
-(9/17/2013)
+(17/9/2013)
 - Replaced outdated borderlands map
 - Added new icons for Bloodlust objectives
 
-(7/02/2013)
+(02/7/2013)
 - Added reset option for main window
 
-(6/28/2013)
+(28/6/2013)
 - Added objective counter
 - Added About window
 
-(6/18/2013)
+(18/6/2013)
 - Added new interface for match selection
 - Added automatic match selection based on pre-selected home server
 - Fixed the bug that would cause crash when server name is "null"
 
-(6/14/2013)
+(14/6/2013)
 - Check for updates before application starts
 - Changed color theme of tracker window
 
-(6/13/2013)
+(13/6/2013)
 - Fixed code that caused claims not to trigger
 - Fixed disappearing tracker window
 
-(6/12/2013)
+(12/6/2013)
 - Added separate overlay for tracking events and timers on camp
 - Re-done how click-trough is handled
 
-(6/9/2013)
+(9/6/2013)
 - Added separate options window
 - Main window can now be resized
 - Added guild claim icons
 - Added objective names
 
-(6/2/2013)
+(2/6/2013)
 - Remapped show/hide shortcut to "Home" key
 - Added map title
 - Added opacity slider
@@ -75,12 +82,12 @@ Changes
 - Updated icons for objectives
 - Enabled update feature
 
-(6/1/2013
+(1/6/2013
 - Added always on top checkbox
 - Main window can now be dragged around
 - Removed redundant function calls
 - Fixed and issue with disappearing window
 - Replaced the icon to avoid confusion with GW2.exe
 
-(5/31/2013)
+(31/5/2013)
 - Initial Release
