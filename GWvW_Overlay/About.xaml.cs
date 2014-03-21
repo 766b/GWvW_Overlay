@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
 using GWvW_Overlay.Annotations;
+using GWvW_Overlay.Resources.Lang;
 
 namespace GWvW_Overlay
 {
@@ -15,6 +16,7 @@ namespace GWvW_Overlay
         {
             InitializeComponent();
             var abinfo = new AppInfo();
+            this.Title = Strings.about;
             DataContext = abinfo;
         }
 

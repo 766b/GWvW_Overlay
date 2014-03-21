@@ -66,7 +66,7 @@
         </ItemsControl>
 
         <Canvas HorizontalAlignment="Center">
-            <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="200" Canvas.Left="-100" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
+            <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="250" Canvas.Left="-125" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
                 <Label.Background>
                     <ImageBrush ImageSource="Resources/panel2.png"/>
                 </Label.Background>
@@ -79,13 +79,13 @@
                 <TextBlock Name="BlueBarBL" Canvas.Top="5" Canvas.Left="{Binding ElementName=RedBarBL, Path=Width}" Background="SteelBlue" Height="4"></TextBlock>
             </Canvas>
 
-            <Canvas Name="CnvsBlSelection"  Visibility="Hidden" Height="150" Width="213" Canvas.Left="-99" Canvas.Top="41" Background="#FF363639">
-                <Label Content="{Binding Path=Locale.borderlandChoice, Source={StaticResource LocalizedStrings}}" Width="213" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
+            <Canvas Name="CnvsBlSelection"  Visibility="Hidden" Height="150" Width="263" Canvas.Left="-124" Canvas.Top="41" Background="#FF363639">
+                <Label Content="{Binding Path=Locale.borderlandChoice, Source={StaticResource LocalizedStrings}}" Width="263" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
                     <Label.Background>
                         <SolidColorBrush Color="#FF212024"/>
                     </Label.Background>
                 </Label>
-                <Label x:Name="LblGreenBl" Content="Green" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Canvas.Left="10" Canvas.Top="31" Foreground="Green" Tag="GreenHome" MouseDown="BorderlandSelected" >
+                <Label x:Name="LblGreenBl" Content="Green" Width="243" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Canvas.Left="10" Canvas.Top="31" Foreground="Green" Tag="GreenHome" MouseDown="BorderlandSelected" >
                     <Label.Style>
                         <Style>
                             <Setter Property="Panel.Background" Value="#FF212024" />
@@ -97,7 +97,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="LblBlueBl" Content="Blue" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="SteelBlue" Canvas.Left="10" Canvas.Top="60" Tag="BlueHome" MouseDown="BorderlandSelected">
+                <Label x:Name="LblBlueBl" Content="Blue" Width="243" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="SteelBlue" Canvas.Left="10" Canvas.Top="60" Tag="BlueHome" MouseDown="BorderlandSelected">
                     <Label.Style>
                         <Style>
                             <Setter Property="Panel.Background" Value="#FF212024" />
@@ -109,7 +109,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="LblRedBl" Content="Red" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="Firebrick" Canvas.Left="10" Canvas.Top="89" Tag="RedHome" MouseDown="BorderlandSelected">
+                <Label x:Name="LblRedBl" Content="Red" Width="243" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="Firebrick" Canvas.Left="10" Canvas.Top="89" Tag="RedHome" MouseDown="BorderlandSelected">
                     <Label.Style>
                         <Style>
                             <Setter Property="Panel.Background" Value="#FF212024" />
@@ -121,7 +121,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="LblEbBl" Content="Eternal Battlegrounds" Width="193" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFC5C5C5" Canvas.Left="10" Canvas.Top="118" Tag="Center" MouseDown="BorderlandSelected">
+                <Label x:Name="LblEbBl" Content="{Binding Path=Locale.eternalBattlegrounds,Source={StaticResource LocalizedStrings}}" Width="243" Height="24" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFC5C5C5" Canvas.Left="10" Canvas.Top="118" Tag="Center" MouseDown="BorderlandSelected">
                     <Label.Style>
                         <Style>
                             <Setter Property="Panel.Background" Value="#FF212024" />
@@ -136,7 +136,7 @@
             </Canvas>
 
             <Canvas Visibility="Visible" Name="cnvsMatchSelection" HorizontalAlignment="Left" Height="400" VerticalAlignment="Top" Width="389" Background="#FF363639" Canvas.Top="0" Canvas.Left="-195">
-                <Label Content="Match Selection" Width="389" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
+                <Label Content="{Binding Path=Locale.matchSelectionLabel,Source={StaticResource LocalizedStrings}}" Width="389" Height="26" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="5,0" Foreground="#FFDD9900">
                     <Label.Background>
                         <SolidColorBrush Color="#FF212024"/>
                     </Label.Background>

@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using GWvW_Overlay.Annotations;
+using GWvW_Overlay.Resources.Lang;
 
 namespace GWvW_Overlay
 {
@@ -415,22 +416,22 @@ namespace GWvW_Overlay
                 switch (value)
                 {
                     case "RedHome":
-                        active_bl_title = "Red Borderlands";
+                        active_bl_title = Strings.redBorderland;
                         active_map_img = "Resources/mapbl_normal.png";
                         ChangeWindowSize(false);
                         break;
                     case "GreenHome":
-                        active_bl_title = "Green Borderlands";
+                        active_bl_title = Strings.greenBorderland;
                         active_map_img = "Resources/mapbl_normal.png";
                         ChangeWindowSize(false);
                         break;
                     case "BlueHome":
-                        active_bl_title = "Blue Borderlands";
+                        active_bl_title = Strings.blueBorderland;
                         active_map_img = "Resources/mapbl_normal.png";
                         ChangeWindowSize(false);
                         break;
                     default:
-                        active_bl_title = "Eternal Battlegrounds";
+                        active_bl_title = Strings.eternalBattlegrounds;
                         active_map_img = "Resources/mapeb_normal.png";
                         ChangeWindowSize(true);
                         break;

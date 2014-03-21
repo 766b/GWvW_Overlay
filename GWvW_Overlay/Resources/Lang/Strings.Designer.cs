@@ -196,6 +196,24 @@ namespace GWvW_Overlay.Resources.Lang {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Eternal Battlegrounds.
+        /// </summary>
+        public static string eternalBattlegrounds {
+            get {
+                return ResourceManager.GetString("eternalBattlegrounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Exit.
+        /// </summary>
+        public static string exit {
+            get {
+                return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à French.
         /// </summary>
         public static string frenchLabel {
@@ -228,6 +246,15 @@ namespace GWvW_Overlay.Resources.Lang {
         public static string hotKeyGroupname {
             get {
                 return ResourceManager.GetString("hotKeyGroupname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Match Selection.
+        /// </summary>
+        public static string matchSelectionLabel {
+            get {
+                return ResourceManager.GetString("matchSelectionLabel", resourceCulture);
             }
         }
         
@@ -297,9 +324,9 @@ namespace GWvW_Overlay.Resources.Lang {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Red Borderland.
         /// </summary>
-        public static string redBorderLand {
+        public static string redBorderland {
             get {
-                return ResourceManager.GetString("redBorderLand", resourceCulture);
+                return ResourceManager.GetString("redBorderland", resourceCulture);
             }
         }
         

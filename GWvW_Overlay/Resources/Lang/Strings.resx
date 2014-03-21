@@ -225,13 +225,22 @@
   <data name="blueBorderland" xml:space="preserve">
     <value>Blue Borderland</value>
   </data>
+  <data name="eternalBattlegrounds" xml:space="preserve">
+    <value>Eternal Battlegrounds</value>
+  </data>
+  <data name="exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="greenBorderland" xml:space="preserve">
     <value>Green Borderland</value>
+  </data>
+  <data name="matchSelectionLabel" xml:space="preserve">
+    <value>Match Selection</value>
   </data>
   <data name="queryLanquage" xml:space="preserve">
     <value>en</value>
   </data>
-  <data name="redBorderLand" xml:space="preserve">
+  <data name="redBorderland" xml:space="preserve">
     <value>Red Borderland</value>
   </data>
   <data name="showCampTimtersLabel" xml:space="preserve">

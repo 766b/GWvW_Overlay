@@ -243,13 +243,13 @@ namespace GWvW_Overlay
                 var blBlue = new MenuItem { Header = string.Format(Strings.blueBorderland + " ({0})", WvwMatch.getServerName("blue")), Tag = "BlueHome" };
                 blBlue.Click += BorderlandSelected;
 
-                var blRed = new MenuItem { Header = string.Format(Strings.redBorderLand + " ({0})", WvwMatch.getServerName("red")), Tag = "RedHome" };
+                var blRed = new MenuItem { Header = string.Format(Strings.redBorderland + " ({0})", WvwMatch.getServerName("red")), Tag = "RedHome" };
                 blRed.Click += BorderlandSelected;
 
                 var blGreen = new MenuItem { Header = string.Format(Strings.greenBorderland + " ({0})", WvwMatch.getServerName("green")), Tag = "GreenHome" };
                 blGreen.Click += BorderlandSelected;
 
-                var blEb = new MenuItem { Header = "Eternal Battleground", Tag = "Center" };
+                var blEb = new MenuItem { Header = Strings.eternalBattlegrounds, Tag = "Center" };
                 blEb.Click += BorderlandSelected;
 
                 mainMenu.Items.Add(new Separator());
@@ -260,11 +260,11 @@ namespace GWvW_Overlay
                 mainMenu.Items.Add(blEb);
 
             }
-            var aboutWin = new MenuItem { Header = "About" };
+            var aboutWin = new MenuItem { Header = Strings.about };
             aboutWin.Click += ShowAboutWin;
             mainMenu.Items.Add(aboutWin);
 
-            var exitApp = new MenuItem { Header = "Exit" };
+            var exitApp = new MenuItem { Header = Strings.exit };
             exitApp.Click += ExitApp;
 
             mainMenu.Items.Add(exitApp);
