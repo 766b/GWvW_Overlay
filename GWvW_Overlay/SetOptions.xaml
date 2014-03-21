@@ -28,7 +28,7 @@
                 <Label Content="{Binding Path=Locale.currentHotKeylabel, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="104" Canvas.Left="10" Canvas.Top="9" />
                 <Label x:Name="lblNewKey" Content=" " HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="104" Canvas.Left="268" Canvas.Top="13" />
                 <TextBox x:Name="txtbox_hotkey" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" Canvas.Left="68" Canvas.Top="10" IsReadOnly="True"/>
-                <Button x:Name="btnNewHotkey" Content="{Binding Path=Locale.newHotkeyButton, Source={StaticResource LocalizedStrings}}" Height="23" Canvas.Left="167" Canvas.Top="9" Width="96" Click="btnNewHotkey_Click"/>
+                <Button x:Name="btnNewHotkey" Content="{Binding Path=Locale.newHotkeyButton, Source={StaticResource LocalizedStrings}}" Height="23" Canvas.Left="167" Canvas.Top="9" Click="btnNewHotkey_Click"/>
                 <Label Content="Press any key" Name="HotkeyAlert" Visibility="Hidden" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="123" Canvas.Left="268" Canvas.Top="7" Foreground="#FF9C0000" />
             </Canvas>
 
@@ -57,7 +57,7 @@
                 <CheckBox x:Name="chkTrackerDisplay" Content="{Binding Path=Locale.displayEventTrackerLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="10" IsChecked="{Binding show_tracker, Source={x:Static Properties:Settings.Default}}" Click="chkTrackerDisplay_Click"/>
                 <CheckBox x:Name="chkCamp" Content="{Binding Path=Locale.showCampTimtersLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="52" Visibility="Hidden" />
                 <CheckBox x:Name="chkEventLog" Content="{Binding Path=Locale.displayEventLogLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="31" IsChecked="{Binding tracker_show_event, Source={x:Static Properties:Settings.Default}}" Click="chkEventLog_Click" />
-                <Label x:Name="lblCacheSize" Content="{Binding Path=Locale.cacheInfoLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="50" Width="230"/>
+                <Label x:Name="lblCacheSize" Content="{Binding Path=Locale.cacheInfoLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="0" Canvas.Top="50"/>
             </Canvas>
         </GroupBox>
         <GroupBox Header="{Binding Path=Locale.autoMatchGroupname, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="85" Margin="10,402,0,0" VerticalAlignment="Top" Width="400">
