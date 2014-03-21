@@ -34,6 +34,7 @@ Changes
   - A timer for the current objective indicating the time since it is owned by the current faction
   - The guild owning the objective
 - Some code cleaning
+- French Localization
 
 (29/10/2013)
 - Fixed neutral icons for Ruins of Power
