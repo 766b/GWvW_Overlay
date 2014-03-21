@@ -225,9 +225,9 @@ namespace GWvW_Overlay.Resources.Lang {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à German.
         /// </summary>
-        public static string germanlabel {
+        public static string germanLabel {
             get {
-                return ResourceManager.GetString("germanlabel", resourceCulture);
+                return ResourceManager.GetString("germanLabel", resourceCulture);
             }
         }
         

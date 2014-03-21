@@ -11,7 +11,7 @@
     </Window.Resources>
 
     <Grid>
-        <GroupBox Header="{Binding Path=Locale.transparencyGroupName, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="94" Width="394" Foreground="Black">
+        <GroupBox Header="{Binding Path=Locale.transparencyGroupName, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="94" Width="400" Foreground="Black">
             <Canvas Margin="0,-15,0,0">
 
                 <Slider x:Name="opticity_slider" HorizontalAlignment="Left" Value="{Binding opticity, Source={x:Static Properties:Settings.Default}}" 
@@ -23,7 +23,7 @@
 
             </Canvas>
         </GroupBox>
-        <GroupBox Header="{Binding Path=Locale.hotKeyGroupname, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,213,0,0" Height="75" Width="394">
+        <GroupBox Header="{Binding Path=Locale.hotKeyGroupname, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,213,0,0" Height="75" Width="400">
             <Canvas>
                 <Label Content="{Binding Path=Locale.currentHotKeylabel, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="104" Canvas.Left="10" Canvas.Top="9" />
                 <Label x:Name="lblNewKey" Content=" " HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="104" Canvas.Left="268" Canvas.Top="13" />
@@ -34,18 +34,18 @@
 
 
         </GroupBox>
-        <GroupBox Header="{Binding Path=Locale.otherGroupName, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="10,293,0,0" VerticalAlignment="Top" Height="104" Width="394">
+        <GroupBox Header="{Binding Path=Locale.otherGroupName, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="10,293,0,0" VerticalAlignment="Top" Height="104" Width="400">
             <Canvas>
-                <CheckBox x:Name="chkShowNames" Content="{Binding Path=Locale.displayObjNamesLabel, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="362" IsChecked="{Binding show_names, Source={x:Static Properties:Settings.Default}}" Canvas.Left="10" Canvas.Top="37"/>
+                <CheckBox x:Name="chkShowNames" Content="{Binding Path=Locale.displayObjNamesLabel, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" IsChecked="{Binding show_names, Source={x:Static Properties:Settings.Default}}" Canvas.Left="10" Canvas.Top="37"/>
                 <CheckBox x:Name="chkAlwaysTop" Content="{Binding Path=Locale.alwaysOnTopLabel, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="165" Canvas.Left="10" Canvas.Top="56" IsChecked="{Binding alwaysTop, Source={x:Static Properties:Settings.Default}}"/>
-                <RadioButton Name="langSpanish" Tag="{Binding Path=Locale.spanishLabel, Source={StaticResource LocalizedStrings}}" Content="Spanish" Canvas.Left="303" Canvas.Top="10" Checked="langSelection_Click"/>
-                <RadioButton Name="langFrench" Tag="{Binding Path=Locale.frenchLabel, Source={StaticResource LocalizedStrings}}" Content="French" Canvas.Left="184" Canvas.Top="10" Checked="langSelection_Click"/>
-                <RadioButton Name="langGerman" Tag="{Binding Path=Locale.germanlabel, Source={StaticResource LocalizedStrings}}" Content="German" Canvas.Left="240" Canvas.Top="10" Checked="langSelection_Click"/>
-                <RadioButton Name="langEnglish" Tag="{Binding Path=Locale.englishLabel, Source={StaticResource LocalizedStrings}}" Content="English" Canvas.Left="125" Canvas.Top="10" Checked="langSelection_Click"/>
+                <RadioButton Name="langSpanish" Tag="{Binding Path=Locale.spanishLabel, Source={StaticResource LocalizedStrings}}" Content="{Binding Path=Locale.spanishLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="320" Canvas.Top="10" Checked="langSelection_Click"/>
+                <RadioButton Name="langFrench" Tag="{Binding Path=Locale.frenchLabel, Source={StaticResource LocalizedStrings}}" Content="{Binding Path=Locale.frenchLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="184" Canvas.Top="10" Checked="langSelection_Click"/>
+                <RadioButton Name="langGerman" Tag="{Binding Path=Locale.germanLabel, Source={StaticResource LocalizedStrings}}" Content="{Binding Path=Locale.germanLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="250" Canvas.Top="10" Checked="langSelection_Click"/>
+                <RadioButton Name="langEnglish" Tag="{Binding Path=Locale.englishLabel, Source={StaticResource LocalizedStrings}}" Content="{Binding Path=Locale.englishLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="125" Canvas.Top="10" Checked="langSelection_Click"/>
                 <Label Content="{Binding Path=Locale.objectiveNamesLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="5"/>
             </Canvas>
         </GroupBox>
-        <GroupBox Header="{Binding Path=Locale.resetGroupName, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="99" Margin="277,109,0,0" VerticalAlignment="Top" Width="127">
+        <GroupBox Header="{Binding Path=Locale.resetGroupName, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="99" Margin="277,109,0,0" VerticalAlignment="Top" Width="133">
             <Canvas>
                 <Button x:Name="BtnResetPosTrack" Content="{Binding Path=Locale.resetTrackerWindowButton, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="10" Width="95" Click="btnResetPosTracker_Click"/>
                 <Button x:Name="BtnResetPosMain" Content="{Binding Path=Locale.resetMainWindowButton, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="37" Width="95" Click="btnResetPosMain_Click"/>
@@ -60,7 +60,7 @@
                 <Label x:Name="lblCacheSize" Content="{Binding Path=Locale.cacheInfoLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="50" Width="230"/>
             </Canvas>
         </GroupBox>
-        <GroupBox Header="{Binding Path=Locale.autoMatchGroupname, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="85" Margin="10,402,0,0" VerticalAlignment="Top" Width="394">
+        <GroupBox Header="{Binding Path=Locale.autoMatchGroupname, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="85" Margin="10,402,0,0" VerticalAlignment="Top" Width="400">
             <Canvas>
                 <ComboBox Name="CmbbxMatchSelection" Canvas.Left="93" Canvas.Top="12" Width="184" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=World_Names_}" />
                 <Label Content="{Binding Path=Locale.serverSelectionLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="10"/>
