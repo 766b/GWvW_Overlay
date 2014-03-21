@@ -93,6 +93,7 @@ Changes
 (31/5/2013)
 - Initial Release
 
-Kknwon Issues
+Known Issues
 ============
 - The timer indicating the time since an objective was owned will start at 0 for every map change, it is completely normal since the Anet provided API does not provide any way of knowing this. Instead i have to make a time difference since the objective's owner changed and the current time.
+- Before the selection of a map after the selection of a server or a Match, the title of the map window may appear in a unlocalized version
