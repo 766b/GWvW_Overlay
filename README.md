@@ -93,6 +93,6 @@ Changes
 (31/5/2013)
 - Initial Release
 
-Kknwon Issues
+Knwon Issues
 ============
 - The timer indicating the time since an objective was owned will start at 0 for every map change, it is completely normal since the Anet provided API does not provide any way of knowing this. Instead i have to make a time difference since the objective's owner changed and the current time.
