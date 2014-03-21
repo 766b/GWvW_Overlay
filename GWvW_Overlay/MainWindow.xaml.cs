@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using Newtonsoft.Json;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
+using GWvW_Overlay.Resources.Lang;
 
 namespace GWvW_Overlay
 {
@@ -239,13 +240,13 @@ namespace GWvW_Overlay
 
             if (WvwMatch.Options.active_match != null)
             {
-                var blBlue = new MenuItem { Header = string.Format("Blue Borderland ({0})", WvwMatch.getServerName("blue")), Tag = "BlueHome" };
+                var blBlue = new MenuItem { Header = string.Format(Strings.blueBorderland + " ({0})", WvwMatch.getServerName("blue")), Tag = "BlueHome" };
                 blBlue.Click += BorderlandSelected;
 
-                var blRed = new MenuItem { Header = string.Format("Red Borderland ({0})", WvwMatch.getServerName("red")), Tag = "RedHome" };
+                var blRed = new MenuItem { Header = string.Format(Strings.redBorderLand + " ({0})", WvwMatch.getServerName("red")), Tag = "RedHome" };
                 blRed.Click += BorderlandSelected;
 
-                var blGreen = new MenuItem { Header = string.Format("Green Borderland ({0})", WvwMatch.getServerName("green")), Tag = "GreenHome" };
+                var blGreen = new MenuItem { Header = string.Format(Strings.greenBorderland + " ({0})", WvwMatch.getServerName("green")), Tag = "GreenHome" };
                 blGreen.Click += BorderlandSelected;
 
                 var blEb = new MenuItem { Header = "Eternal Battleground", Tag = "Center" };
@@ -378,7 +379,7 @@ namespace GWvW_Overlay
 
         public void RtvWorldNames()
         {
-            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.GetJson(@"https://api.guildwars2.com/v1/world_names.json"));
+            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.GetJson(@"https://api.guildwars2.com/v1/world_names.json?lang=" + Strings.queryLanquage));
 
             Console.WriteLine(WvwMatch.World.Count);
             WvwMatch.World.Sort((x, y) => y.name != null ? (x.name != null ? String.Compare(x.name, y.name, StringComparison.Ordinal) : 0) : 0);

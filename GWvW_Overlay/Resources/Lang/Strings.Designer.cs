@@ -61,6 +61,213 @@ namespace GWvW_Overlay.Resources.Lang {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à About.
+        /// </summary>
+        public static string about {
+            get {
+                return ResourceManager.GetString("about", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Always on top.
+        /// </summary>
+        public static string alwaysOnTopLabel {
+            get {
+                return ResourceManager.GetString("alwaysOnTopLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Auto Match Selection.
+        /// </summary>
+        public static string autoMatchGroupname {
+            get {
+                return ResourceManager.GetString("autoMatchGroupname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à After choosing your home server, your matches will be selected automatically..
+        /// </summary>
+        public static string automaticMatchDesc {
+            get {
+                return ResourceManager.GetString("automaticMatchDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Automatic Match Selection.
+        /// </summary>
+        public static string automaticMatchLabel {
+            get {
+                return ResourceManager.GetString("automaticMatchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Blue Borderland.
+        /// </summary>
+        public static string blueBorderland {
+            get {
+                return ResourceManager.GetString("blueBorderland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Borderland Selection.
+        /// </summary>
+        public static string borderlandChoice {
+            get {
+                return ResourceManager.GetString("borderlandChoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à GuildDetails Cache File Size :.
+        /// </summary>
+        public static string cacheInfoLabel {
+            get {
+                return ResourceManager.GetString("cacheInfoLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à claimed by.
+        /// </summary>
+        public static string claimedBy {
+            get {
+                return ResourceManager.GetString("claimedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à claim released.
+        /// </summary>
+        public static string claimReleased {
+            get {
+                return ResourceManager.GetString("claimReleased", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Current.
+        /// </summary>
+        public static string currentHotKeylabel {
+            get {
+                return ResourceManager.GetString("currentHotKeylabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Show Event Log.
+        /// </summary>
+        public static string displayEventLogLabel {
+            get {
+                return ResourceManager.GetString("displayEventLogLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Display Tracker.
+        /// </summary>
+        public static string displayEventTrackerLabel {
+            get {
+                return ResourceManager.GetString("displayEventTrackerLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Display objective names (For changes to take effect change map).
+        /// </summary>
+        public static string displayObjNamesLabel {
+            get {
+                return ResourceManager.GetString("displayObjNamesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à English.
+        /// </summary>
+        public static string englishLabel {
+            get {
+                return ResourceManager.GetString("englishLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à French.
+        /// </summary>
+        public static string frenchLabel {
+            get {
+                return ResourceManager.GetString("frenchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à German.
+        /// </summary>
+        public static string germanlabel {
+            get {
+                return ResourceManager.GetString("germanlabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Green Borderland.
+        /// </summary>
+        public static string greenBorderland {
+            get {
+                return ResourceManager.GetString("greenBorderland", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Hotkey.
+        /// </summary>
+        public static string hotKeyGroupname {
+            get {
+                return ResourceManager.GetString("hotKeyGroupname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à New Hotkey.
+        /// </summary>
+        public static string newHotkeyButton {
+            get {
+                return ResourceManager.GetString("newHotkeyButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Objective Names : .
+        /// </summary>
+        public static string objectiveNamesLabel {
+            get {
+                return ResourceManager.GetString("objectiveNamesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Original Author:.
+        /// </summary>
+        public static string originalAuthor {
+            get {
+                return ResourceManager.GetString("originalAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Other.
+        /// </summary>
+        public static string otherGroupName {
+            get {
+                return ResourceManager.GetString("otherGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Guild :.
         /// </summary>
         public static string ownedBy {
@@ -75,6 +282,141 @@ namespace GWvW_Overlay.Resources.Lang {
         public static string ownedTime {
             get {
                 return ResourceManager.GetString("ownedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à en.
+        /// </summary>
+        public static string queryLanquage {
+            get {
+                return ResourceManager.GetString("queryLanquage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Red Borderland.
+        /// </summary>
+        public static string redBorderLand {
+            get {
+                return ResourceManager.GetString("redBorderLand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Reset.
+        /// </summary>
+        public static string resetGroupName {
+            get {
+                return ResourceManager.GetString("resetGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Main Window.
+        /// </summary>
+        public static string resetMainWindowButton {
+            get {
+                return ResourceManager.GetString("resetMainWindowButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Tracker Window.
+        /// </summary>
+        public static string resetTrackerWindowButton {
+            get {
+                return ResourceManager.GetString("resetTrackerWindowButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Reviewed by :.
+        /// </summary>
+        public static string reviewAuthor {
+            get {
+                return ResourceManager.GetString("reviewAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Home Server :.
+        /// </summary>
+        public static string serverSelectionLabel {
+            get {
+                return ResourceManager.GetString("serverSelectionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Show camp timers.
+        /// </summary>
+        public static string showCampTimtersLabel {
+            get {
+                return ResourceManager.GetString("showCampTimtersLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Source Code :.
+        /// </summary>
+        public static string sourceCode {
+            get {
+                return ResourceManager.GetString("sourceCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Spanish.
+        /// </summary>
+        public static string spanishLabel {
+            get {
+                return ResourceManager.GetString("spanishLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à  to .
+        /// </summary>
+        public static string to {
+            get {
+                return ResourceManager.GetString("to", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Tracker.
+        /// </summary>
+        public static string trackerGroupName {
+            get {
+                return ResourceManager.GetString("trackerGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Transparency.
+        /// </summary>
+        public static string transparencyGroupName {
+            get {
+                return ResourceManager.GetString("transparencyGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Main Window.
+        /// </summary>
+        public static string transparencySliderMainWindowLabel {
+            get {
+                return ResourceManager.GetString("transparencySliderMainWindowLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Side Tracker.
+        /// </summary>
+        public static string transparencySliderTrackerWindowLabel {
+            get {
+                return ResourceManager.GetString("transparencySliderTrackerWindowLabel", resourceCulture);
             }
         }
     }

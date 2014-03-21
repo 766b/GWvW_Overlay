@@ -4,17 +4,21 @@
         Title="About" 
         Height="160" 
         Width="479"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        xmlns:localization ="clr-namespace:GWvW_Overlay.Resources.Lang">
+    <Window.Resources>
+        <localization:LocalizedStrings x:Key="LocalizedStrings"/>
+    </Window.Resources>
     <Grid>
         <Image HorizontalAlignment="Left" Height="93" Margin="10,10,0,0" VerticalAlignment="Top" Width="93" Source="Resources/new_icon.ico"/>
         <TextBlock HorizontalAlignment="Left" Margin="108,10,0,0" TextWrapping="Wrap" Text="GWvW Overlay" VerticalAlignment="Top" Height="25" Width="353" FontSize="18" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="108,40,0,0" TextWrapping="Wrap" Text="Version: " VerticalAlignment="Top" Width="63"/>
         <TextBlock HorizontalAlignment="Left" Margin="196,40,0,0" TextWrapping="Wrap" Text="{Binding Version}" VerticalAlignment="Top" Width="220"/>
-        <TextBlock HorizontalAlignment="Left" Margin="108,61,0,0" TextWrapping="Wrap" Text="Original Author: " VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="108,61,0,0" TextWrapping="Wrap" Text="{Binding Path=Locale.originalAuthor, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="196,61,0,0" TextWrapping="Wrap" Text="Awaken.6389 (in-game)" VerticalAlignment="Top" Width="220"/>
-        <TextBlock HorizontalAlignment="Left" Margin="108,82,0,0" TextWrapping="Wrap" Text="Reviewed by :" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="108,82,0,0" TextWrapping="Wrap" Text="{Binding Path=Locale.reviewAuthor, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="196,82,0,0" TextWrapping="Wrap" Text="Side.3489 (in-game)" VerticalAlignment="Top" Width="220"/>
-        <TextBlock HorizontalAlignment="Left" Margin="108,103,0,0" TextWrapping="Wrap" Text="Source Code: " VerticalAlignment="Top" Width="83"/>
+        <TextBlock HorizontalAlignment="Left" Margin="108,103,0,0" TextWrapping="Wrap" Text="{Binding Path=Locale.sourceCode, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="83"/>
         <TextBlock HorizontalAlignment="Left" Margin="191,103,0,0" VerticalAlignment="Top">
             <Hyperlink NavigateUri="https://github.com/sidewinder94/GWvW_Overlay" RequestNavigate="HyperlinkNavigate">https://github.com/sidewinder94/GWvW_Overlay</Hyperlink>
         </TextBlock>

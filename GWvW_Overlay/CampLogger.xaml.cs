@@ -5,6 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Interop;
+using GWvW_Overlay.Resources.Lang;
 
 namespace GWvW_Overlay
 {
@@ -26,12 +27,12 @@ namespace GWvW_Overlay
             {
                 if (data["owner"] != "released")
                 {
-                    var owner = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format(" {0}\n", data["owner"])};
+                    var owner = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) { Text = string.Format(" {0}\n", data["owner"]) };
                     owner.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(data["owner_color"]));
                     owner.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
                 }
 
-                var obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format(data["owner"] == "released" ? "{0} {1}: claim released.\n" : "{0} {1}: claimed by ", data["time"], data["objective"])};
+                var obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) { Text = string.Format(data["owner"] == "released" ? "{0} {1}: " + Strings.claimReleased + ".\n" : "{0} {1}: " + Strings.claimedBy + " ", data["time"], data["objective"]) };
 
                 obj.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(null));
                 obj.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
@@ -39,19 +40,19 @@ namespace GWvW_Overlay
             }
             else
             {
-                var fromToTo = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format("{0}\n", data["to"])};
+                var fromToTo = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) { Text = string.Format("{0}\n", data["to"]) };
                 fromToTo.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(data["to_color"]));
                 fromToTo.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
 
-                var fromTo = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format(" to ")};
+                var fromTo = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) { Text = string.Format(Strings.to) };
                 fromTo.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(null));
                 fromTo.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
 
-                var fromToFrom = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format("{0}", data["from"])};
+                var fromToFrom = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) { Text = string.Format("{0}", data["from"]) };
                 fromToFrom.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(data["from_color"]));
                 fromToFrom.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
 
-                var obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) {Text = string.Format("{0} {1}: ", data["time"], data["objective"])};
+                var obj = new TextRange(eventLog.Document.ContentStart, eventLog.Document.ContentStart) { Text = string.Format("{0} {1}: ", data["time"], data["objective"]) };
                 obj.ApplyPropertyValue(TextElement.ForegroundProperty, GetColor(null));
                 obj.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
             }
@@ -65,9 +66,9 @@ namespace GWvW_Overlay
         public SolidColorBrush GetColor(string color)
         {
             if (color == null) color = "white";
-            
+
             switch (color.ToLower())
-            { 
+            {
                 case "red":
                     return Brushes.Firebrick;
                 case "green":
@@ -108,7 +109,7 @@ namespace GWvW_Overlay
             Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
 
             // Weird fix for disappearing window when switching between dual screen.
-            Topmost = false; 
+            Topmost = false;
             Topmost = true;
         }
 

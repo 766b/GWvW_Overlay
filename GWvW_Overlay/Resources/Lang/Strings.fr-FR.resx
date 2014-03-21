@@ -117,10 +117,124 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ownedBy" xml:space="preserve">
-    <value>Guilde : </value>
+    <data name="about" xml:space="preserve">
+    <value>About</value>
   </data>
-  <data name="ownedTime" xml:space="preserve">
-    <value>Possédé : </value>
+    <data name="alwaysOnTopLabel" xml:space="preserve">
+    <value>Always on top</value>
+  </data>
+    <data name="autoMatchGroupname" xml:space="preserve">
+    <value>Auto Match Selection</value>
+  </data>
+    <data name="automaticMatchLabel" xml:space="preserve">
+    <value>Automatic Match Selection</value>
+  </data>
+    <data name="borderlandChoice" xml:space="preserve">
+    <value>Borderland Selection</value>
+  </data>
+    <data name="cacheInfoLabel" xml:space="preserve">
+    <value>GuildDetails Cache File Size :</value>
+  </data>
+    <data name="claimedBy" xml:space="preserve">
+    <value>claimed by</value>
+  </data>
+    <data name="currentHotKeylabel" xml:space="preserve">
+    <value>Current</value>
+  </data>
+    <data name="displayObjNamesLabel" xml:space="preserve">
+    <value>Display objective names (For changes to take effect change map)</value>
+  </data>
+    <data name="displayEventLogLabel" xml:space="preserve">
+    <value>Show Event Log</value>
+  </data>
+    <data name="displayEventTrackerLabel" xml:space="preserve">
+    <value>Display Tracker</value>
+  </data>
+    <data name="englishLabel" xml:space="preserve">
+    <value>English</value>
+  </data>
+    <data name="frenchLabel" xml:space="preserve">
+    <value>French</value>
+  </data>
+    <data name="germanlabel" xml:space="preserve">
+    <value>German</value>
+  </data>
+    <data name="hotKeyGroupname" xml:space="preserve">
+    <value>Hotkey</value>
+  </data>
+    <data name="newHotkeyButton" xml:space="preserve">
+    <value>New Hotkey</value>
+  </data>
+    <data name="objectiveNamesLabel" xml:space="preserve">
+    <value>Objective Names : </value>
+  </data>
+    <data name="originalAuthor" xml:space="preserve">
+    <value>Original Author:</value>
+  </data>
+    <data name="otherGroupName" xml:space="preserve">
+    <value>Other</value>
+  </data>
+    <data name="ownedBy" xml:space="preserve">
+    <value>Guild :</value>
+  </data>
+    <data name="ownedTime" xml:space="preserve">
+    <value>Possessed : </value>
+  </data>
+    <data name="resetGroupName" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+    <data name="resetMainWindowButton" xml:space="preserve">
+    <value>Main Window</value>
+  </data>
+    <data name="resetTrackerWindowButton" xml:space="preserve">
+    <value>Tracker Window</value>
+  </data>
+    <data name="reviewAuthor" xml:space="preserve">
+    <value>Reviewed by :</value>
+  </data>
+    <data name="serverSelectionLabel" xml:space="preserve">
+    <value>Home Server :</value>
+  </data>
+    <data name="sourceCode" xml:space="preserve">
+    <value>Source Code :</value>
+  </data>
+    <data name="spanishLabel" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+    <data name="trackerGroupName" xml:space="preserve">
+    <value>Tracker</value>
+  </data>
+    <data name="transparencyGroupName" xml:space="preserve">
+    <value>Transparency</value>
+  </data>
+    <data name="transparencySliderMainWindowLabel" xml:space="preserve">
+    <value>Main Window</value>
+  </data>
+    <data name="transparencySliderTrackerWindowLabel" xml:space="preserve">
+    <value>Side Tracker</value>
+  </data>
+    <data name="claimReleased" xml:space="preserve">
+    <value>claim released</value>
+  </data>
+    <data name="to" xml:space="preserve">
+    <value> to </value>
+  </data>
+    <data name="automaticMatchDesc" xml:space="preserve">
+    <value>After choosing your home server, your matches will be selected automatically.</value>
+  </data>
+    <data name="blueBorderland" xml:space="preserve">
+    <value>Blue Borderland</value>
+  </data>
+    <data name="greenBorderland" xml:space="preserve">
+    <value>Green Borderland</value>
+  </data>
+    <data name="queryLanquage" xml:space="preserve">
+    <value>en</value>
+  </data>
+    <data name="redBorderLand" xml:space="preserve">
+    <value>Red Borderland</value>
+  </data>
+    <data name="showCampTimtersLabel" xml:space="preserve">
+    <value>Show camp timers</value>
   </data>
 </root>
