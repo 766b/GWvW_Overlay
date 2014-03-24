@@ -215,6 +215,7 @@ namespace GWvW_Overlay
                 {
                     WvwMatch.Options.active_match = match.wvw_match_id;
                     RtvMatchDetails(null, null);
+                    BuildMenu();
                     break;
                 }
             }
