@@ -38,10 +38,10 @@
             <Canvas>
                 <CheckBox x:Name="chkShowNames" Content="{Binding Path=Locale.displayObjNamesLabel, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" IsChecked="{Binding show_names, Source={x:Static Properties:Settings.Default}}" Canvas.Left="10" Canvas.Top="37"/>
                 <CheckBox x:Name="chkAlwaysTop" Content="{Binding Path=Locale.alwaysOnTopLabel, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="165" Canvas.Left="10" Canvas.Top="56" IsChecked="{Binding alwaysTop, Source={x:Static Properties:Settings.Default}}"/>
-                <RadioButton Name="langSpanish" Tag="{Binding Path=Locale.spanishLabel, Source={StaticResource LocalizedStrings}}" Content="{Binding Path=Locale.spanishLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="320" Canvas.Top="10" Checked="langSelection_Click"/>
-                <RadioButton Name="langFrench" Tag="{Binding Path=Locale.frenchLabel, Source={StaticResource LocalizedStrings}}" Content="{Binding Path=Locale.frenchLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="184" Canvas.Top="10" Checked="langSelection_Click"/>
-                <RadioButton Name="langGerman" Tag="{Binding Path=Locale.germanLabel, Source={StaticResource LocalizedStrings}}" Content="{Binding Path=Locale.germanLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="250" Canvas.Top="10" Checked="langSelection_Click"/>
-                <RadioButton Name="langEnglish" Tag="{Binding Path=Locale.englishLabel, Source={StaticResource LocalizedStrings}}" Content="{Binding Path=Locale.englishLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="125" Canvas.Top="10" Checked="langSelection_Click"/>
+                <RadioButton Name="langSpanish" Tag="Spanish" Content="{Binding Path=Locale.spanishLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="320" Canvas.Top="10" Checked="langSelection_Click"/>
+                <RadioButton Name="langFrench" Tag="French" Content="{Binding Path=Locale.frenchLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="184" Canvas.Top="10" Checked="langSelection_Click"/>
+                <RadioButton Name="langGerman" Tag="German" Content="{Binding Path=Locale.germanLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="250" Canvas.Top="10" Checked="langSelection_Click"/>
+                <RadioButton Name="langEnglish" Tag="English" Content="{Binding Path=Locale.englishLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="125" Canvas.Top="10" Checked="langSelection_Click"/>
                 <Label Content="{Binding Path=Locale.objectiveNamesLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="5"/>
             </Canvas>
         </GroupBox>
