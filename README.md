@@ -88,7 +88,7 @@ Changes
 - Updated icons for objectives
 - Enabled update feature
 
-(1/6/2013
+(1/6/2013)
 - Added always on top checkbox
 - Main window can now be dragged around
 - Removed redundant function calls
