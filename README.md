@@ -4,11 +4,6 @@ This application does not behave like regular overlays, hooking an application t
 
 This behaviour prevents any instability due to the program.
 
-Compiling
-============
-You will have to make sure the following project is available at the root of the repo :
-https://github.com/sidewinder94/Logitech-LCD
-
 Install
 ============
 If you do not have the ability to compile the code, use the following binary (will be updated periodically)
