@@ -129,6 +129,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -152,9 +153,21 @@
     <Compile Include="CampLogger.xaml.cs">
       <DependentUpon>CampLogger.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ColorDisplayApplet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColorDisplayApplet.Designer.cs">
+      <DependentUpon>ColorDisplayApplet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Guild_Details.cs" />
     <Compile Include="JSON.cs" />
     <Compile Include="KeyboardListener.cs" />
+    <Compile Include="MonoDisplayApplet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MonoDisplayApplet.Designer.cs">
+      <DependentUpon>MonoDisplayApplet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Natives.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resources\Lang\LocalizedStrings.cs" />
