@@ -52,6 +52,9 @@ namespace GWvW_Overlay
 
         readonly CampLogger LogWindow = new CampLogger();
 
+        //About & Settings Windows
+        private SetOptions optionWindow;
+        private About aboutWindow;
         public void ClickTroughActivate()
         {
             IntPtr handle = new WindowInteropHelper(this).Handle;
@@ -644,14 +647,22 @@ namespace GWvW_Overlay
 
         private void ShowOptionsWindow(object sender, EventArgs e)
         {
-            var optWindow = new SetOptions(LogWindow, WvwMatch, MainWindow1);
-            optWindow.Show();
+            if ((optionWindow == null) || (!optionWindow.IsVisible))
+            {
+                optionWindow = new SetOptions(LogWindow, WvwMatch, MainWindow1);
+            }
+            optionWindow.Show();
+            optionWindow.Focus();
         }
 
         private void ShowAboutWin(object sender, EventArgs e)
         {
-            var aboutWindow = new About();
+            if ((aboutWindow == null) || (!aboutWindow.IsVisible))
+            {
+                aboutWindow = new About();
+            }
             aboutWindow.Show();
+            aboutWindow.Focus();
         }
 
         public static Point GetMousePosition() // mouse position relative to screen
