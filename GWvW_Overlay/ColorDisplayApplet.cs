@@ -14,7 +14,7 @@ namespace GWvW_Overlay
 {
     public partial class ColorDisplayApplet : BaseApplet
     {
-
+        int i = 0;
         public ColorDisplayApplet()
         {
             InitializeComponent();
@@ -28,7 +28,8 @@ namespace GWvW_Overlay
 
         protected override void OnDataUpdate(object sender, EventArgs e)
         {
-
+            i++;
+            this.label1.Text = i.ToString();
         }
     }
 }
