@@ -243,6 +243,10 @@ namespace GWvW_Overlay
             {
                 return DateTime.Now.Subtract(_ownerChange).ToString("hh\\:mm\\:ss");
             }
+            set
+            {
+                OnPropertyChanged();
+            }
         }
 
         public String ownerName
