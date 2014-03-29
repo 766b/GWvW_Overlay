@@ -246,4 +246,16 @@
   <data name="matchSelectionLabel" xml:space="preserve">
     <value>Sélection du Match</value>
   </data>
+  <data name="camps" xml:space="preserve">
+    <value>Camps</value>
+  </data>
+  <data name="towers" xml:space="preserve">
+    <value>Tours</value>
+  </data>
+  <data name="keeps" xml:space="preserve">
+    <value>Donjons</value>
+  </data>
+  <data name="castles" xml:space="preserve">
+    <value>Chateaux</value>
+  </data>
 </root>

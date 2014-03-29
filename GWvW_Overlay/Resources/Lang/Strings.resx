@@ -246,4 +246,16 @@
   <data name="showCampTimtersLabel" xml:space="preserve">
     <value>Show camp timers</value>
   </data>
+  <data name="camps" xml:space="preserve">
+    <value>Camps</value>
+  </data>
+  <data name="towers" xml:space="preserve">
+    <value>Towers</value>
+  </data>
+  <data name="keeps" xml:space="preserve">
+    <value>Keeps</value>
+  </data>
+  <data name="castles" xml:space="preserve">
+    <value>Castles</value>
+  </data>
 </root>

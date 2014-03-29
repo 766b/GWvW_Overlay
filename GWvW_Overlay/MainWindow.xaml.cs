@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
 using GWvW_Overlay.Resources.Lang;
+using Logitech_LCD.Applets;
+using Logitech_LCD;
 
 namespace GWvW_Overlay
 {
@@ -51,6 +53,8 @@ namespace GWvW_Overlay
         public Guild GuildData = new Guild();
 
         readonly CampLogger LogWindow = new CampLogger();
+
+        public BaseApplet applet;
 
         //About & Settings Windows
         private SetOptions optionWindow;
@@ -127,6 +131,14 @@ namespace GWvW_Overlay
             }
 
             BuildMenu();
+            if (LogitechLcd.Instance.isConnected(LcdType.Color))
+            {
+                applet = new ColorDisplayApplet(ref WvwMatch);
+            }
+            else if (LogitechLcd.Instance.isConnected(LcdType.Mono))
+            {
+                //applet = new MonoDisplayApplet();
+            }
 
         }
 

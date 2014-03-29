@@ -133,6 +133,24 @@ namespace GWvW_Overlay.Resources.Lang {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Camps.
+        /// </summary>
+        public static string camps {
+            get {
+                return ResourceManager.GetString("camps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Castles.
+        /// </summary>
+        public static string castles {
+            get {
+                return ResourceManager.GetString("castles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à claimed by.
         /// </summary>
         public static string claimedBy {
@@ -246,6 +264,15 @@ namespace GWvW_Overlay.Resources.Lang {
         public static string hotKeyGroupname {
             get {
                 return ResourceManager.GetString("hotKeyGroupname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Keeps.
+        /// </summary>
+        public static string keeps {
+            get {
+                return ResourceManager.GetString("keeps", resourceCulture);
             }
         }
         
@@ -408,6 +435,15 @@ namespace GWvW_Overlay.Resources.Lang {
         public static string to {
             get {
                 return ResourceManager.GetString("to", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Towers.
+        /// </summary>
+        public static string towers {
+            get {
+                return ResourceManager.GetString("towers", resourceCulture);
             }
         }
         
