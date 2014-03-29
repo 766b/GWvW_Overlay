@@ -28,6 +28,9 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
+(29/03/2014)
+- The owned time of the objectives tooltips now updates every seconds
+
 (21/03/2014)
 - Added localization support
 - Added a tooltip including :
