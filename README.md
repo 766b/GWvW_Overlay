@@ -28,6 +28,9 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
+(30/03/2014)
+- Added support for the Logitech G19 (should also work with every other Logitech keyboard with a color screen)
+
 (29/03/2014)
 - The owned time of the objectives tooltips now updates every seconds
 
