@@ -374,8 +374,8 @@ namespace GWvW_Overlay
         private double _width = 400;
         private double _height = 400;
 
-        private double _min_width;
-        private double _min_height;
+        //private double _min_width;
+        //private double _min_height;
 
         private string _active_bl_title = "Eternal Battlegrounds";
         public string _active_match;// = "1-1";

@@ -153,19 +153,19 @@
     <Compile Include="CampLogger.xaml.cs">
       <DependentUpon>CampLogger.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ColorDisplayApplet.cs">
+    <Compile Include="Applets\ColorDisplayApplet.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ColorDisplayApplet.Designer.cs">
+    <Compile Include="Applets\ColorDisplayApplet.Designer.cs">
       <DependentUpon>ColorDisplayApplet.cs</DependentUpon>
     </Compile>
     <Compile Include="Guild_Details.cs" />
     <Compile Include="JSON.cs" />
     <Compile Include="KeyboardListener.cs" />
-    <Compile Include="MonoDisplayApplet.cs">
+    <Compile Include="Applets\MonoDisplayApplet.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MonoDisplayApplet.Designer.cs">
+    <Compile Include="Applets\MonoDisplayApplet.Designer.cs">
       <DependentUpon>MonoDisplayApplet.cs</DependentUpon>
     </Compile>
     <Compile Include="Natives.cs" />
@@ -362,7 +362,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

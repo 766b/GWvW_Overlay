@@ -131,6 +131,7 @@ namespace GWvW_Overlay
             }
 
             BuildMenu();
+
             if (LogitechLcd.Instance.isConnected(LcdType.Color))
             {
                 applet = new ColorDisplayApplet(ref WvwMatch);

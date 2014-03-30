@@ -23,12 +23,7 @@ namespace GWvW_Overlay
         public ColorDisplayApplet(ref WvwMatch_ match) :
             this(LcdType.Color, ref match)
         {
-            lines = new Label[6] {line1,
-                                  line2,
-                                  line3,
-                                  line4,
-                                  line5,
-                                  line6};
+
         }
 
 
@@ -36,6 +31,14 @@ namespace GWvW_Overlay
             : base(lcdType)
         {
             InitializeComponent();
+
+            lines = new Label[6] {line1,
+                                  line2,
+                                  line3,
+                                  line4,
+                                  line5,
+                                  line6};
+
             this.match = match;
             _bl = match.Options.active_bl;
             LcdColorLeftButtonPressed += ColorDisplayApplet_OnLcdColorLeftButtonPressed;
