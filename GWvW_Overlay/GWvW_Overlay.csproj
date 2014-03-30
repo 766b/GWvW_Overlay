@@ -75,10 +75,50 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>GWvW_Overlay_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -89,6 +129,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -112,9 +153,21 @@
     <Compile Include="CampLogger.xaml.cs">
       <DependentUpon>CampLogger.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Applets\ColorDisplayApplet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Applets\ColorDisplayApplet.Designer.cs">
+      <DependentUpon>ColorDisplayApplet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Guild_Details.cs" />
     <Compile Include="JSON.cs" />
     <Compile Include="KeyboardListener.cs" />
+    <Compile Include="Applets\MonoDisplayApplet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Applets\MonoDisplayApplet.Designer.cs">
+      <DependentUpon>MonoDisplayApplet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Natives.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Resources\Lang\LocalizedStrings.cs" />
@@ -180,6 +233,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\Lang\Strings.de.resx" />
+    <EmbeddedResource Include="Resources\Lang\Strings.es.resx" />
     <EmbeddedResource Include="Resources\Lang\Strings.fr-FR.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.fr-FR.Designer.cs</LastGenOutput>
@@ -231,6 +286,12 @@
     <Resource Include="Resources\hollow_green.png" />
     <Resource Include="Resources\hollow_red.png" />
     <Resource Include="Resources\hollow_neutral.png" />
+    <Content Include="Lib\x64\LogitechLcd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\x86\LogitechLcd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\obj_BlueHome.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -291,6 +352,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\panel2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logitech-LCD\Logitech-LCD\Logitech-LCD.csproj">
+      <Project>{65c75235-f2ec-4aad-a58e-e1371191dff0}</Project>
+      <Name>Logitech-LCD</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

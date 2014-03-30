@@ -37,7 +37,7 @@ namespace GWvW_Overlay
             {
                 System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-                string version = assembly.GetName().Version.ToString(3);
+                string version = assembly.GetName().Version.ToString();
 
                 return version;
             }

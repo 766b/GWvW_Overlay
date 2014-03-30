@@ -12,6 +12,20 @@ namespace GWvW_Overlay
         public Utils Utils = new Utils();
         public bool ListenForKey = false;
 
+
+        public WvwMatch_ matchUp
+        {
+            get
+            {
+                return _matchUp;
+            }
+            set
+            {
+                _matchUp = value;
+                DataContext = _matchUp;
+            }
+        }
+
         private readonly CampLogger _track;
         private WvwMatch_ _matchUp;
         private MainWindow _mainWin1;
