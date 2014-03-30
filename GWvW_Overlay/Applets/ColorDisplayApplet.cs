@@ -44,9 +44,13 @@ namespace GWvW_Overlay
 
         void ColorDisplayApplet_OnLcdColorRightButtonPressed(object sender, EventArgs e)
         {
-            if (tabs.SelectedIndex < tabs.TabCount)
+            if (tabs.SelectedIndex < tabs.TabCount - 1)
             {
                 tabs.SelectedIndex++;
+            }
+            else
+            {
+                tabs.SelectedIndex = 0;
             }
         }
 
@@ -55,6 +59,10 @@ namespace GWvW_Overlay
             if (tabs.SelectedIndex > 0)
             {
                 tabs.SelectedIndex--;
+            }
+            else
+            {
+                tabs.SelectedIndex = tabs.TabCount - 1;
             }
         }
 
