@@ -30,6 +30,7 @@ Changes
 ============
 (30/03/2014)
 - Added support for the Logitech G19 (should also work with every other Logitech keyboard with a color screen)
+- Added cyclic navigation for the tabs of the color LCD applet
 
 (29/03/2014)
 - The owned time of the objectives tooltips now updates every seconds
