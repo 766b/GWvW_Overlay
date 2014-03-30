@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using GWvW_Overlay.Resources.Lang;
 using Logitech_LCD;
 using Logitech_LCD.Applets;
-using GWvW_Overlay.Resources.Lang;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace GWvW_Overlay
 {
@@ -73,6 +69,8 @@ namespace GWvW_Overlay
             }
             if (match.Details != null)
             {
+                this.BackgroundImage = null;
+                tabs.Visible = true;
                 currentLine = 0;
                 List<Objective> result = new List<Objective>();
                 if (this.tabs.SelectedTab.Text == Strings.camps)
@@ -123,6 +121,18 @@ namespace GWvW_Overlay
                     lines[currentLine].Visible = false;
                 }
             }
+            else
+            {
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    lines[i].Visible = false;
+                }
+                tabs.Visible = false;
+
+                this.BackgroundImage = Image.FromFile("Resources/mapeb_normal.png");
+                this.BackgroundImageLayout = ImageLayout.Stretch;
+            }
+
         }
 
         private void format(Objective obj)

@@ -269,7 +269,9 @@
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\empty.png" />
     <Resource Include="Resources\mapbl_normal.png" />
-    <Resource Include="Resources\mapeb_normal.png" />
+    <Content Include="Resources\mapeb_normal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Icon\castle_icon.png" />
     <Resource Include="Resources\Icon\keep_icon.png" />
     <Resource Include="Resources\Icon\tower_icon.png" />
@@ -362,7 +364,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
+      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

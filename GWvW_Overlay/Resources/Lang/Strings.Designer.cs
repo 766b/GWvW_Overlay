@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GWvW_Overlay.Resources.Lang {
-    using System;
-    
-    
+namespace GWvW_Overlay.Resources.Lang
+{
+
+
     /// <summary>
     ///   Une classe de ressource fortement typée destinée, entre autres, à la consultation des chaînes localisées.
     /// </summary>

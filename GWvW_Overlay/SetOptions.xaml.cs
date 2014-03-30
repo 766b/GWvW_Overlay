@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GWvW_Overlay.Resources.Lang;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using GWvW_Overlay.Resources.Lang;
 
 namespace GWvW_Overlay
 {

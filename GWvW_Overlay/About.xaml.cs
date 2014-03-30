@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GWvW_Overlay.Annotations;
+using GWvW_Overlay.Resources.Lang;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
-using GWvW_Overlay.Annotations;
-using GWvW_Overlay.Resources.Lang;
 
 namespace GWvW_Overlay
 {

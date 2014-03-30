@@ -1,13 +1,12 @@
-﻿using System;
+﻿using GWvW_Overlay.Resources.Lang;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Media;
 using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using GWvW_Overlay.Annotations;
-using GWvW_Overlay.Resources.Lang;
 
 namespace GWvW_Overlay
 {

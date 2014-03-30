@@ -1,21 +1,21 @@
-﻿/*
+﻿using GWvW_Overlay.Resources.Lang;
+using Logitech_LCD;
+using Logitech_LCD.Applets;
+using Newtonsoft.Json;
+/*
  * Objective names https://gist.github.com/codemasher/bac2b4f87e7af128087e (smiley.1438)
  */
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Newtonsoft.Json;
-using System.Windows.Interop;
-using System.Runtime.InteropServices;
-using GWvW_Overlay.Resources.Lang;
-using Logitech_LCD.Applets;
-using Logitech_LCD;
 
 namespace GWvW_Overlay
 {

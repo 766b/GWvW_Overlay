@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Net;
-using System.Windows.Resources;
 using System.IO;
-using System.Windows;
+using System.Net;
 using System.Text;
+using System.Windows;
+using System.Windows.Resources;
 
 namespace GWvW_Overlay
 {
@@ -64,6 +64,15 @@ namespace GWvW_Overlay
             }
 
             return s;
+        }
+
+
+        static string GetContents(Uri uri)
+        {
+            using (var response = WebRequest.Create(uri).GetResponse())
+            using (var stream = response.GetResponseStream())
+            using (var reader = new StreamReader(stream))
+                return reader.ReadToEnd();
         }
     }
 }

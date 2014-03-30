@@ -1,11 +1,11 @@
-﻿using System;
+﻿using GWvW_Overlay.Resources.Lang;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Interop;
-using GWvW_Overlay.Resources.Lang;
+using System.Windows.Media;
 
 namespace GWvW_Overlay
 {
