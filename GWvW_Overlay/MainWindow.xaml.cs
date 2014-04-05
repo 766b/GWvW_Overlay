@@ -134,7 +134,7 @@ namespace GWvW_Overlay
 
             if (LogitechLcd.Instance.isConnected(LcdType.Color))
             {
-                applet = new ColorDisplayApplet(ref WvwMatch);
+                applet = new ColorDisplayApplet(this, ref WvwMatch);
             }
             else if (LogitechLcd.Instance.isConnected(LcdType.Mono))
             {
@@ -271,8 +271,8 @@ namespace GWvW_Overlay
 
                 mainMenu.Items.Add(new Separator());
 
-                mainMenu.Items.Add(blBlue);
                 mainMenu.Items.Add(blGreen);
+                mainMenu.Items.Add(blBlue);
                 mainMenu.Items.Add(blRed);
                 mainMenu.Items.Add(blEb);
 
@@ -622,6 +622,10 @@ namespace GWvW_Overlay
             var item = sender as MenuItem;
             if (item != null)
                 selectedBl = (string)item.Tag;
+
+            var str = sender as String;
+            if (str != null)
+                selectedBl = str;
 
             if (selectedBl == null)
                 selectedBl = "Center";

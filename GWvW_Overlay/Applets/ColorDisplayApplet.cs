@@ -11,22 +11,26 @@ namespace GWvW_Overlay
 {
     public partial class ColorDisplayApplet : BaseApplet
     {
+        private static String[] mapNames = new String[4] { "GreenHome", "BlueHome", "RedHome", "Center" };
+        private MainWindow parent;
         private String _bl;
         private Label[] lines;
         private int currentLine;
         public WvwMatch_ match { get; set; }
 
-        public ColorDisplayApplet(ref WvwMatch_ match) :
-            this(LcdType.Color, ref match)
+        public ColorDisplayApplet(MainWindow parent, ref WvwMatch_ match) :
+            this(LcdType.Color, parent, ref match)
         {
 
         }
 
 
-        public ColorDisplayApplet(LcdType lcdType, ref WvwMatch_ match)
+        public ColorDisplayApplet(LcdType lcdType, MainWindow parent, ref WvwMatch_ match)
             : base(lcdType)
         {
             InitializeComponent();
+
+            this.parent = parent;
 
             lines = new Label[6] {line1,
                                   line2,
@@ -39,7 +43,57 @@ namespace GWvW_Overlay
             _bl = match.Options.active_bl;
             LcdColorLeftButtonPressed += ColorDisplayApplet_OnLcdColorLeftButtonPressed;
             LcdColorRightButtonPressed += ColorDisplayApplet_OnLcdColorRightButtonPressed;
+            LcdColorUpButtonPressed += ColorDisplayApplet_LcdColorUpButtonPressed;
+            LcdColorDownButtonPressed += ColorDisplayApplet_LcdColorDownButtonPressed;
             buildTabControlTabs();
+        }
+
+        private int getCurrentMap()
+        {
+            for (int i = 0; i < mapNames.Length; i++)
+            {
+                if (mapNames[i].Equals(match.Options.active_bl))
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        void ColorDisplayApplet_LcdColorDownButtonPressed(object sender, EventArgs e)
+        {
+            if (this.parent.CnvsBlSelection.Visibility == System.Windows.Visibility.Hidden &&
+                this.parent.cnvsMatchSelection.Visibility == System.Windows.Visibility.Hidden)
+            {
+                String newMap;
+                if (getCurrentMap() < mapNames.Length - 1)
+                {
+                    newMap = mapNames[getCurrentMap() + 1];
+                }
+                else
+                {
+                    newMap = mapNames[0];
+                }
+                this.parent.BorderlandSelected(newMap, EventArgs.Empty);
+            }
+        }
+
+        void ColorDisplayApplet_LcdColorUpButtonPressed(object sender, EventArgs e)
+        {
+            if (this.parent.CnvsBlSelection.Visibility == System.Windows.Visibility.Hidden &&
+                this.parent.cnvsMatchSelection.Visibility == System.Windows.Visibility.Hidden)
+            {
+                String newMap;
+                if (getCurrentMap() > 0)
+                {
+                    newMap = mapNames[getCurrentMap() - 1];
+                }
+                else
+                {
+                    newMap = mapNames[mapNames.Length - 1];
+                }
+                this.parent.BorderlandSelected(newMap, EventArgs.Empty);
+            }
         }
 
         void ColorDisplayApplet_OnLcdColorRightButtonPressed(object sender, EventArgs e)
