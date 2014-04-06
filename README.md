@@ -32,6 +32,9 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
+(05/04/2014)
+- For the logitech Color LCD keyboards, it is now possible to change the current map using up & down keys
+
 (30/03/2014)
 - Added support for the Logitech G19 (should also work with every other Logitech keyboard with a color screen)
 - Added cyclic navigation for the tabs of the color LCD applet
