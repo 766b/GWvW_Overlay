@@ -1,7 +1,8 @@
 Please note that the name of the servers cannot be displayed due to ArenaNet disabling the API after the transition to Megaservers.
 
-I'm waiting the reactivation of the API to update the application
+I'm waiting the reactivation of the API to update the application.
 
+**EDIT :** I used a cached file for getting french server names, i'll soon provide another update for the other languages 
 
 Remarks
 ============

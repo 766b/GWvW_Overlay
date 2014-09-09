@@ -14,7 +14,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>D:\Sync\Dropbox\Public\gwvw\</PublishUrl>
+    <PublishUrl>C:\Sync\Dropbox\Public\gwvw\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -25,10 +25,12 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://dl.dropboxusercontent.com/u/42390504/gwvw/</InstallUrl>
-    <SupportUrl>https://github.com/Awaken6389/GWvW_Overlay</SupportUrl>
+    <SupportUrl>https://github.com/sidewinder94/GWvW_Overlay</SupportUrl>
     <ProductName>GWvW Overlay</ProductName>
-    <ApplicationRevision>11</ApplicationRevision>
-    <ApplicationVersion>0.3.6.%2a</ApplicationVersion>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>0.4.12.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -57,7 +59,7 @@
     <ApplicationIcon>Resources\new_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>5FF23F51131C2D285EFD56A7ECD8172967248B07</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>8198F0894AC90AD1A295A2FB3DD17824AEE98AFF</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>GWvW_Overlay_TemporaryKey.pfx</ManifestKeyFile>
@@ -75,7 +77,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>GWvW_Overlay_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
