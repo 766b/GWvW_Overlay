@@ -38,6 +38,9 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
+(09/09/2014)
+- The server names are back !
+
 (05/04/2014)
 - For the logitech Color LCD keyboards, it is now possible to change the current map using up & down keys
 
