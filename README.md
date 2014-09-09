@@ -2,7 +2,11 @@ Please note that the name of the servers cannot be displayed due to ArenaNet dis
 
 I'm waiting the reactivation of the API to update the application.
 
-**EDIT :** I used a cached file for getting french server names, i'll soon provide another update for the other languages 
+**EDIT :** I used a cached file for getting server names
+
+The files are hosted on a github repository : https://github.com/sidewinder94/GWvW_Overlay_Data
+
+Please feel free to add your own files if you need other ones
 
 Remarks
 ============
