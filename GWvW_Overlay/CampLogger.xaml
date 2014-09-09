@@ -8,8 +8,11 @@
         Height="342" 
         Width="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_width, Mode=TwoWay}"
         Left="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_position_left, Mode=TwoWay}" 
-        Top="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_position_top, Mode=TwoWay}" IsHitTestVisible="True" Topmost="True" Background="#FF363639">
-
+        Top="{Binding Source={x:Static Properties:Settings.Default}, Path=tracker_position_top, Mode=TwoWay}" IsHitTestVisible="True" Topmost="True" Background="#FF363639"
+        xmlns:localization ="clr-namespace:GWvW_Overlay.Resources.Lang">
+    <Window.Resources>
+        <localization:LocalizedStrings x:Key="LocalizedStrings"/>
+    </Window.Resources>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -35,12 +38,12 @@
 
             <Ellipse Width="15" Height="15" Canvas.Left="132" Canvas.Top="1" Fill="OrangeRed" StrokeThickness="0"/>
             <Ellipse Width="20" Height="20" Canvas.Left="115" Canvas.Top="1" Fill="#FFC9C9C9" StrokeThickness="0"/>
-            
+
             <Image Source="Resources/Icon/camp_icon.png" Canvas.Left="5" Canvas.Top="4"/>
             <Image Source="Resources/Icon/tower_icon.png" Canvas.Left="45" Canvas.Top="3" Width="10"/>
             <Image Source="Resources/Icon/keep_icon.png" Canvas.Left="80" Canvas.Top="4"/>
             <Image Source="Resources/Icon/castle_icon.png" Canvas.Left="118" Canvas.Top="3"/>
-            
+
             <Label Name="LblKeepCount" Canvas.Left="94" Canvas.Top="-5"/>
             <Label Name="LblTowerCount" Canvas.Left="57" Canvas.Top="-5"/>
             <Label Name="LblCampCount" Canvas.Left="19" Canvas.Top="-5"/>
@@ -89,6 +92,6 @@
                 <SolidColorBrush Color="#FF212024"/>
             </Label.Background>
         </Label>
-        
+
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GWvW_Overlay.Resources.Lang;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -10,6 +11,20 @@ namespace GWvW_Overlay
         readonly Keyboard.KeyboardListener _kListener = new Keyboard.KeyboardListener();
         public Utils Utils = new Utils();
         public bool ListenForKey = false;
+
+
+        public WvwMatch_ matchUp
+        {
+            get
+            {
+                return _matchUp;
+            }
+            set
+            {
+                _matchUp = value;
+                DataContext = _matchUp;
+            }
+        }
 
         private readonly CampLogger _track;
         private WvwMatch_ _matchUp;
@@ -40,7 +55,7 @@ namespace GWvW_Overlay
 
         private void btnNewHotkey_Click(object sender, RoutedEventArgs e)
         {
-            if(btnNewHotkey.Content.ToString() == "Save")
+            if (btnNewHotkey.Content.ToString() == "Save")
             {
                 Properties.Settings.Default["hotkey"] = txtbox_hotkey.Text;
                 Properties.Settings.Default.Save();
@@ -108,7 +123,7 @@ namespace GWvW_Overlay
 
         private void OnLoad(object sender, RoutedEventArgs e)
         {
-            lblCacheSize.Content = string.Format("Guild_Details Cache File Size: {0}", Utils.FileSize("Resources/guild_details.json"));
+            lblCacheSize.Content = string.Format(Strings.cacheInfoLabel + " {0}", Utils.FileSize("Resources/guild_details.json"));
 
             switch (Properties.Settings.Default["show_names_lang"].ToString())
             {

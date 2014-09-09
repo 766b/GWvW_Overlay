@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Logitech_LCD;
+using System;
 using System.Windows;
 
 namespace GWvW_Overlay
@@ -18,7 +14,7 @@ namespace GWvW_Overlay
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-
+            Console.WriteLine(LogitechLcd.Instance.init("GWvW Timers", LcdType.Color | LcdType.Mono));
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

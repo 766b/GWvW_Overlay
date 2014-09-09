@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Net;
-using System.Windows.Resources;
 using System.IO;
+using System.Net;
+using System.Text;
 using System.Windows;
+using System.Windows.Resources;
 
 namespace GWvW_Overlay
 {
@@ -25,11 +26,11 @@ namespace GWvW_Overlay
             return ReadableFileSize(info.Length);
         }
 
-        public string ReadableFileSize(long size) 
+        public string ReadableFileSize(long size)
         {
-            if(size <= 0) return "0";
+            if (size <= 0) return "0";
             var units = new[] { "B", "KB", "MB", "GB", "TB" };
-            var digitGroups = (int) (Math.Log10(size)/Math.Log10(1024));
+            var digitGroups = (int)(Math.Log10(size) / Math.Log10(1024));
             return string.Format("{0:0.00} {1}", size / Math.Pow(1024, digitGroups), units[digitGroups]);
         }
 
@@ -42,6 +43,7 @@ namespace GWvW_Overlay
                 {
                     try
                     {
+                        client.Encoding = Encoding.UTF8;
                         s = client.DownloadString(@file);
                     }
                     catch (WebException)
@@ -62,6 +64,15 @@ namespace GWvW_Overlay
             }
 
             return s;
+        }
+
+
+        static string GetContents(Uri uri)
+        {
+            using (var response = WebRequest.Create(uri).GetResponse())
+            using (var stream = response.GetResponseStream())
+            using (var reader = new StreamReader(stream))
+                return reader.ReadToEnd();
         }
     }
 }

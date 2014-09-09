@@ -1,0 +1,3 @@
+[submodule "Logitech-LCD"]
+	path = Logitech-LCD
+	url = https://github.com/sidewinder94/Logitech-LCD.git

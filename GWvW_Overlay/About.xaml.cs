@@ -1,8 +1,9 @@
-﻿using System;
+﻿using GWvW_Overlay.Annotations;
+using GWvW_Overlay.Resources.Lang;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
-using GWvW_Overlay.Annotations;
 
 namespace GWvW_Overlay
 {
@@ -15,6 +16,7 @@ namespace GWvW_Overlay
         {
             InitializeComponent();
             var abinfo = new AppInfo();
+            this.Title = Strings.about;
             DataContext = abinfo;
         }
 
@@ -35,7 +37,7 @@ namespace GWvW_Overlay
             {
                 System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
-                string version = assembly.GetName().Version.ToString(3);
+                string version = assembly.GetName().Version.ToString();
 
                 return version;
             }

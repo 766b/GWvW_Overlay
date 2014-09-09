@@ -14,7 +14,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>E:\Dropbox\Public\gwvw\</PublishUrl>
+    <PublishUrl>C:\Sync\Dropbox\Public\gwvw\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -24,11 +24,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://dl.dropboxusercontent.com/u/10680644/gwvw/</InstallUrl>
-    <SupportUrl>https://github.com/Awaken6389/GWvW_Overlay</SupportUrl>
+    <InstallUrl>https://dl.dropboxusercontent.com/u/42390504/gwvw/</InstallUrl>
+    <SupportUrl>https://github.com/sidewinder94/GWvW_Overlay</SupportUrl>
     <ProductName>GWvW Overlay</ProductName>
-    <ApplicationRevision>41</ApplicationRevision>
-    <ApplicationVersion>0.3.0.%2a</ApplicationVersion>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>0.4.12.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -57,7 +59,7 @@
     <ApplicationIcon>Resources\new_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>499914C18180C03CF5788838F3F2F8852D92E980</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>8198F0894AC90AD1A295A2FB3DD17824AEE98AFF</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>GWvW_Overlay_TemporaryKey.pfx</ManifestKeyFile>
@@ -74,6 +76,52 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>GWvW_Overlay_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -83,6 +131,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -106,11 +155,34 @@
     <Compile Include="CampLogger.xaml.cs">
       <DependentUpon>CampLogger.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Applets\ColorDisplayApplet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Applets\ColorDisplayApplet.Designer.cs">
+      <DependentUpon>ColorDisplayApplet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Guild_Details.cs" />
     <Compile Include="JSON.cs" />
     <Compile Include="KeyboardListener.cs" />
+    <Compile Include="Applets\MonoDisplayApplet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Applets\MonoDisplayApplet.Designer.cs">
+      <DependentUpon>MonoDisplayApplet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Natives.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Resources\Lang\LocalizedStrings.cs" />
+    <Compile Include="Resources\Lang\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Lang\Strings.fr-FR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.fr-FR.resx</DependentUpon>
+    </Compile>
     <Compile Include="SetOptions.xaml.cs">
       <DependentUpon>SetOptions.xaml</DependentUpon>
     </Compile>
@@ -163,6 +235,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Resources\Lang\Strings.de.resx" />
+    <EmbeddedResource Include="Resources\Lang\Strings.es.resx" />
+    <EmbeddedResource Include="Resources\Lang\Strings.fr-FR.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.fr-FR.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Lang\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Resource Include="Resources\orchard_blue.png" />
     <Resource Include="Resources\orchard_green.png" />
     <Resource Include="Resources\orchard_red.png" />
@@ -177,7 +261,9 @@
     </EmbeddedResource>
     <None Include="GWvW_Overlay_TemporaryKey.pfx" />
     <None Include="packages.config" />
-    <None Include="Properties\app.manifest" />
+    <None Include="Properties\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -185,7 +271,9 @@
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\empty.png" />
     <Resource Include="Resources\mapbl_normal.png" />
-    <Resource Include="Resources\mapeb_normal.png" />
+    <Content Include="Resources\mapeb_normal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Icon\castle_icon.png" />
     <Resource Include="Resources\Icon\keep_icon.png" />
     <Resource Include="Resources\Icon\tower_icon.png" />
@@ -202,6 +290,12 @@
     <Resource Include="Resources\hollow_green.png" />
     <Resource Include="Resources\hollow_red.png" />
     <Resource Include="Resources\hollow_neutral.png" />
+    <Content Include="Lib\x64\LogitechLcd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\x86\LogitechLcd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\obj_BlueHome.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -246,12 +340,12 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 et x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -263,10 +357,16 @@
   <ItemGroup>
     <Resource Include="Resources\panel2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logitech-LCD\Logitech-LCD\Logitech-LCD.csproj">
+      <Project>{65c75235-f2ec-4aad-a58e-e1371191dff0}</Project>
+      <Name>Logitech-LCD</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
