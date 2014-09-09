@@ -398,7 +398,7 @@ namespace GWvW_Overlay
         public void RtvWorldNames()
         {
             //WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.GetJson(@"https://api.guildwars2.com/v1/world_names.json?lang=" + Strings.queryLanquage));
-            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.GetJson(@"https://gist.githubusercontent.com/sidewinder94/135b4f4192aef3da1d10/raw/fa51bd4ae4b403764de7b428eed457cb96b8feeb/gistfile1.json"));
+            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.GetJson(String.Format(@"https://raw.githubusercontent.com/sidewinder94/GWvW_Overlay_Data/master/world_names/{0}.json", Strings.queryLanquage)));
             Console.WriteLine(WvwMatch.World.Count);
             WvwMatch.World.Sort((x, y) => y.name != null ? (x.name != null ? String.Compare(x.name, y.name, StringComparison.Ordinal) : 0) : 0);
         }
