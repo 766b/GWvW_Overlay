@@ -1,8 +1,17 @@
-Install
+Status Update (9/21/2014)
 ============
-If you do not have the ability to compile the code, use the following binary (will be updated periodically)
-- GWvW_Overlay https://dl.dropboxusercontent.com/u/10680644/gwvw/setup.exe
-- .NET Framework 4.5 http://www.microsoft.com/en-us/download/details.aspx?id=30653
+Since I no longer play the game, I'm unable to continue developing this application. Thanks for the feedback and in game messages. There's a fork of this project that is more recent. 
+
+[Fork]( https://github.com/sidewinder94/GWvW_Overlay) by [sidewinder94]( https://github.com/sidewinder94)
+
+I'm not affiliated with the project and cannot provide any support or help regarding any issues. 
+
+Install [Outdated]
+============
+~~If you do not have the ability to compile the code, use the following binary~~
+
+~~- GWvW_Overlay https://dl.dropboxusercontent.com/u/10680644/gwvw/setup.exe~~
+~~- .NET Framework 4.5 http://www.microsoft.com/en-us/download/details.aspx?id=30653~~
 
 Usage
 ============
