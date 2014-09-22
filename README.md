@@ -6,7 +6,7 @@ Since I no longer play the game, I'm unable to continue developing this applicat
 
 I'm not affiliated with the project and cannot provide any support or help regarding any issues. 
 
-Install [Outdated]
+Install [Outdated, Read Status Update to get new version of this application]
 ============
 ~~If you do not have the ability to compile the code, use the following binary~~
 
