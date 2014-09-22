@@ -11,6 +11,7 @@ Install [Outdated]
 ~~If you do not have the ability to compile the code, use the following binary~~
 
 ~~- GWvW_Overlay https://dl.dropboxusercontent.com/u/10680644/gwvw/setup.exe~~
+
 ~~- .NET Framework 4.5 http://www.microsoft.com/en-us/download/details.aspx?id=30653~~
 
 Usage
