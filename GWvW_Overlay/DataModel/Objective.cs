@@ -7,27 +7,24 @@ namespace GWvW_Overlay.DataModel
 {
     public class Objective : INotifyPropertyChanged
     {
+        public DateTime _last_change;
+        private string _owner;
+        private DateTime _ownerChange = DateTime.Now;
+        private string _owner_guild;
+        public string _time_left;
+
         public Objective()
         {
             ObjData = new WvwObjective();
         }
+
         public WvwObjective ObjData { get; set; }
         public int id { get; set; }
-        private string _owner;
-        private string _owner_guild;
-        public DateTime _last_change;
-        private DateTime _ownerChange = DateTime.Now;
-        public string _time_left;
+
         public String ownedTime
         {
-            get
-            {
-                return DateTime.Now.Subtract(_ownerChange).ToString("hh\\:mm\\:ss");
-            }
-            set
-            {
-                OnPropertyChanged();
-            }
+            get { return DateTime.Now.Subtract(_ownerChange).ToString("hh\\:mm\\:ss"); }
+            set { OnPropertyChanged(); }
         }
 
         public String ownerName
@@ -36,14 +33,11 @@ namespace GWvW_Overlay.DataModel
             {
                 if (_owner_guild != null)
                 {
-                    Guild guild = new Guild();
+                    var guild = new Guild();
                     List<String> guildInfo = guild.GetGuildById(_owner_guild);
                     return String.Format("[{0}] {1}", guildInfo[1], guildInfo[0]);
                 }
-                else
-                {
-                    return "";
-                }
+                return "";
             }
         }
 
@@ -66,8 +60,7 @@ namespace GWvW_Overlay.DataModel
             {
                 if (owner_guild != null)
                     return "Resources/claimed2.png";
-                else
-                    return "Resources/empty.png";
+                return "Resources/empty.png";
             }
         }
 
@@ -86,10 +79,7 @@ namespace GWvW_Overlay.DataModel
 
         public string owner_guild
         {
-            get
-            {
-                return _owner_guild;
-            }
+            get { return _owner_guild; }
             set
             {
                 if (_owner_guild == value)
@@ -117,11 +107,11 @@ namespace GWvW_Overlay.DataModel
                     last_change = DateTime.Now;
                     OnPropertyChanged();
                 }
-
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
         {
             PropertyChangedEventHandler handler = PropertyChanged;

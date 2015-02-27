@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using GWvW_Overlay.Properties;
 
 namespace GWvW_Overlay.DataModel
 {
@@ -7,8 +8,8 @@ namespace GWvW_Overlay.DataModel
     public class WvwObjective : INotifyPropertyChanged
     {
         private double _left;
-        private double _top;
         private double _left_base;
+        private double _top;
         private double _top_base;
 
         public int id { get; set; }
@@ -28,7 +29,7 @@ namespace GWvW_Overlay.DataModel
         {
             get
             {
-                switch (Properties.Settings.Default["show_names_lang"].ToString())
+                switch (Settings.Default["show_names_lang"].ToString())
                 {
                     case "English":
                         return name_en;
@@ -89,14 +90,13 @@ namespace GWvW_Overlay.DataModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
     }
 
     // Matches

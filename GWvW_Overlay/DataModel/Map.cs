@@ -16,7 +16,9 @@ namespace GWvW_Overlay.DataModel
 
         public int CountObjType(string type, string color)
         {
-            return Objectives.Count(obj => obj.ObjData.type.ToLower() == type.ToLower() && obj.owner.ToLower() == color.ToLower());
+            return
+                Objectives.Count(
+                    obj => obj.ObjData.type.ToLower() == type.ToLower() && obj.owner.ToLower() == color.ToLower());
         }
     }
 }

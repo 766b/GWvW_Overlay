@@ -2,7 +2,6 @@ namespace GWvW_Overlay.DataModel
 {
     public class World_Names_
     {
-
         private string _name;
 
         public int id { get; set; }

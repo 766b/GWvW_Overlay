@@ -161,11 +161,11 @@
     <Compile Include="Applets\ColorDisplayApplet.Designer.cs">
       <DependentUpon>ColorDisplayApplet.cs</DependentUpon>
     </Compile>
-    <Compile Include="Converters\getClaimed.cs" />
-    <Compile Include="Converters\getClaimedImage.cs" />
-    <Compile Include="Converters\getIMG.cs" />
-    <Compile Include="Converters\getMatches.cs" />
-    <Compile Include="Converters\getName.cs" />
+    <Compile Include="Converters\GetClaimed.cs" />
+    <Compile Include="Converters\GetClaimedImage.cs" />
+    <Compile Include="Converters\GetImg.cs" />
+    <Compile Include="Converters\GetMatches.cs" />
+    <Compile Include="Converters\GetName.cs" />
     <Compile Include="DataModel\Guild.cs" />
     <Compile Include="DataModel\Guild_Details_.cs" />
     <Compile Include="Keyboard\InterceptKeys.cs" />

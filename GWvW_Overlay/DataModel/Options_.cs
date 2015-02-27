@@ -2,27 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using GWvW_Overlay.Properties;
 using GWvW_Overlay.Resources.Lang;
 
 namespace GWvW_Overlay.DataModel
 {
     public class Options_ : INotifyPropertyChanged
     {
-        private string _active_bl = "Center";
-        public Dictionary<string, int> blid;
-        public int _active_blid;
         public string HomeServerColor;
+        private string _active_bl = "Center";
+        private string _active_bl_title = "Eternal Battlegrounds";
+        public int _active_blid;
 
         private string _active_map_img = "Resources/mapeb_normal.png";
 
-        private double _width = 400;
+        public string _active_match; // = "1-1";
         private double _height = 400;
-
-        //private double _min_width;
-        //private double _min_height;
-
-        private string _active_bl_title = "Eternal Battlegrounds";
-        public string _active_match;// = "1-1";
+        private double _width = 400;
+        public Dictionary<string, int> blid;
 
         public int active_blid
         {
@@ -101,12 +98,22 @@ namespace GWvW_Overlay.DataModel
 
         public double min_width
         {
-            get { if (active_bl == "Center") return Properties.Settings.Default.main_eb_width; else return Properties.Settings.Default.main_bl_width; }
+            get
+            {
+                if (active_bl == "Center") return Settings.Default.main_eb_width;
+                return Settings.Default.main_bl_width;
+            }
         }
+
         public double min_height
         {
-            get { if (active_bl == "Center") return Properties.Settings.Default.main_eb_height; else return Properties.Settings.Default.main_bl_height; }
+            get
+            {
+                if (active_bl == "Center") return Settings.Default.main_eb_height;
+                return Settings.Default.main_bl_height;
+            }
         }
+
         public double width
         {
             get { return _width; }
@@ -114,7 +121,7 @@ namespace GWvW_Overlay.DataModel
             {
                 if (value != _width)
                 {
-                    Console.WriteLine("W:{0}", value.ToString());
+                    Console.WriteLine("W:{0}", value);
                     _width = value;
                     OnPropertyChanged();
                 }
@@ -128,19 +135,21 @@ namespace GWvW_Overlay.DataModel
             {
                 if (value != _height)
                 {
-                    Console.WriteLine("H:{0}", value.ToString());
+                    Console.WriteLine("H:{0}", value);
                     _height = value;
                     OnPropertyChanged();
                 }
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public void ChangeWindowSize(bool etrnBattle)
         {
             if (etrnBattle)
-                ChangeWindowSize(Properties.Settings.Default.main_eb_width, Properties.Settings.Default.main_eb_height);
+                ChangeWindowSize(Settings.Default.main_eb_width, Settings.Default.main_eb_height);
             else
-                ChangeWindowSize(Properties.Settings.Default.main_bl_width, Properties.Settings.Default.main_bl_height);
+                ChangeWindowSize(Settings.Default.main_bl_width, Settings.Default.main_bl_height);
         }
 
         public void ChangeWindowSize(double Width, double Height)
@@ -150,7 +159,6 @@ namespace GWvW_Overlay.DataModel
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = "none passed")
         {
             PropertyChangedEventHandler handler = PropertyChanged;
