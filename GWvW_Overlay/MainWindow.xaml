@@ -10,11 +10,11 @@
         Closing="MainClosing">
 
     <Window.Resources>
-        <converters:GetImg x:Key="getIMG" />
-        <converters:GetClaimedImage x:Key="getClaimedImage" />
-        <converters:GetName x:Key="getName" />
-        <converters:GetMatches x:Key="getMatches" />
-        <converters:GetClaimed x:Key="getClaimed"/>
+        <converters:GetImg x:Key="GetImg" />
+        <converters:GetClaimedImage x:Key="GetClaimedImage" />
+        <converters:GetName x:Key="GetName" />
+        <converters:GetMatches x:Key="GetMatches" />
+        <converters:GetClaimed x:Key="GetClaimed"/>
         <localization:LocalizedStrings x:Key="LocalizedStrings"/>
     </Window.Resources>
 
@@ -30,7 +30,7 @@
                                         <Label Content="{Binding Path=Locale.ownedTime, Source={StaticResource LocalizedStrings}}"/>
                                         <Label Content="{Binding Path=ownedTime}"/>
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Visibility="{Binding Path=owner_guild, Converter={StaticResource getClaimed}}">
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding Path=owner_guild, Converter={StaticResource GetClaimed}}">
                                         <Label Content="{Binding Path=Locale.ownedBy, Source={StaticResource LocalizedStrings}}"/>
                                         <Label Content="{Binding Path=ownerName}"/>
                                     </StackPanel>
@@ -38,15 +38,15 @@
                         </Canvas.ToolTip>
                         <Image Height="24" Width="24" Stretch="Fill">
                             <Image.Source>
-                                <MultiBinding Converter="{StaticResource getIMG}">
+                                <MultiBinding Converter="{StaticResource GetImg}">
                                     <Binding Path="ObjData.type"/>
                                     <Binding Path="owner"/>
                                 </MultiBinding>
                             </Image.Source>
                         </Image>
                         <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                        <Label Content="{Binding Path=ObjData.name, Converter={StaticResource getName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=owner_guild, Converter={StaticResource getClaimedImage}}"/>
+                        <Label Content="{Binding Path=ObjData.name, Converter={StaticResource GetName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=owner_guild, Converter={StaticResource GetClaimedImage}}"/>
                     </Canvas>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -192,7 +192,5 @@
                 </Label>
             </Canvas>
         </Canvas>
-
-
     </Grid>
 </Window>
