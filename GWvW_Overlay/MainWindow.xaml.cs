@@ -49,7 +49,6 @@ namespace GWvW_Overlay
         readonly WvwMatch_ WvwMatch = new WvwMatch_();
         Matches_ _jsonMatches = new Matches_();
 
-        public Utils Utils = new Utils();
         public Guild GuildData = new Guild();
 
         readonly CampLogger LogWindow = new CampLogger();

@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
 
 namespace GWvW_Overlay
 {
@@ -530,7 +531,8 @@ namespace GWvW_Overlay
         public List<World_Names_> World { get; set; }
         public Match_Details_ Details { get; set; }
         public List<WvwObjective> ObjectiveNames { get; set; }
-
+        private List<int> _worldIds;
+        private List<World_Names_> _worlds = new List<World_Names_>(51);
         //Get BL IDs to Type
         public void GetBLID()
         {
@@ -583,11 +585,36 @@ namespace GWvW_Overlay
 
         public string getServerName(int ID)
         {
-            foreach (var x in World)
+            try
             {
-                if (ID == x.id)
-                    return x.name;
+                if (_worldIds == null)
+                {
+                    _worldIds =
+                        JsonConvert.DeserializeObject<List<int>>(Utils.GetJson(@"https://api.guildwars2.com/v2/worlds"));
+                }
+
+                if (_worldIds.Contains(ID))
+                {
+                    World_Names_ world = _worlds.FirstOrDefault(w => w.id == ID);
+                    if (world == null)
+                    {
+                        world = JsonConvert.DeserializeObject<World_Names_>(
+                            Utils.GetJson(String.Format(@"https://api.guildwars2.com/v2/worlds/{0}?lang={1}", ID,
+                                Strings.queryLanquage)));
+                        _worlds.Add(world);
+                    }
+                    return world.name;
+                }
             }
+            catch (Exception e)
+            {
+                foreach (var x in World.Where(x => ID == x.id))
+                {
+                    return x.name;
+                }
+            }
+
+
             return string.Format("SERVER_{0}_NOT_FOUND", ID);
         }
 

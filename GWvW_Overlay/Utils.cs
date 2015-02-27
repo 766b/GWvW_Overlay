@@ -9,7 +9,7 @@ namespace GWvW_Overlay
 {
     public class Utils
     {
-        public void SaveJson(string file, string data)
+        public static void SaveJson(string file, string data)
         {
             using (var sw = new StreamWriter(string.Format("{0}", file)))
             {
@@ -17,7 +17,7 @@ namespace GWvW_Overlay
             }
         }
 
-        public string FileSize(string file)
+        public static string FileSize(string file)
         {
             if (!File.Exists(file))
                 return "0";
@@ -26,7 +26,7 @@ namespace GWvW_Overlay
             return ReadableFileSize(info.Length);
         }
 
-        public string ReadableFileSize(long size)
+        public static string ReadableFileSize(long size)
         {
             if (size <= 0) return "0";
             var units = new[] { "B", "KB", "MB", "GB", "TB" };
@@ -34,7 +34,7 @@ namespace GWvW_Overlay
             return string.Format("{0:0.00} {1}", size / Math.Pow(1024, digitGroups), units[digitGroups]);
         }
 
-        public string GetJson(string file)
+        public static string GetJson(string file)
         {
             string s = null;
             if (file.StartsWith("http"))
