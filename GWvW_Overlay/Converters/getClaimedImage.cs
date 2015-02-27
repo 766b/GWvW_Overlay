@@ -4,7 +4,7 @@ using System.Windows.Media.Imaging;
 
 namespace GWvW_Overlay.Converters
 {
-    public class getClaimedImage : IValueConverter
+    public class GetClaimedImage : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

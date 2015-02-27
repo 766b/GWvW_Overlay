@@ -10,11 +10,11 @@
         Closing="MainClosing">
 
     <Window.Resources>
-        <converters:getIMG x:Key="getIMG" />
-        <converters:getClaimedImage x:Key="getClaimedImage" />
-        <converters:getName x:Key="getName" />
-        <converters:getMatches x:Key="getMatches" />
-        <converters:getClaimed x:Key="getClaimed"/>
+        <converters:GetImg x:Key="getIMG" />
+        <converters:GetClaimedImage x:Key="getClaimedImage" />
+        <converters:GetName x:Key="getName" />
+        <converters:GetMatches x:Key="getMatches" />
+        <converters:GetClaimed x:Key="getClaimed"/>
         <localization:LocalizedStrings x:Key="LocalizedStrings"/>
     </Window.Resources>
 

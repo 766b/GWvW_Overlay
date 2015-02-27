@@ -3,7 +3,7 @@ using System.Windows.Data;
 
 namespace GWvW_Overlay.Converters
 {
-    public class getName : IValueConverter
+    public class GetName : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

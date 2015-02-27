@@ -121,6 +121,7 @@ namespace GWvW_Overlay.DataModel
                     }
                     catch (Exception e)
                     {
+                        Console.WriteLine(e.Message);
                         Console.WriteLine(
                             @"'https://raw.githubusercontent.com/sidewinder94/GWvW_Overlay_Data/master/world_names/{0}.json' disables/not accessible",
                             Strings.queryLanquage);
