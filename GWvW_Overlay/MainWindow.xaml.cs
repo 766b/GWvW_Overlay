@@ -1,4 +1,6 @@
-﻿using GWvW_Overlay.Resources.Lang;
+﻿using GWvW_Overlay.DataModel;
+using GWvW_Overlay.Keyboard;
+using GWvW_Overlay.Resources.Lang;
 using Logitech_LCD;
 using Logitech_LCD.Applets;
 using Newtonsoft.Json;
@@ -215,9 +217,9 @@ namespace GWvW_Overlay
         public void GetBorderlandSelection()
         {
             CnvsBlSelection.Visibility = Visibility.Visible;
-            LblBlueBl.Content = WvwMatch.getServerName("blue");
-            LblGreenBl.Content = WvwMatch.getServerName("green");
-            LblRedBl.Content = WvwMatch.getServerName("red");
+            LblBlueBl.Content = WvwMatch.GetServerName("blue");
+            LblGreenBl.Content = WvwMatch.GetServerName("green");
+            LblRedBl.Content = WvwMatch.GetServerName("red");
         }
 
         public void AutoMatchSetActiveMatch()
@@ -256,13 +258,13 @@ namespace GWvW_Overlay
 
             if (WvwMatch.Options.active_match != null)
             {
-                var blBlue = new MenuItem { Header = string.Format(Strings.blueBorderland + " ({0})", WvwMatch.getServerName("blue")), Tag = "BlueHome" };
+                var blBlue = new MenuItem { Header = string.Format(Strings.blueBorderland + " ({0})", WvwMatch.GetServerName("blue")), Tag = "BlueHome" };
                 blBlue.Click += BorderlandSelected;
 
-                var blRed = new MenuItem { Header = string.Format(Strings.redBorderland + " ({0})", WvwMatch.getServerName("red")), Tag = "RedHome" };
+                var blRed = new MenuItem { Header = string.Format(Strings.redBorderland + " ({0})", WvwMatch.GetServerName("red")), Tag = "RedHome" };
                 blRed.Click += BorderlandSelected;
 
-                var blGreen = new MenuItem { Header = string.Format(Strings.greenBorderland + " ({0})", WvwMatch.getServerName("green")), Tag = "GreenHome" };
+                var blGreen = new MenuItem { Header = string.Format(Strings.greenBorderland + " ({0})", WvwMatch.GetServerName("green")), Tag = "GreenHome" };
                 blGreen.Click += BorderlandSelected;
 
                 var blEb = new MenuItem { Header = Strings.eternalBattlegrounds, Tag = "Center" };
@@ -396,10 +398,7 @@ namespace GWvW_Overlay
 
         public void RtvWorldNames()
         {
-            //WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.GetJson(@"https://api.guildwars2.com/v1/world_names.json?lang=" + Strings.queryLanquage));
-            WvwMatch.World = JsonConvert.DeserializeObject<List<World_Names_>>(Utils.GetJson(String.Format(@"https://raw.githubusercontent.com/sidewinder94/GWvW_Overlay_Data/master/world_names/{0}.json", Strings.queryLanquage)));
-            Console.WriteLine(WvwMatch.World.Count);
-            WvwMatch.World.Sort((x, y) => y.name != null ? (x.name != null ? String.Compare(x.name, y.name, StringComparison.Ordinal) : 0) : 0);
+
         }
 
         public void RtvMatches()
@@ -455,9 +454,9 @@ namespace GWvW_Overlay
                                     { 
                                         {"time", DateTime.Now.ToString("t")},
                                         {"objective", WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name},
-                                        {"from", WvwMatch.getServerName(WvwMatch.Details.Maps[map].Objectives[obj].owner)},
+                                        {"from", WvwMatch.GetServerName(WvwMatch.Details.Maps[map].Objectives[obj].owner)},
                                         {"from_color", WvwMatch.Details.Maps[map].Objectives[obj].owner},
-                                        {"to", WvwMatch.getServerName(_matchDetails.Maps[map].Objectives[obj].owner)},
+                                        {"to", WvwMatch.GetServerName(_matchDetails.Maps[map].Objectives[obj].owner)},
                                         {"to_color", _matchDetails.Maps[map].Objectives[obj].owner},
                                     };
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, false)));

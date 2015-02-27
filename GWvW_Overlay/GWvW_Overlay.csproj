@@ -29,7 +29,7 @@
     <ProductName>GWvW Overlay</ProductName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>0.4.12.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -161,17 +161,61 @@
     <Compile Include="Applets\ColorDisplayApplet.Designer.cs">
       <DependentUpon>ColorDisplayApplet.cs</DependentUpon>
     </Compile>
-    <Compile Include="Guild_Details.cs" />
-    <Compile Include="JSON.cs" />
-    <Compile Include="KeyboardListener.cs" />
+    <Compile Include="Converters\getClaimed.cs" />
+    <Compile Include="Converters\getClaimedImage.cs" />
+    <Compile Include="Converters\getIMG.cs" />
+    <Compile Include="Converters\getMatches.cs" />
+    <Compile Include="Converters\getName.cs" />
+    <Compile Include="DataModel\Guild.cs" />
+    <Compile Include="DataModel\Guild_Details_.cs" />
+    <Compile Include="Keyboard\InterceptKeys.cs" />
+    <Compile Include="DataModel\WvwObjective.cs" />
+    <Compile Include="Keyboard\KeyboardListener.cs" />
     <Compile Include="Applets\MonoDisplayApplet.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Applets\MonoDisplayApplet.Designer.cs">
       <DependentUpon>MonoDisplayApplet.cs</DependentUpon>
     </Compile>
-    <Compile Include="Natives.cs" />
-    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="DataModel\Map.cs" />
+    <Compile Include="DataModel\Matches.cs" />
+    <Compile Include="DataModel\Matches_.cs" />
+    <Compile Include="DataModel\Match_Details_.cs" />
+    <Compile Include="Keyboard\Natives.cs" />
+    <Compile Include="DataModel\Objective.cs" />
+    <Compile Include="DataModel\ObjectiveNames_.cs" />
+    <Compile Include="DataModel\Options_.cs" />
+    <Compile Include="Properties\LocalizationRequiredAttribute.cs" />
+    <Compile Include="Properties\AspMvcActionAttribute.cs" />
+    <Compile Include="Properties\AspMvcActionSelectorAttribute.cs" />
+    <Compile Include="Properties\AspMvcAreaAttribute.cs" />
+    <Compile Include="Properties\AspMvcControllerAttribute.cs" />
+    <Compile Include="Properties\AspMvcDisplayTemplateAttribute.cs" />
+    <Compile Include="Properties\AspMvcEditorTemplateAttribute.cs" />
+    <Compile Include="Properties\AspMvcMasterAttribute.cs" />
+    <Compile Include="Properties\AspMvcModelTypeAttribute.cs" />
+    <Compile Include="Properties\AspMvcPartialViewAttribute.cs" />
+    <Compile Include="Properties\AspMvcSupressViewErrorAttribute.cs" />
+    <Compile Include="Properties\AspMvcViewAttribute.cs" />
+    <Compile Include="Properties\BaseTypeRequiredAttribute.cs" />
+    <Compile Include="Properties\CanBeNullAttribute.cs" />
+    <Compile Include="Properties\CannotApplyEqualityOperatorAttribute.cs" />
+    <Compile Include="Properties\ContractAnnotationAttribute.cs" />
+    <Compile Include="Properties\ImplicitUseKindFlags.cs" />
+    <Compile Include="Properties\ImplicitUseTargetFlags.cs" />
+    <Compile Include="Properties\InstantHandleAttribute.cs" />
+    <Compile Include="Properties\InvokerParameterNameAttribute.cs" />
+    <Compile Include="Properties\MeansImplicitUseAttribute.cs" />
+    <Compile Include="Properties\NotifyPropertyChangedInvocatorAttribute.cs" />
+    <Compile Include="Properties\NotNullAttribute.cs" />
+    <Compile Include="Properties\PathReferenceAttribute.cs" />
+    <Compile Include="Properties\PublicAPIAttribute.cs" />
+    <Compile Include="Properties\PureAttribute.cs" />
+    <Compile Include="Properties\RazorSectionAttribute.cs" />
+    <Compile Include="Properties\StringFormatMethodAttribute.cs" />
+    <Compile Include="Properties\UsedImplicitlyAttribute.cs" />
+    <Compile Include="Keyboard\RawKeyEventArgs.cs" />
+    <Compile Include="Keyboard\RawKeyEventHandler.cs" />
     <Compile Include="Resources\Lang\LocalizedStrings.cs" />
     <Compile Include="Resources\Lang\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -188,6 +232,8 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="DataModel\World_Names_.cs" />
+    <Compile Include="DataModel\WvwMatch_.cs" />
     <Page Include="About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

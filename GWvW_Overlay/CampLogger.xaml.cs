@@ -1,4 +1,5 @@
-﻿using GWvW_Overlay.Resources.Lang;
+﻿using GWvW_Overlay.Keyboard;
+using GWvW_Overlay.Resources.Lang;
 using System;
 using System.Collections.Generic;
 using System.Windows;

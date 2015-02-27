@@ -2,8 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-
-namespace GWvW_Overlay
+namespace GWvW_Overlay.Keyboard
 {
     public class Natives
     {

@@ -5,14 +5,16 @@
         WindowStartupLocation="CenterScreen" WindowStyle="None" Height="{Binding Options.height}" Width="{Binding Options.width}" MinHeight="{Binding Options.height}" MinWidth="{Binding Options.width}"
         Foreground="{x:Null}" Background="{x:Null}" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
         AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="{Binding Source={x:Static Properties:Settings.Default}, Path=opticity}" MouseDown="Drag" Loaded="OnLoad"
-        xmlns:Properties="clr-namespace:GWvW_Overlay.Properties" Closing="MainClosing">
+        xmlns:Properties="clr-namespace:GWvW_Overlay.Properties"
+        xmlns:converters="clr-namespace:GWvW_Overlay.Converters"
+        Closing="MainClosing">
 
     <Window.Resources>
-        <local:getIMG x:Key="getIMG" />
-        <local:getClaimedImage x:Key="getClaimedImage" />
-        <local:getName x:Key="getName" />
-        <local:getMatches x:Key="getMatches" />
-        <local:getClaimed x:Key="getClaimed"/>
+        <converters:getIMG x:Key="getIMG" />
+        <converters:getClaimedImage x:Key="getClaimedImage" />
+        <converters:getName x:Key="getName" />
+        <converters:getMatches x:Key="getMatches" />
+        <converters:getClaimed x:Key="getClaimed"/>
         <localization:LocalizedStrings x:Key="LocalizedStrings"/>
     </Window.Resources>
 

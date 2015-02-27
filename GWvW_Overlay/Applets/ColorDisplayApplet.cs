@@ -1,4 +1,5 @@
-﻿using GWvW_Overlay.Resources.Lang;
+﻿using GWvW_Overlay.DataModel;
+using GWvW_Overlay.Resources.Lang;
 using Logitech_LCD;
 using Logitech_LCD.Applets;
 using System;

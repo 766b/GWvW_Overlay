@@ -1,4 +1,5 @@
-﻿using GWvW_Overlay.Resources.Lang;
+﻿using GWvW_Overlay.DataModel;
+using GWvW_Overlay.Resources.Lang;
 using System;
 using System.Windows;
 using System.Windows.Controls;
