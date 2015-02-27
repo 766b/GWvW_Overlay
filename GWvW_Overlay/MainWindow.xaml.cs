@@ -121,7 +121,6 @@ namespace GWvW_Overlay
 
             _handleThis = this;
 
-            RtvWorldNames();
             RtvMatches();
 
             Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
@@ -394,11 +393,6 @@ namespace GWvW_Overlay
                 RedBarBL.Width = 40;
                 BlueBarBL.Width = 10;
             }));
-        }
-
-        public void RtvWorldNames()
-        {
-
         }
 
         public void RtvMatches()
