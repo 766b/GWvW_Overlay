@@ -46,10 +46,10 @@ namespace GWvW_Overlay
             LcdColorRightButtonPressed += ColorDisplayApplet_OnLcdColorRightButtonPressed;
             LcdColorUpButtonPressed += ColorDisplayApplet_LcdColorUpButtonPressed;
             LcdColorDownButtonPressed += ColorDisplayApplet_LcdColorDownButtonPressed;
-            buildTabControlTabs();
+            BuildTabControlTabs();
         }
 
-        private int getCurrentMap()
+        private int GetCurrentMap()
         {
             for (int i = 0; i < mapNames.Length; i++)
             {
@@ -67,9 +67,9 @@ namespace GWvW_Overlay
                 this.parent.cnvsMatchSelection.Visibility == System.Windows.Visibility.Hidden)
             {
                 String newMap;
-                if (getCurrentMap() < mapNames.Length - 1)
+                if (GetCurrentMap() < mapNames.Length - 1)
                 {
-                    newMap = mapNames[getCurrentMap() + 1];
+                    newMap = mapNames[GetCurrentMap() + 1];
                 }
                 else
                 {
@@ -85,9 +85,9 @@ namespace GWvW_Overlay
                 this.parent.cnvsMatchSelection.Visibility == System.Windows.Visibility.Hidden)
             {
                 String newMap;
-                if (getCurrentMap() > 0)
+                if (GetCurrentMap() > 0)
                 {
-                    newMap = mapNames[getCurrentMap() - 1];
+                    newMap = mapNames[GetCurrentMap() - 1];
                 }
                 else
                 {
@@ -128,7 +128,7 @@ namespace GWvW_Overlay
             if (_bl != match.Options.active_bl)
             {
                 _bl = match.Options.active_bl;
-                buildTabControlTabs();
+                BuildTabControlTabs();
             }
             if (match.Details != null)
             {
@@ -178,7 +178,7 @@ namespace GWvW_Overlay
                                                                .Take(6)
                                                                .ToList();
                 }
-                result.ForEach(new Action<Objective>(format));
+                result.ForEach(new Action<Objective>(Format));
                 for (; currentLine < lines.Length; currentLine++)
                 {
                     lines[currentLine].Visible = false;
@@ -198,7 +198,7 @@ namespace GWvW_Overlay
 
         }
 
-        private void format(Objective obj)
+        private void Format(Objective obj)
         {
             TimeSpan diff = DateTime.Now.Subtract(obj.last_change);
             TimeSpan left = TimeSpan.FromMinutes(5) - diff;
@@ -226,7 +226,7 @@ namespace GWvW_Overlay
             }
         }
 
-        private void buildTabControlTabs()
+        private void BuildTabControlTabs()
         {
             this.tabs.TabPages.Clear();
             this.tabs.TabPages.Add(new TabPage(Strings.camps));
