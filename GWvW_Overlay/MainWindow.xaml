@@ -150,7 +150,7 @@
                     <Canvas Height="2" Canvas.Top="93" Width="173" Background="#FFDD9900" Canvas.Left="216"/>
 
                     <ListBox Name="LstbxMatchSelection" Height="282" Canvas.Left="10" Canvas.Top="108" Width="369" Background="{x:Null}" Foreground="#FFEEEEEE" BorderThickness="0" BorderBrush="{x:Null}"
-                     ItemsSource="{Binding Path=Match}" DisplayMemberPath="wvw_match_string" SelectedValuePath="wvw_match_id" SelectedValue="{Binding Path=Matches}">
+                     ItemsSource="{Binding Path=Match}" DisplayMemberPath="wvw_match_string" SelectedValuePath="wvw_match_id">
 
                     </ListBox>
                 </Canvas>
@@ -167,7 +167,7 @@
                     </Label.Style>
                 </Label>
                 <!--MouseDown="lblSelectionOK_Click" MouseEnter="lblSelectionOK_Enter" MouseLeave="lblSelectionOK_Leave"  World_Names_> World -->
-                <ComboBox Name="CmbbxHomeServerSelection" Canvas.Left="118" Canvas.Top="38" Width="184" Foreground="Black" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=World_Names_}" Style="{DynamicResource ComboBoxStyle}" SelectionChanged="CmbbxMatchSelection_Change" />
+                <ComboBox Name="CmbbxHomeServerSelection" Canvas.Left="118" Canvas.Top="38" Width="184" Foreground="Black" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" Style="{DynamicResource ComboBoxStyle}" SelectionChanged="CmbbxMatchSelection_Change" />
                 <Label Content="{Binding Path=Locale.serverSelectionLabel, Source={StaticResource LocalizedStrings}}" Width="99" Height="26" FontSize="14" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="14" Canvas.Top="38" FontWeight="Bold"/>
                 <CheckBox Name="ChkbxAutoMatchSelect" Content="{Binding Path=Locale.automaticMatchLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="118" Canvas.Top="64" Foreground="#FFDD9900" Style="{DynamicResource CheckBoxStyle}">
                     <CheckBox.ToolTip>
