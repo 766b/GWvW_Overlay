@@ -48,7 +48,10 @@ namespace GWvW_Overlay
 
         //JSON Data
         Match_Details_ _matchDetails = new Match_Details_();
-        readonly WvwMatch_ WvwMatch = new WvwMatch_();
+        private readonly WvwMatch_ _wvwMatch = new WvwMatch_();
+
+        public WvwMatch_ WvwMatch { get { return _wvwMatch; } }
+
         Matches_ _jsonMatches = new Matches_();
 
         public Guild GuildData = new Guild();
@@ -94,6 +97,7 @@ namespace GWvW_Overlay
         }
         public MainWindow()
         {
+            RtvMatches();
             InitializeComponent();
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 50.0;
             SourceInitialized += Window_SourceInitialized;
@@ -121,8 +125,6 @@ namespace GWvW_Overlay
 
             _handleThis = this;
 
-            RtvMatches();
-
             Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
             foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
             {
@@ -132,11 +134,11 @@ namespace GWvW_Overlay
 
             BuildMenu();
 
-            if (LogitechLcd.Instance.isConnected(LcdType.Color))
+            if (LogitechLcd.Instance.IsConnected(LcdType.Color))
             {
-                applet = new ColorDisplayApplet(this, ref WvwMatch);
+                applet = new ColorDisplayApplet(this, WvwMatch);
             }
-            else if (LogitechLcd.Instance.isConnected(LcdType.Mono))
+            else if (LogitechLcd.Instance.IsConnected(LcdType.Mono))
             {
                 //applet = new MonoDisplayApplet();
             }
@@ -169,7 +171,6 @@ namespace GWvW_Overlay
 
         private void OnLoad(object sender, RoutedEventArgs e)
         {
-            DataContext = WvwMatch;
 
             LogWindow.Show();
             if (!(bool)Properties.Settings.Default["show_tracker"])

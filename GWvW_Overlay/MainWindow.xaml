@@ -5,6 +5,7 @@
         WindowStartupLocation="CenterScreen" WindowStyle="None" Height="{Binding Options.height}" Width="{Binding Options.width}" MinHeight="{Binding Options.height}" MinWidth="{Binding Options.width}"
         Foreground="{x:Null}" Background="{x:Null}" ResizeMode="CanResizeWithGrip" SizeToContent="WidthAndHeight"
         AllowsTransparency="True" Left="Auto" Topmost="True" Opacity="{Binding Source={x:Static Properties:Settings.Default}, Path=opticity}" MouseDown="Drag" Loaded="OnLoad"
+        DataContext="{Binding RelativeSource={RelativeSource Self}, Path=WvwMatch}"
         xmlns:Properties="clr-namespace:GWvW_Overlay.Properties"
         xmlns:converters="clr-namespace:GWvW_Overlay.Converters"
         Closing="MainClosing">

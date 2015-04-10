@@ -19,14 +19,14 @@ namespace GWvW_Overlay
         private int currentLine;
         public WvwMatch_ match { get; set; }
 
-        public ColorDisplayApplet(MainWindow parent, ref WvwMatch_ match) :
-            this(LcdType.Color, parent, ref match)
+        public ColorDisplayApplet(MainWindow parent, WvwMatch_ match) :
+            this(LcdType.Color, parent, match)
         {
 
         }
 
 
-        public ColorDisplayApplet(LcdType lcdType, MainWindow parent, ref WvwMatch_ match)
+        public ColorDisplayApplet(LcdType lcdType, MainWindow parent, WvwMatch_ match)
             : base(lcdType)
         {
             InitializeComponent();
