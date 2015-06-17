@@ -1,13 +1,3 @@
-Please note that the name of the servers cannot be displayed due to ArenaNet disabling the API after the transition to Megaservers.
-
-I'm waiting the reactivation of the API to update the application.
-
-**EDIT :** I used a cached file for getting server names
-
-The files are hosted on a github repository : https://github.com/sidewinder94/GWvW_Overlay_Data
-
-Please feel free to add your own files if you need other ones
-
 Remarks
 ============
 This application does not behave like regular overlays, hooking an application to display it's informations (like mumble overlay or overwolf), instead the windows are set to stay above every other window.
