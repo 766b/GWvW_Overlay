@@ -29,7 +29,7 @@
     <ProductName>GWvW Overlay</ProductName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>0.4.13.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -152,6 +152,7 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="CampLogger.xaml.cs">
       <DependentUpon>CampLogger.xaml</DependentUpon>
     </Compile>
@@ -185,35 +186,6 @@
     <Compile Include="DataModel\Objective.cs" />
     <Compile Include="DataModel\ObjectiveNames_.cs" />
     <Compile Include="DataModel\Options_.cs" />
-    <Compile Include="Properties\LocalizationRequiredAttribute.cs" />
-    <Compile Include="Properties\AspMvcActionAttribute.cs" />
-    <Compile Include="Properties\AspMvcActionSelectorAttribute.cs" />
-    <Compile Include="Properties\AspMvcAreaAttribute.cs" />
-    <Compile Include="Properties\AspMvcControllerAttribute.cs" />
-    <Compile Include="Properties\AspMvcDisplayTemplateAttribute.cs" />
-    <Compile Include="Properties\AspMvcEditorTemplateAttribute.cs" />
-    <Compile Include="Properties\AspMvcMasterAttribute.cs" />
-    <Compile Include="Properties\AspMvcModelTypeAttribute.cs" />
-    <Compile Include="Properties\AspMvcPartialViewAttribute.cs" />
-    <Compile Include="Properties\AspMvcSupressViewErrorAttribute.cs" />
-    <Compile Include="Properties\AspMvcViewAttribute.cs" />
-    <Compile Include="Properties\BaseTypeRequiredAttribute.cs" />
-    <Compile Include="Properties\CanBeNullAttribute.cs" />
-    <Compile Include="Properties\CannotApplyEqualityOperatorAttribute.cs" />
-    <Compile Include="Properties\ContractAnnotationAttribute.cs" />
-    <Compile Include="Properties\ImplicitUseKindFlags.cs" />
-    <Compile Include="Properties\ImplicitUseTargetFlags.cs" />
-    <Compile Include="Properties\InstantHandleAttribute.cs" />
-    <Compile Include="Properties\InvokerParameterNameAttribute.cs" />
-    <Compile Include="Properties\MeansImplicitUseAttribute.cs" />
-    <Compile Include="Properties\NotifyPropertyChangedInvocatorAttribute.cs" />
-    <Compile Include="Properties\NotNullAttribute.cs" />
-    <Compile Include="Properties\PathReferenceAttribute.cs" />
-    <Compile Include="Properties\PublicAPIAttribute.cs" />
-    <Compile Include="Properties\PureAttribute.cs" />
-    <Compile Include="Properties\RazorSectionAttribute.cs" />
-    <Compile Include="Properties\StringFormatMethodAttribute.cs" />
-    <Compile Include="Properties\UsedImplicitlyAttribute.cs" />
     <Compile Include="Keyboard\RawKeyEventArgs.cs" />
     <Compile Include="Keyboard\RawKeyEventHandler.cs" />
     <Compile Include="Resources\Lang\LocalizedStrings.cs" />
@@ -412,7 +384,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
