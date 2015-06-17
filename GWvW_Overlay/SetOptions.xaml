@@ -62,7 +62,7 @@
         </GroupBox>
         <GroupBox Header="{Binding Path=Locale.autoMatchGroupname, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Height="85" Margin="10,402,0,0" VerticalAlignment="Top" Width="400">
             <Canvas>
-                <ComboBox Name="CmbbxMatchSelection" Canvas.Left="93" Canvas.Top="12" Width="184" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=World_Names_}" />
+                <ComboBox Name="CmbbxMatchSelection" Canvas.Left="93" Canvas.Top="12" Width="184" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding home_server, Source={x:Static Properties:Settings.Default}}" />
                 <Label Content="{Binding Path=Locale.serverSelectionLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="10" Canvas.Top="10"/>
                 <CheckBox Name="chkbxAutoMatchSelect" Content="{Binding Path=Locale.automaticMatchLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="93" Canvas.Top="37" IsChecked="{Binding auto_matchup, Source={x:Static Properties:Settings.Default}}">
                     <CheckBox.ToolTip>
