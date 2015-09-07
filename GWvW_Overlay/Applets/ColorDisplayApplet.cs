@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Resources;
 using System.Windows.Forms;
 
 namespace GWvW_Overlay
@@ -192,7 +193,10 @@ namespace GWvW_Overlay
                 }
                 tabs.Visible = false;
 
-                this.BackgroundImage = Image.FromFile("Resources/mapeb_normal.png");
+                this.BackgroundImage = Image.FromStream(
+                    App.GetResourceStream(new Uri("/Resources/mapeb_normal.png", UriKind.Relative)).Stream);
+
+                //Image.FromFile("Resources/mapeb_normal.png");
                 this.BackgroundImageLayout = ImageLayout.Stretch;
             }
 

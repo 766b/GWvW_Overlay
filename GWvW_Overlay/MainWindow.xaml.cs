@@ -410,7 +410,8 @@ namespace GWvW_Overlay
                 return;
 
             _matchDetails = JsonConvert.DeserializeObject<Match_Details_>(Utils.GetJson("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + WvwMatch.Options.active_match));
-
+            /*This is for debug only*/
+            //_matchDetails = JsonConvert.DeserializeObject<Match_Details_>("{\"match_id\":\"2-1\",\"scores\":[93697,108880,92013],\"maps\":[{\"type\":\"RedHome\",\"scores\":[36353,14334,11250],\"objectives\":[{\"id\":50,\"owner\":\"Green\"},{\"id\":32,\"owner\":\"Red\"},{\"id\":33,\"owner\":\"Red\"},{\"id\":35,\"owner\":\"Red\"},{\"id\":37,\"owner\":\"Red\",\"owner_guild\":\"4FF2B6BA-65D7-445D-BECF-BCDE54597764\"},{\"id\":38,\"owner\":\"Red\"},{\"id\":39,\"owner\":\"Red\"},{\"id\":40,\"owner\":\"Red\"},{\"id\":51,\"owner\":\"Red\"},{\"id\":52,\"owner\":\"Red\"},{\"id\":53,\"owner\":\"Red\"},{\"id\":36,\"owner\":\"Blue\"},{\"id\":34,\"owner\":\"Green\"},{\"id\":62,\"owner\":\"Neutral\"},{\"id\":63,\"owner\":\"Neutral\"},{\"id\":64,\"owner\":\"Neutral\"},{\"id\":65,\"owner\":\"Neutral\"},{\"id\":66,\"owner\":\"Neutral\"}],\"bonuses\":[{\"type\":\"bloodlust\",\"owner\":\"Red\"}]},{\"type\":\"GreenHome\",\"scores\":[14955,15939,31918],\"objectives\":[{\"id\":41,\"owner\":\"Red\"},{\"id\":42,\"owner\":\"Red\",\"owner_guild\":\"07EF98A9-1645-4155-8B25-464FF06E66D8\"},{\"id\":43,\"owner\":\"Red\"},{\"id\":44,\"owner\":\"Red\",\"owner_guild\":\"CE2AE45E-7747-46F1-8CB8-E9A68A08B2BC\"},{\"id\":46,\"owner\":\"Red\"},{\"id\":55,\"owner\":\"Red\"},{\"id\":45,\"owner\":\"Blue\"},{\"id\":48,\"owner\":\"Blue\"},{\"id\":49,\"owner\":\"Blue\",\"owner_guild\":\"02BC88DA-335C-41F2-92A1-C65B91538F2E\"},{\"id\":47,\"owner\":\"Green\"},{\"id\":54,\"owner\":\"Green\"},{\"id\":56,\"owner\":\"Green\"},{\"id\":57,\"owner\":\"Green\"},{\"id\":72,\"owner\":\"Neutral\"},{\"id\":73,\"owner\":\"Neutral\"},{\"id\":74,\"owner\":\"Neutral\"},{\"id\":75,\"owner\":\"Neutral\"},{\"id\":76,\"owner\":\"Neutral\"}],\"bonuses\":[{\"type\":\"bloodlust\",\"owner\":\"Green\"}]},{\"type\":\"BlueHome\",\"scores\":[8800,42879,12136],\"objectives\":[{\"id\":59,\"owner\":\"Red\",\"owner_guild\":\"3DC7ABF2-E87B-4E41-9D34-45C6836E4CE2\"},{\"id\":23,\"owner\":\"Blue\"},{\"id\":25,\"owner\":\"Blue\"},{\"id\":27,\"owner\":\"Blue\"},{\"id\":28,\"owner\":\"Blue\"},{\"id\":30,\"owner\":\"Blue\"},{\"id\":24,\"owner\":\"Green\"},{\"id\":26,\"owner\":\"Green\"},{\"id\":29,\"owner\":\"Green\",\"owner_guild\":\"9B665122-BA17-480A-9ECE-308992D1BE20\"},{\"id\":31,\"owner\":\"Green\"},{\"id\":58,\"owner\":\"Green\"},{\"id\":60,\"owner\":\"Green\"},{\"id\":61,\"owner\":\"Green\"},{\"id\":67,\"owner\":\"Neutral\"},{\"id\":68,\"owner\":\"Neutral\"},{\"id\":69,\"owner\":\"Neutral\"},{\"id\":70,\"owner\":\"Neutral\"},{\"id\":71,\"owner\":\"Neutral\"}],\"bonuses\":[{\"type\":\"bloodlust\",\"owner\":\"Blue\"}]},{\"type\":\"Center\",\"scores\":[33589,35728,36709],\"objectives\":[{\"id\":1,\"owner\":\"Red\",\"owner_guild\":\"2D83EB3F-C5B0-4575-A0E8-D79B14979CA8\"},{\"id\":5,\"owner\":\"Red\"},{\"id\":8,\"owner\":\"Red\"},{\"id\":17,\"owner\":\"Red\"},{\"id\":18,\"owner\":\"Red\"},{\"id\":19,\"owner\":\"Red\"},{\"id\":20,\"owner\":\"Red\"},{\"id\":2,\"owner\":\"Blue\",\"owner_guild\":\"C88F28BE-C4D1-E411-925A-AC162DAE5AD5\"},{\"id\":7,\"owner\":\"Blue\"},{\"id\":15,\"owner\":\"Blue\"},{\"id\":16,\"owner\":\"Blue\"},{\"id\":21,\"owner\":\"Blue\"},{\"id\":22,\"owner\":\"Blue\"},{\"id\":3,\"owner\":\"Green\",\"owner_guild\":\"D039163B-ED2F-47C9-914C-EA59C39A5533\"},{\"id\":4,\"owner\":\"Green\"},{\"id\":6,\"owner\":\"Green\"},{\"id\":9,\"owner\":\"Green\",\"owner_guild\":\"6F057328-3843-E411-AA11-AC162DAAE275\"},{\"id\":10,\"owner\":\"Green\"},{\"id\":11,\"owner\":\"Green\"},{\"id\":12,\"owner\":\"Green\"},{\"id\":13,\"owner\":\"Green\",\"owner_guild\":\"4136858D-3C44-E511-A3E6-AC162DC0E835\"},{\"id\":14,\"owner\":\"Green\",\"owner_guild\":\"FB2B5C28-27E5-4986-B60F-0E017C02809D\"}],\"bonuses\":[]}]}");
             if (WvwMatch.Details == null || _resetMatch)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -426,63 +427,68 @@ namespace GWvW_Overlay
             {
                 WvwMatch.Details.match_id = _matchDetails.match_id;
                 WvwMatch.Details.Scores = _matchDetails.Scores;
-                for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
+
+
+                WvwMatch.Details.Maps.ForEach(map =>
                 {
-                    int map = i;
-                    WvwMatch.Details.Maps[map].Scores = _matchDetails.Maps[map].Scores;
+                    var remoteMap = _matchDetails.Maps.Find(m => m.Type == map.Type);
 
-                    for (int m = 0; m < _matchDetails.Maps[map].Objectives.Count; m++)
+                    map.Scores = remoteMap.Scores;
+
+
+                    remoteMap.Objectives.ForEach(obj =>
                     {
-                        int obj = m;
+                        var localObj = map.Objectives.Find(o => o.id == obj.id);
 
-                        //Caching Guild info
-                        if (_matchDetails.Maps[map].Objectives[obj].owner_guild != null)
+                        if (obj.owner_guild != null)
                         {
-                            GuildData.GetGuildById(_matchDetails.Maps[map].Objectives[obj].owner_guild);
+                            GuildData.GetGuildById(obj.owner_guild);
                         }
-
-                        if (WvwMatch.Details.Maps[map].Objectives[obj].owner != _matchDetails.Maps[map].Objectives[obj].owner)
+                        if (localObj.id != obj.id) Console.WriteLine("Comparing {0} and {1}", localObj.id, obj.id);
+                        if (localObj.owner != obj.owner)
                         {
-                            if (WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
+                            if (WvwMatch.Options.active_bl == map.Type)
                             {
                                 var dict = new Dictionary<string, string>
                                     { 
                                         {"time", DateTime.Now.ToString("t")},
-                                        {"objective", WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name},
-                                        {"from", WvwMatch.GetServerName(WvwMatch.Details.Maps[map].Objectives[obj].owner)},
-                                        {"from_color", WvwMatch.Details.Maps[map].Objectives[obj].owner},
-                                        {"to", WvwMatch.GetServerName(_matchDetails.Maps[map].Objectives[obj].owner)},
-                                        {"to_color", _matchDetails.Maps[map].Objectives[obj].owner},
+                                        {"objective", localObj.ObjData.name},
+                                        {"from", WvwMatch.GetServerName(localObj.owner)},
+                                        {"from_color", localObj.owner},
+                                        {"to", WvwMatch.GetServerName(obj.owner)},
+                                        {"to_color", obj.owner},
                                     };
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, false)));
                             }
 
-                            WvwMatch.Details.Maps[map].Objectives[obj].owner = _matchDetails.Maps[map].Objectives[obj].owner;
-                            WvwMatch.Details.Maps[map].Objectives[obj].owner_guild = _matchDetails.Maps[map].Objectives[obj].owner_guild;
-                            WvwMatch.Details.Maps[map].Objectives[obj].last_change = DateTime.Now;
+                            localObj.owner = obj.owner;
+                            localObj.owner_guild = obj.owner_guild;
+                            localObj.last_change = DateTime.Now;
                         }
-                        if (WvwMatch.Details.Maps[map].Objectives[obj].owner_guild != _matchDetails.Maps[map].Objectives[obj].owner_guild &&
-                            WvwMatch.Details.Maps[map].Objectives[obj].owner == _matchDetails.Maps[map].Objectives[obj].owner)
+                        if (localObj.owner_guild != obj.owner_guild &&
+                            localObj.owner == obj.owner)
                         {
-                            WvwMatch.Details.Maps[map].Objectives[obj].owner_guild = _matchDetails.Maps[map].Objectives[obj].owner_guild;
+                            localObj.owner_guild = obj.owner_guild;
 
-                            if (WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
+                            if (WvwMatch.Options.active_bl == map.Type)
                             {
-                                var guildInfo = GuildData.GetGuildById(WvwMatch.Details.Maps[map].Objectives[obj].owner_guild);
+                                var guildInfo = GuildData.GetGuildById(localObj.owner_guild);
                                 var dict = new Dictionary<string, string>
                                     {
                                         {"time", DateTime.Now.ToString("t")},
-                                        {"objective", WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name},
-                                        {"owner_color", WvwMatch.Details.Maps[map].Objectives[obj].owner}, {"owner", guildInfo == null ? "released" : string.Format("[{1}] {0}", guildInfo[0], guildInfo[1])}
+                                        {"objective", localObj.ObjData.name},
+                                        {"owner_color", localObj.owner}, {"owner", guildInfo == null ? "released" : string.Format("[{1}] {0}", guildInfo[0], guildInfo[1])}
                                     };
 
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, true)));
                             }
 
                         }
+                    });
 
-                    }
-                }
+
+
+                });
 
             }
 
