@@ -1,19 +1,48 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Timers;
+using System.Windows;
+using GWvW_Overlay.Annotations;
 using GWvW_Overlay.Properties;
 using GWvW_Overlay.Resources.Lang;
 using Newtonsoft.Json;
 
 namespace GWvW_Overlay.DataModel
 {
-    public class WvwMatch_
+    public class WvwMatch_ : INotifyPropertyChanged
     {
         private List<int> _worldIds;
         private List<World_Names_> _worlds = new List<World_Names_>(51);
+        private Visibility _markersVisibility = Visibility.Hidden;
+        
+
+
+        private readonly Positions _positions = new Positions();
+        public Positions PlayerPositions
+        {
+            get { return _positions; }
+        }
+
+
+        public Visibility MarkersVisibility
+        {
+            get
+            {
+                return _markersVisibility;
+            }
+            set
+            {
+                _markersVisibility = value;
+                OnPropertyChanged();
+            }
+        }
 
         public WvwMatch_()
         {
+            
             Options = new Options_();
             CacheServerIDs();
         }
@@ -199,6 +228,15 @@ namespace GWvW_Overlay.DataModel
                     return "blue";
             }
             return "white";
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

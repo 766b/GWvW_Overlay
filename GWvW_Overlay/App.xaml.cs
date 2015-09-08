@@ -20,6 +20,7 @@ namespace GWvW_Overlay
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             KListener.Dispose();
+            GWvW_Overlay.MainWindow.DataLink.Dispose();
         }
     }
 }
