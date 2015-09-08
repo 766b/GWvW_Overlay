@@ -1,3 +1,6 @@
 [submodule "Logitech-LCD"]
 	path = Logitech-LCD
 	url = https://github.com/sidewinder94/Logitech-LCD.git
+[submodule "MumbleLink-CSharp-GW2"]
+	path = MumbleLink-CSharp-GW2
+	url = https://github.com/sidewinder94/MumbleLink-CSharp-GW2.git
