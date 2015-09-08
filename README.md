@@ -8,7 +8,7 @@ Install
 ============
 If you do not have the ability to compile the code, use the following binary (will be updated periodically)
 
-- GWvW_Overlay ~~https://dl.dropboxusercontent.com/u/42390504/gwvw/setup.exe~~ http://zarrouk.eu/gwvw/ (Click on the "Installer" button)
+- GWvW_Overlay http://zarrouk.eu/gwvw/ (Click on the "Installer" button)
 - .NET Framework 4.5 http://www.microsoft.com/en-us/download/details.aspx?id=30653 (if you don't have it the installer should install it for you)
 
 Update
@@ -28,6 +28,9 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
+(08/09/2015)
+- ANet chaned the order of the WvW objectives, it was confuusing the application, fixed it
+
 (27/02/2015)
 - Now Reusing ANet API for Server Names (the fallback is still here in case anything happens to the API)
 
