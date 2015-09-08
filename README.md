@@ -29,7 +29,7 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 Changes
 ============
 (08/09/2015)
-- ANet chaned the order of the WvW objectives, it was confuusing the application, fixed it
+- ANet changed the order of the WvW objectives, it was confuusing the application, fixed it
 
 (27/02/2015)
 - Now Reusing ANet API for Server Names (the fallback is still here in case anything happens to the API)
