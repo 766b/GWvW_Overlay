@@ -136,8 +136,8 @@ namespace GWvW_Overlay
                 }
                 _currentMapId = map;
             };
-            _mapDetectTimer.Start();
 
+            _mapDetectTimer.Enabled = Properties.Settings.Default.auto_switch_map;
 
             _t3.Interval = 1000;
             _t3.Elapsed += UpdateTimers;

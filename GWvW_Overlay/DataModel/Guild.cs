@@ -15,8 +15,16 @@ namespace GWvW_Overlay.DataModel
         {
             // Load cached guild details
             if (File.Exists(JsonCacheFile))
-                GuildDict =
+            {
+                var file =
                     JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(File.ReadAllText(JsonCacheFile));
+                if (file != null)
+                {
+                    GuildDict = file;
+                }
+
+            }
+
         }
 
         public List<string> GetGuildById(string id)
@@ -31,7 +39,7 @@ namespace GWvW_Overlay.DataModel
                         Utils.GetJson(string.Format(@"https://api.guildwars2.com/v1/guild_details.json?guild_id={0}", id)));
                 try
                 {
-                    GuildDict.Add(id, new List<string> {data.guild_name, data.tag});
+                    GuildDict.Add(id, new List<string> { data.guild_name, data.tag });
                 }
                 catch (Exception e)
                 {
@@ -41,7 +49,7 @@ namespace GWvW_Overlay.DataModel
 
 
             Save();
-            return new List<string> {GuildDict[id][0], GuildDict[id][1]};
+            return new List<string> { GuildDict[id][0], GuildDict[id][1] };
         }
 
         public void Save()

@@ -14,7 +14,7 @@ namespace GWvW_Overlay.DataModel
 
         private double _canvasHeight;
         private double _canvasWidth;
-        private readonly Timer _refreshData = new Timer(200.0)
+        private readonly Timer _refreshData = new Timer(20.0)
         {
             AutoReset = true,
         };
@@ -34,7 +34,15 @@ namespace GWvW_Overlay.DataModel
 
         public Visibility PlayerVisibility
         {
-            get { return Map.KnownMap(MainWindow.DataLink.GetCoordinates().MapId) ? Visibility.Visible : Visibility.Hidden; }
+            get
+            {
+                if (Map.KnownMap(MainWindow.DataLink.GetCoordinates().MapId) &&
+                    Properties.Settings.Default.player_position)
+                {
+                    return Visibility.Visible;
+                }
+                return Visibility.Hidden;
+            }
         }
 
         public double CanvasHeight
@@ -60,6 +68,7 @@ namespace GWvW_Overlay.DataModel
 
         public Positions()
         {
+
             _refreshData.Enabled = true;
             _refreshData.Elapsed += (sender, args) =>
             {
