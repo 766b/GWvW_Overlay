@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Timers;
+using System.Windows;
 using GWvW_Overlay.Annotations;
 using MumbleLink_CSharp_GW2;
 
@@ -20,6 +21,15 @@ namespace GWvW_Overlay.DataModel
         public GW2Link.Coordinates Player
         {
             get { return Transform(MainWindow.DataLink.GetCoordinates()); }
+        }
+
+
+        public double PlayerRotation
+        {
+            get
+            {
+                return PlayerRotationAngle();
+            }
         }
 
         public double CanvasHeight
@@ -49,15 +59,36 @@ namespace GWvW_Overlay.DataModel
             _refreshData.Elapsed += (sender, args) =>
             {
                 OnPropertyChanged("Player");
+                OnPropertyChanged("PlayerRotation");
             };
             PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName != "Player")
+                if (args.PropertyName != "Player" && args.PropertyName != "PlayerRotation")
                 {
                     OnPropertyChanged("Player");
+
                 }
             };
         }
+
+
+        public double PlayerRotationAngle()
+        {
+            var data = MainWindow.DataLink.Read();
+
+            var defaultVector = new Point(0, 1);
+            var playerVector = new Point(data.FAvatarFront[0], data.FAvatarFront[2]);
+
+            var result = Math.Atan2(defaultVector.Y, defaultVector.X) - Math.Atan2(playerVector.Y, playerVector.X);
+
+            if (result < 0)
+            {
+                result += 2 * Math.PI;
+            }
+
+            return result * (180.0 / Math.PI);
+        }
+
 
 
         private GW2Link.Coordinates Transform(GW2Link.Coordinates nativeCoordinates)

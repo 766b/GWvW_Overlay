@@ -38,7 +38,7 @@
         <localization:LocalizedStrings x:Key="LocalizedStrings"/>
     </Window.Resources>
 
-    <Grid>       
+    <Grid>
         <ItemsControl Name="Icons" Panel.ZIndex="0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -46,13 +46,13 @@
                         <Canvas.ToolTip>
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
-                                        <Label Content="{Binding Path=Locale.ownedTime, Source={StaticResource LocalizedStrings}}"/>
-                                        <Label Content="{Binding Path=ownedTime}"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Visibility="{Binding Path=owner_guild, Converter={StaticResource GetClaimed}}">
-                                        <Label Content="{Binding Path=Locale.ownedBy, Source={StaticResource LocalizedStrings}}"/>
-                                        <Label Content="{Binding Path=ownerName}"/>
-                                    </StackPanel>
+                                    <Label Content="{Binding Path=Locale.ownedTime, Source={StaticResource LocalizedStrings}}"/>
+                                    <Label Content="{Binding Path=ownedTime}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding Path=owner_guild, Converter={StaticResource GetClaimed}}">
+                                    <Label Content="{Binding Path=Locale.ownedBy, Source={StaticResource LocalizedStrings}}"/>
+                                    <Label Content="{Binding Path=ownerName}"/>
+                                </StackPanel>
                             </StackPanel>
                         </Canvas.ToolTip>
                         <Image Height="24" Width="24" Stretch="Fill">
@@ -87,12 +87,16 @@
         </ItemsControl>
 
         <Canvas Panel.ZIndex="1" Visibility="{Binding MarkersVisibility}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Image Source="Resources/position.png"
+            <Image Source="Resources/position.png" Panel.ZIndex="300"
                    Canvas.Top="{Binding PlayerPositions.Player, Converter={StaticResource GetPosition}, ConverterParameter=Top}"
-                   Canvas.Left="{Binding PlayerPositions.Player, Converter={StaticResource GetPosition}}"/>
+                   Canvas.Left="{Binding PlayerPositions.Player, Converter={StaticResource GetPosition}}" RenderTransformOrigin="12.5,14.5">
+                <Image.LayoutTransform>
+                        <RotateTransform Angle="{Binding PlayerPositions.PlayerRotation}"/>
+                </Image.LayoutTransform>
+            </Image>
         </Canvas>
-        
-        
+
+
         <Canvas HorizontalAlignment="Center">
             <Label Content="{Binding Options.active_bl_title}" Height="24" Opacity="0.5" Width="250" Canvas.Left="-125" FontSize="16" Foreground="White" FontWeight="Bold" Padding="5,0,0,0" HorizontalContentAlignment="Center">
                 <Label.Background>
