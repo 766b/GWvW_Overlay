@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,6 +19,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using MumbleLink_CSharp_GW2;
 
 namespace GWvW_Overlay
 {
@@ -32,7 +34,7 @@ namespace GWvW_Overlay
         static extern bool UnhookWinEvent(IntPtr hWinEventHook);
 
         static readonly WinEventDelegate ProcDelegate = WinEventProc;
-
+        public static readonly GW2Link DataLink = new GW2Link();
         readonly Keyboard.KeyboardListener _kListener = new Keyboard.KeyboardListener();
         readonly IntPtr _hhook;
 
@@ -42,9 +44,10 @@ namespace GWvW_Overlay
         static bool _inGame;
         private bool? _adjustingHeight;
 
-        readonly System.Timers.Timer _t1 = new System.Timers.Timer();
-        readonly System.Timers.Timer _t2 = new System.Timers.Timer();
-        readonly System.Timers.Timer _t3 = new System.Timers.Timer();
+        readonly Timer _t1 = new Timer();
+        readonly Timer _t3 = new Timer();
+
+
 
         //JSON Data
         Match_Details_ _matchDetails = new Match_Details_();
@@ -115,10 +118,6 @@ namespace GWvW_Overlay
             _t1.Elapsed += RtvMatchDetails;
             _t1.Start();
 
-            _t2.Interval = 1000;
-            _t2.Elapsed += UpdatePosition;
-            _t2.Start();
-
 
             _t3.Interval = 1000;
             _t3.Elapsed += UpdateTimers;
@@ -145,7 +144,7 @@ namespace GWvW_Overlay
 
         }
 
-        public void UpdatePosition(Object source, System.Timers.ElapsedEventArgs e)
+        public void UpdatePosition(Object source, EventArgs e)
         {
             if (WvwMatch.Details == null)
                 return;
@@ -163,10 +162,13 @@ namespace GWvW_Overlay
                         {
                             obj1.ObjData.left = Width * (obj1.ObjData.left_base / obj1.ObjData.res_width);
                             obj1.ObjData.top = Height * (obj1.ObjData.top_base / obj1.ObjData.res_height);
+                            WvwMatch.PlayerPositions.CanvasHeight = Height;
+                            WvwMatch.PlayerPositions.CanvasWidth = Width;
                         }));
                     }
                 }
             }
+
         }
 
         private void OnLoad(object sender, RoutedEventArgs e)
@@ -289,7 +291,7 @@ namespace GWvW_Overlay
             ContextMenu = mainMenu;
         }
 
-        public void UpdateTimers(Object source, System.Timers.ElapsedEventArgs e)
+        public void UpdateTimers(Object source, ElapsedEventArgs e)
         {
             if (WvwMatch.Details == null)
                 return;
@@ -631,6 +633,7 @@ namespace GWvW_Overlay
 
             WvwMatch.Options.active_bl = selectedBl;
             Icons.ItemsSource = WvwMatch.Details.Maps[WvwMatch.Options.blid[selectedBl]].Objectives;
+            WvwMatch.MarkersVisibility = Visibility.Visible;
 
             if (LogWindow != null)
                 LogWindow.lblBLTitle.Content = WvwMatch.Options.active_bl_title;

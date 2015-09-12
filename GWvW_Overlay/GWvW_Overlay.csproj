@@ -30,7 +30,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
     <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>0.4.13.%2a</ApplicationVersion>
+    <ApplicationVersion>0.4.14.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -153,6 +153,9 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\GetPosition.cs" />
+    <Compile Include="DataModel\MapInfo.cs" />
+    <Compile Include="DataModel\Positions.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="CampLogger.xaml.cs">
       <DependentUpon>CampLogger.xaml</DependentUpon>
@@ -254,6 +257,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Resources\position.png" />
     <EmbeddedResource Include="Resources\Lang\Strings.de.resx" />
     <EmbeddedResource Include="Resources\Lang\Strings.es.resx" />
     <EmbeddedResource Include="Resources\Lang\Strings.fr-FR.resx">
@@ -381,11 +385,19 @@
       <Project>{65c75235-f2ec-4aad-a58e-e1371191dff0}</Project>
       <Name>Logitech-LCD</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MumbleLink-CSharp-GW2\MumbleLink-CSharp-GW2\MumbleLink-CSharp-GW2.csproj">
+      <Project>{8a8d6dc7-81e3-4140-a6ab-25545220311c}</Project>
+      <Name>MumbleLink-CSharp-GW2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MumbleLink-CSharp-GW2\MumbleLink-CSharp\MumbleLink-CSharp\MumbleLink-CSharp.csproj">
+      <Project>{f7d52e49-75c2-4578-820f-1b03e5e05e4f}</Project>
+      <Name>MumbleLink-CSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
