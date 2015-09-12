@@ -28,6 +28,9 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
+(13/09/2015)
+- Logitech Keyboard lightning will now change color according to the home server color
+
 (12/09/2015)
 - Added Player Position and rotation on the map (still need a better quality marker) from MumbleLink
 - Now switching map Automatically when the user changes map
