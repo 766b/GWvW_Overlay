@@ -385,6 +385,10 @@
       <Project>{65c75235-f2ec-4aad-a58e-e1371191dff0}</Project>
       <Name>Logitech-LCD</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Logitech-LED\Logitech-LED\Logitech-LED.csproj">
+      <Project>{22ec485e-5d59-442d-9f39-bd1c046952e2}</Project>
+      <Name>Logitech-LED</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MumbleLink-CSharp-GW2\MumbleLink-CSharp-GW2\MumbleLink-CSharp-GW2.csproj">
       <Project>{8a8d6dc7-81e3-4140-a6ab-25545220311c}</Project>
       <Name>MumbleLink-CSharp-GW2</Name>
@@ -397,7 +401,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
+      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

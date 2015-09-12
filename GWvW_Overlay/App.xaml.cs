@@ -1,6 +1,7 @@
 ﻿using Logitech_LCD;
 using System;
 using System.Windows;
+using Logitech_LED;
 
 namespace GWvW_Overlay
 {
@@ -15,11 +16,13 @@ namespace GWvW_Overlay
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Console.WriteLine(LogitechLcd.Instance.Init("GWvW Timers", LcdType.Color | LcdType.Mono));
+            LogitechLed.Instance.SaveCurrentLighting();
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             KListener.Dispose();
+            LogitechLed.Instance.RestoreLighting();
             GWvW_Overlay.MainWindow.DataLink.Dispose();
         }
     }
