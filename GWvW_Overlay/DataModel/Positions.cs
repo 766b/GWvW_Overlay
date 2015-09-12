@@ -32,6 +32,11 @@ namespace GWvW_Overlay.DataModel
             }
         }
 
+        public Visibility PlayerVisibility
+        {
+            get { return Map.KnownMap(MainWindow.DataLink.GetCoordinates().MapId) ? Visibility.Visible : Visibility.Hidden; }
+        }
+
         public double CanvasHeight
         {
             get { return _canvasHeight; }
@@ -60,10 +65,11 @@ namespace GWvW_Overlay.DataModel
             {
                 OnPropertyChanged("Player");
                 OnPropertyChanged("PlayerRotation");
+                OnPropertyChanged("PlayerVisibility");
             };
             PropertyChanged += (sender, args) =>
             {
-                if (args.PropertyName != "Player" && args.PropertyName != "PlayerRotation")
+                if (args.PropertyName != "Player" && args.PropertyName != "PlayerRotation" && args.PropertyName != "PlayerVisibility")
                 {
                     OnPropertyChanged("Player");
 

@@ -45,6 +45,8 @@ namespace GWvW_Overlay
         private bool? _adjustingHeight;
 
         readonly Timer _t1 = new Timer();
+        readonly Timer _mapDetectTimer = new Timer(100);
+        private int _currentMapId = 0;
         readonly Timer _t3 = new Timer();
 
 
@@ -119,6 +121,24 @@ namespace GWvW_Overlay
             _t1.Start();
 
 
+            _mapDetectTimer.Elapsed += (sender, args) =>
+            {
+                if (WvwMatch.Details == null) return;
+                var map = DataLink.GetCoordinates().MapId;
+                if (map != _currentMapId && Map.KnownMap(map))
+                {
+
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        BorderlandSelected(Map.ColorId[map], EventArgs.Empty);
+                    }));
+
+                }
+                _currentMapId = map;
+            };
+            _mapDetectTimer.Start();
+
+
             _t3.Interval = 1000;
             _t3.Elapsed += UpdateTimers;
 
@@ -141,6 +161,7 @@ namespace GWvW_Overlay
             {
                 //applet = new MonoDisplayApplet();
             }
+
 
         }
 
@@ -527,55 +548,6 @@ namespace GWvW_Overlay
         {
             if (args.Key.ToString() == Properties.Settings.Default["hotkey"].ToString() && !(bool)Properties.Settings.Default["alwaysTop"])
             {
-                /*StringBuilder wTitle = new StringBuilder(13);
-                if (Natives.GetWindowText(Natives.GetForegroundWindow(), wTitle, 13) > 0)
-                {
-                    if (wTitle.ToString() == "Guild Wars 2")
-                    {
-                        if (!inGame)
-                        {
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                IntPtr handle = new WindowInteropHelper(this).Handle;
-                                Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Transparent);
-                            }));
-
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                IntPtr gwHandle = Natives.FindWindow(null, "Guild Wars 2");
-                                Natives.SetForegroundWindow(gwHandle);
-                                inGame = true;
-                            }));
-                        }
-                        /*else if ((bool)Properties.Settings.Default["alwaysTop"])
-                        {
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                IntPtr handle = new WindowInteropHelper(this).Handle;
-                                SetWindowLong(handle, GWL_ExStyle, WS_EX_Transparent);
-                            }));
-
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                IntPtr gwHandle = FindWindow(null, "Guild Wars 2");
-                                SetForegroundWindow(gwHandle);
-                                inGame = true;
-                            }));
-                        }*/
-                /*}
-                else
-                {
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                    {
-                        IntPtr handle = new WindowInteropHelper(this).Handle;
-                        Natives.SetWindowLong(handle, Natives.GWL_ExStyle, Natives.WS_EX_Layered);
-                        inGame = false;
-                    }));
-
-                    LogWindow.ClickTroughVoid();
-                }
-            } */
-
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                 {
                     IntPtr handle = new WindowInteropHelper(this).Handle;

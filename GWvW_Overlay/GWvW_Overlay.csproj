@@ -29,7 +29,7 @@
     <ProductName>GWvW Overlay</ProductName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>0.4.14.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -59,7 +59,7 @@
     <ApplicationIcon>Resources\new_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>8198F0894AC90AD1A295A2FB3DD17824AEE98AFF</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>99D69335F4194EA008DE885BE17EEEA355C67E2E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>GWvW_Overlay_TemporaryKey.pfx</ManifestKeyFile>
@@ -397,7 +397,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
+      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
