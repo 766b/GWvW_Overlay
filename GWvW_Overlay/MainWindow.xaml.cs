@@ -241,7 +241,7 @@ namespace GWvW_Overlay
 
         public void GetBorderlandSelection()
         {
-            if (Settings.Default.server_color_lightning)
+            if (Settings.Default.server_color_lightning && LogitechLed.Instance.IsInit)
             {
                 switch (WvwMatch.HomeServerColor)
                 {
