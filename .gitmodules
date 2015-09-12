@@ -4,3 +4,6 @@
 [submodule "MumbleLink-CSharp-GW2"]
 	path = MumbleLink-CSharp-GW2
 	url = https://github.com/sidewinder94/MumbleLink-CSharp-GW2.git
+[submodule "Logitech-LED"]
+	path = Logitech-LED
+	url = https://github.com/sidewinder94/Logitech-LED.git
