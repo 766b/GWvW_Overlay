@@ -19,6 +19,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using GWvW_Overlay.Properties;
+using Logitech_LED;
 using MumbleLink_CSharp_GW2;
 
 namespace GWvW_Overlay
@@ -239,6 +241,25 @@ namespace GWvW_Overlay
 
         public void GetBorderlandSelection()
         {
+            if (Settings.Default.server_color_lightning)
+            {
+                switch (WvwMatch.HomeServerColor)
+                {
+                    case "red":
+                        LogitechLed.Instance.SetLighting(100, 0, 0);
+                        break;
+                    case "green":
+                        LogitechLed.Instance.SetLighting(0, 100, 0);
+                        break;
+                    case "blue":
+                        LogitechLed.Instance.SetLighting(0, 0, 100);
+                        break;
+                    default:
+                        LogitechLed.Instance.SetLighting(100, 100, 100);
+                        break;
+
+                }
+            }
             CnvsBlSelection.Visibility = Visibility.Visible;
             LblBlueBl.Content = WvwMatch.GetServerName("blue");
             LblGreenBl.Content = WvwMatch.GetServerName("green");
@@ -249,9 +270,9 @@ namespace GWvW_Overlay
         {
             foreach (var match in WvwMatch.Match)
             {
-                if (match.blue_world_id == (int)Properties.Settings.Default["home_server"]
-                    || match.green_world_id == (int)Properties.Settings.Default["home_server"]
-                    || match.red_world_id == (int)Properties.Settings.Default["home_server"])
+                if (match.blue_world_id == (int)Settings.Default["home_server"]
+                    || match.green_world_id == (int)Settings.Default["home_server"]
+                    || match.red_world_id == (int)Settings.Default["home_server"])
                 {
                     WvwMatch.Options.active_match = match.wvw_match_id;
                     RtvMatchDetails(null, null);

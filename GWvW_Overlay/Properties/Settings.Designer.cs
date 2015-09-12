@@ -274,5 +274,17 @@ namespace GWvW_Overlay.Properties {
                 this["player_position"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool server_color_lightning {
+            get {
+                return ((bool)(this["server_color_lightning"]));
+            }
+            set {
+                this["server_color_lightning"] = value;
+            }
+        }
     }
 }
