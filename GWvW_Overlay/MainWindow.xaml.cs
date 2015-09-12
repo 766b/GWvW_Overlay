@@ -638,6 +638,9 @@ namespace GWvW_Overlay
 
         public void ExitApp(object sender, EventArgs e)
         {
+            _t1.Stop();
+            _t3.Stop();
+            _mapDetectTimer.Stop();
             UnhookWinEvent(_hhook);
             LogWindow.Close();
             Application.Current.Shutdown();
