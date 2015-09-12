@@ -28,8 +28,12 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
+(12/09/2015)
+- Added Player Position and rotation on the map (still need a better quality marker) from MumbleLink
+- Now switching map Automatically when the user changes map
+
 (08/09/2015)
-- ANet changed the order of the WvW objectives, it was confuusing the application, fixed it
+- ANet changed the order of the WvW objectives, it was confusing the application, fixed it
 
 (27/02/2015)
 - Now Reusing ANet API for Server Names (the fallback is still here in case anything happens to the API)
