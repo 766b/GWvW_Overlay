@@ -16,13 +16,21 @@ namespace GWvW_Overlay
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Console.WriteLine(LogitechLcd.Instance.Init("GWvW Timers", LcdType.Color | LcdType.Mono));
-            LogitechLed.Instance.SaveCurrentLighting();
+
+            if (LogitechLed.Instance.IsInit)
+            {
+                LogitechLed.Instance.SaveCurrentLighting();
+            }
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             KListener.Dispose();
-            LogitechLed.Instance.RestoreLighting();
+
+            if (LogitechLed.Instance.IsInit)
+            {
+                LogitechLed.Instance.RestoreLighting();
+            }
             GWvW_Overlay.MainWindow.DataLink.Dispose();
         }
     }
