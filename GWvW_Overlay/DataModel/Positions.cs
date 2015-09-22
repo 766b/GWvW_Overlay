@@ -117,8 +117,8 @@ namespace GWvW_Overlay.DataModel
             var mapSizeX = Math.Abs(mapSize[0][0]) + Math.Abs(mapSize[1][0]);
             var mapSizeY = Math.Abs(mapSize[0][1]) + Math.Abs(mapSize[1][1]);
 
-            nativeCoordinates.X = Math.Abs(CanvasWidth * ((nativeCoordinates.X + mapSizeX / 2.0) / mapSizeX)) - 25.0 / 2.0;
-            nativeCoordinates.Y = Math.Abs(CanvasHeight * ((nativeCoordinates.Y - mapSizeY / 2.0) / mapSizeY)) - 29.0 / 2.0;
+            nativeCoordinates.X = Math.Abs(CanvasWidth * ((nativeCoordinates.X + mapSizeX / 2.0) / mapSizeX)) - 10;
+            nativeCoordinates.Y = Math.Abs(CanvasHeight * ((nativeCoordinates.Y - mapSizeY / 2.0) / mapSizeY)) - 14;
 
             return nativeCoordinates;
         }
