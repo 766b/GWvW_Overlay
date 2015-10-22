@@ -18,12 +18,12 @@ namespace ArenaNET
         private static Dictionary<String, Objective> _cache;
 
         #region Properties
-
+        [JsonIgnore]
         public string Name
         {
             get
             {
-                if (String.IsNullOrEmpty(_name) && !String.IsNullOrEmpty(Id))
+                if (!String.IsNullOrEmpty(Id))
                 {
                     GetResource();
                 }
@@ -34,6 +34,7 @@ namespace ArenaNET
             private set { _name = value; }
         }
 
+        [JsonIgnore]
         public int SectorId
         {
             get
@@ -47,6 +48,7 @@ namespace ArenaNET
             private set { _sectorId = value; }
         }
 
+        [JsonIgnore]
         public string MapType
         {
             get
@@ -62,6 +64,7 @@ namespace ArenaNET
             private set { _mapType = value; }
         }
 
+        [JsonIgnore]
         public string MapId
         {
             get
@@ -76,6 +79,7 @@ namespace ArenaNET
             private set { _mapId = value; }
         }
 
+        [JsonIgnore]
         public Coordinate Coordinates
         {
             get
@@ -97,6 +101,29 @@ namespace ArenaNET
         }
 
         #endregion
+
+        #region Serialization Preferences
+        public bool ShouldSerializeOwner()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeLastFlipped()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeClaimedBy()
+        {
+            return false;
+        }
+
+        public bool ShouldSerializeClaimedAt()
+        {
+            return false;
+        }
+        #endregion
+
 
         [JsonProperty("id")]
         public string Id;
@@ -144,34 +171,30 @@ namespace ArenaNET
 
             if (parameters.Length != 1) throw new ArgumentException("Should contain only 1 parameter");
 
-            if (_cache.ContainsKey(parameters[0]))
+            var endpoint = String.Format(_parameterizedEndPoint, parameters[0], Request.Lang);
+
+            if (_cache.ContainsKey(endpoint))
             {
-                var result = _cache[parameters[0]];
-                Name = result.Name;
-                SectorId = result.SectorId;
-                MapType = result.MapType;
-                MapId = result.MapId;
-                Coordinates = result.Coordinates;
+                var result = _cache[endpoint];
+                Name = result._name;
+                SectorId = result._sectorId ?? -1;
+                MapType = result._mapType;
+                MapId = result._mapId;
+                Coordinates = result._coordinates;
                 return this;
             }
 
             try
             {
                 String json;
-                var response = GetJSON(String.Format(_parameterizedEndPoint, parameters[0], Request.Lang), out json);
+                var response = GetJSON(endpoint, out json);
                 Console.WriteLine("Response HTTP Code : {0}", response);
                 Console.WriteLine("Response : {0}", json);
                 if (response == HttpStatusCode.OK)
                 {
-                    var result = JsonConvert.DeserializeObject<Objective>(json);
+                    JsonConvert.PopulateObject(json, this);
 
-                    Name = result.Name;
-                    SectorId = result.SectorId;
-                    MapType = result.MapType;
-                    MapId = result.MapId;
-                    Coordinates = result.Coordinates;
-
-                    _cache.Add(parameters[0], this);
+                    _cache.Add(endpoint, this);
 
                     File.WriteAllText(CacheFile, JsonConvert.SerializeObject(_cache));
 

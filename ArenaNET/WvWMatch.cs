@@ -48,8 +48,8 @@ namespace ArenaNET
                 Console.WriteLine("Response : {0}", json);
                 if (response == HttpStatusCode.OK)
                 {
-                    var match = JsonConvert.DeserializeObject<WvWMatch>(json);
-                    return match;
+                    JsonConvert.PopulateObject(json, this);
+                    return this;
                 }
             }
             catch (Exception ex)

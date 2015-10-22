@@ -67,17 +67,13 @@ namespace ArenaNET
                 Console.WriteLine("Response : {0}", json);
                 if (response == HttpStatusCode.OK)
                 {
-                    var world = JsonConvert.DeserializeObject<World>(json);
-                    Id = world.Id;
-                    Name = world.Name;
-                    Population = world.Population;
-
+                    JsonConvert.PopulateObject(json, this);
 
                     _cache.Add(endpoint, this);
 
                     File.WriteAllText(CacheFile, JsonConvert.SerializeObject(_cache));
 
-                    return world;
+                    return this;
                 }
             }
             catch (Exception ex)
