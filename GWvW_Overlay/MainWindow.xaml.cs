@@ -37,7 +37,7 @@ namespace GWvW_Overlay
 
         static readonly WinEventDelegate ProcDelegate = WinEventProc;
         public static readonly GW2Link DataLink = new GW2Link();
-        readonly Keyboard.KeyboardListener _kListener = new Keyboard.KeyboardListener();
+        readonly KeyboardListener _kListener = new KeyboardListener();
         readonly IntPtr _hhook;
 
         static MainWindow _handleThis;
@@ -70,6 +70,8 @@ namespace GWvW_Overlay
         //About & Settings Windows
         private SetOptions optionWindow;
         private About aboutWindow;
+
+        #region Win32
         public void ClickTroughActivate()
         {
             IntPtr handle = new WindowInteropHelper(this).Handle;
@@ -102,6 +104,89 @@ namespace GWvW_Overlay
                 _handleThis.ClickTroughVoid();
             }
         }
+
+        public static Point GetMousePosition() // mouse position relative to screen
+        {
+            var w32Mouse = new Natives.Win32Point();
+            Natives.GetCursorPos(ref w32Mouse);
+            return new Point(w32Mouse.X, w32Mouse.Y);
+        }
+
+        void KListener_KeyDown(object sender, RawKeyEventArgs args)
+        {
+            if (args.Key.ToString() == Settings.Default["hotkey"].ToString() && !(bool)Settings.Default["alwaysTop"])
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    IntPtr handle = new WindowInteropHelper(this).Handle;
+                    Natives.ShowWindow(handle, 4);
+                }));
+            }
+        }
+
+        void KListener_KeyUp(object sender, RawKeyEventArgs args)
+        {
+            if (args.Key.ToString() == Settings.Default["hotkey"].ToString() && !(bool)Settings.Default["alwaysTop"])
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    IntPtr handle = new WindowInteropHelper(this).Handle;
+                    Natives.ShowWindow(handle, 6);
+                }));
+            }
+        }
+
+        private IntPtr DragHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            double aspectRatio = WvwMatch.Options.width / WvwMatch.Options.height;
+            switch ((Natives.WM)msg)
+            {
+                case Natives.WM.WINDOWPOSCHANGING:
+                    {
+                        var pos = (Natives.WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(Natives.WINDOWPOS));
+
+                        if ((pos.flags & (int)Natives.SWP.NOMOVE) != 0)
+                            return IntPtr.Zero;
+
+                        var hwndSource = HwndSource.FromHwnd(hwnd);
+                        if (hwndSource != null)
+                        {
+                            var wnd = (Window)hwndSource.RootVisual;
+                            if (wnd == null)
+                                return IntPtr.Zero;
+                        }
+
+                        // determine what dimension is changed by detecting the mouse position relative to the 
+                        // window bounds. if gripped in the corner, either will work.
+                        if (!_adjustingHeight.HasValue)
+                        {
+                            Point p = GetMousePosition();
+
+                            double diffWidth = Math.Min(Math.Abs(p.X - pos.x), Math.Abs(p.X - pos.x - pos.cx));
+                            double diffHeight = Math.Min(Math.Abs(p.Y - pos.y), Math.Abs(p.Y - pos.y - pos.cy));
+                            _adjustingHeight = diffHeight > diffWidth;
+                        }
+
+                        if (_adjustingHeight.Value)
+                            pos.cy = (int)(pos.cx / aspectRatio); // adjusting height to width change
+                        else
+                            pos.cx = (int)(pos.cy * aspectRatio); // adjusting width to heigth change
+
+                        Marshal.StructureToPtr(pos, lParam, true);
+                        handled = true;
+                    }
+                    break;
+                case Natives.WM.EXITSIZEMOVE:
+                    _adjustingHeight = null; // reset adjustment dimension and detect again next time window is resized
+                    break;
+            }
+
+            return IntPtr.Zero;
+        }
+
+        #endregion
+
+
         public MainWindow()
         {
             RtvMatches();
@@ -198,33 +283,10 @@ namespace GWvW_Overlay
         {
 
             LogWindow.Show();
-            if (!(bool)Properties.Settings.Default["show_tracker"])
+            if (!(bool)Settings.Default["show_tracker"])
                 LogWindow.Hide();
 
-
-            //Test
-            /*
-            Dictionary<string, string> dict1 = new Dictionary<string, string>() { { "time", DateTime.Now.ToString("t") }, { "objective", "Objective Name" }, { "owner_color", "green" }, { "owner", "released" } };
-            Dictionary<string, string> dict2 = new Dictionary<string, string>() { { "time", DateTime.Now.ToString("t") }, { "objective", "Objective Name" }, { "owner_color", "red" }, { "owner", "[Tag] Name" } };
-
-            Dictionary<string, string> dict3 = new Dictionary<string, string>() 
-                                    { 
-                                        {"time", DateTime.Now.ToString("t")},
-                                        {"objective",  "Objective Name"},
-                                        {"from", "Server Name 1"},
-                                        {"from_color", "blue"},
-                                        {"to", "Server Name 2"},
-                                        {"to_color", "green"},
-                                    };
-
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                LogWindow.AddEventLog(dict1, true);
-                LogWindow.AddEventLog(dict2, true);
-                LogWindow.AddEventLog(dict3, false);
-            }));*/
-
-            if (!(bool)Properties.Settings.Default["auto_matchup"])
+            if (!(bool)Settings.Default["auto_matchup"])
             {
                 cnvsMatchSelection.Visibility = Visibility.Visible;
 
@@ -235,8 +297,6 @@ namespace GWvW_Overlay
                 AutoMatchSetActiveMatch();
                 GetBorderlandSelection();
             }
-
-            //rtvMatchDetails(null, null);
         }
 
         public void GetBorderlandSelection()
@@ -360,16 +420,6 @@ namespace GWvW_Overlay
                     {
                         if (WvwMatch.Details.Maps[map].Objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                         {
-                            /* Dictionary<string, string> dict = new Dictionary<string, string>()
-                             {
-                                 {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
-                                 {"time_left", left.ToString(@"mm\:ss")}
-                             };
-
-                             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                             {
-                                 LogWindow.AddCampLog(dict);
-                             }));*/
                             eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name);
                         }
 
@@ -383,16 +433,6 @@ namespace GWvW_Overlay
 
                         if (WvwMatch.Details.Maps[map].Objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                         {
-                            /*Dictionary<string, string> dict = new Dictionary<string, string>()
-                            {
-                                {"objective", WvwMatch.Details.maps[map].objectives[obj].ObjData.name},
-                                {"time_left", "N/A"}
-                            };
-
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                            {
-                                LogWindow.AddCampLog(dict);
-                            }));*/
                             eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name);
                         }
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -448,7 +488,7 @@ namespace GWvW_Overlay
             _jsonMatches = null;
         }
 
-        public void RtvMatchDetails(Object source, System.Timers.ElapsedEventArgs e)
+        public void RtvMatchDetails(Object source, ElapsedEventArgs e)
         {
             if (WvwMatch.Options.active_match == null)
                 return;
@@ -565,29 +605,7 @@ namespace GWvW_Overlay
             return x;
         }
 
-        void KListener_KeyDown(object sender, Keyboard.RawKeyEventArgs args)
-        {
-            if (args.Key.ToString() == Properties.Settings.Default["hotkey"].ToString() && !(bool)Properties.Settings.Default["alwaysTop"])
-            {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                {
-                    IntPtr handle = new WindowInteropHelper(this).Handle;
-                    Natives.ShowWindow(handle, 4);
-                }));
-            }
-        }
 
-        void KListener_KeyUp(object sender, Keyboard.RawKeyEventArgs args)
-        {
-            if (args.Key.ToString() == Properties.Settings.Default["hotkey"].ToString() && !(bool)Properties.Settings.Default["alwaysTop"])
-            {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                {
-                    IntPtr handle = new WindowInteropHelper(this).Handle;
-                    Natives.ShowWindow(handle, 6);
-                }));
-            }
-        }
 
         public void MatchSelected(object sender, EventArgs e)
         {
@@ -681,80 +699,29 @@ namespace GWvW_Overlay
             aboutWindow.Focus();
         }
 
-        public static Point GetMousePosition() // mouse position relative to screen
-        {
-            var w32Mouse = new Natives.Win32Point();
-            Natives.GetCursorPos(ref w32Mouse);
-            return new Point(w32Mouse.X, w32Mouse.Y);
-        }
+
 
 
         private void Window_SourceInitialized(object sender, EventArgs ea)
         {
-            var hwndSource = (HwndSource)HwndSource.FromVisual((Window)sender);
+            var hwndSource = (HwndSource)PresentationSource.FromVisual((Window)sender);
             if (hwndSource != null) hwndSource.AddHook(DragHook);
 
             Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
             foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
             {
-                if (item.id == (int)Properties.Settings.Default["home_server"])
+                if (item.id == Settings.Default.home_server)
                     CmbbxHomeServerSelection.SelectedItem = item;
             }
         }
 
-        private IntPtr DragHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            double aspectRatio = WvwMatch.Options.width / WvwMatch.Options.height;
-            switch ((Natives.WM)msg)
-            {
-                case Natives.WM.WINDOWPOSCHANGING:
-                    {
-                        var pos = (Natives.WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(Natives.WINDOWPOS));
 
-                        if ((pos.flags & (int)Natives.SWP.NOMOVE) != 0)
-                            return IntPtr.Zero;
-
-                        var hwndSource = HwndSource.FromHwnd(hwnd);
-                        if (hwndSource != null)
-                        {
-                            var wnd = (Window)hwndSource.RootVisual;
-                            if (wnd == null)
-                                return IntPtr.Zero;
-                        }
-
-                        // determine what dimension is changed by detecting the mouse position relative to the 
-                        // window bounds. if gripped in the corner, either will work.
-                        if (!_adjustingHeight.HasValue)
-                        {
-                            Point p = GetMousePosition();
-
-                            double diffWidth = Math.Min(Math.Abs(p.X - pos.x), Math.Abs(p.X - pos.x - pos.cx));
-                            double diffHeight = Math.Min(Math.Abs(p.Y - pos.y), Math.Abs(p.Y - pos.y - pos.cy));
-                            _adjustingHeight = diffHeight > diffWidth;
-                        }
-
-                        if (_adjustingHeight.Value)
-                            pos.cy = (int)(pos.cx / aspectRatio); // adjusting height to width change
-                        else
-                            pos.cx = (int)(pos.cy * aspectRatio); // adjusting width to heigth change
-
-                        Marshal.StructureToPtr(pos, lParam, true);
-                        handled = true;
-                    }
-                    break;
-                case Natives.WM.EXITSIZEMOVE:
-                    _adjustingHeight = null; // reset adjustment dimension and detect again next time window is resized
-                    break;
-            }
-
-            return IntPtr.Zero;
-        }
 
         private void MainClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             UnhookWinEvent(_hhook);
             LogWindow.Close();
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
         }
 
         private void lblSelectionOK_Click(object sender, MouseButtonEventArgs e)
@@ -779,16 +746,16 @@ namespace GWvW_Overlay
             if (ChkbxAutoMatchSelect.IsChecked != null && (bool)ChkbxAutoMatchSelect.IsChecked &&
                 CmbbxHomeServerSelection.SelectedValue != null)
             {
-                Properties.Settings.Default["auto_matchup"] = (bool)ChkbxAutoMatchSelect.IsChecked;
-                Properties.Settings.Default["home_server"] = CmbbxHomeServerSelection.SelectedValue;
-                Properties.Settings.Default.Save();
+                Settings.Default.auto_matchup = ChkbxAutoMatchSelect.IsChecked.Value;
+                Settings.Default["home_server"] = CmbbxHomeServerSelection.SelectedValue;
+                Settings.Default.Save();
                 AutoMatchSetActiveMatch();
             }
             // If home-server is set go to BL selection
             else if (CmbbxHomeServerSelection.SelectedValue != null)
             {
-                Properties.Settings.Default["home_server"] = CmbbxHomeServerSelection.SelectedValue;
-                Properties.Settings.Default.Save();
+                Settings.Default["home_server"] = CmbbxHomeServerSelection.SelectedValue;
+                Settings.Default.Save();
                 AutoMatchSetActiveMatch();
             }
             else if (LstbxMatchSelection.SelectedItem != null)
