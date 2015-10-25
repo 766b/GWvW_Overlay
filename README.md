@@ -1,3 +1,6 @@
+#Broken due to the HoT.... I'm fixing it
+
+
 Remarks
 ============
 This application does not behave like regular overlays, hooking an application to display it's informations (like mumble overlay or overwolf), instead the windows are set to stay above every other window.
