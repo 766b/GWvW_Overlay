@@ -1,4 +1,4 @@
-#Broken due to the HoT.... I'm fixing it
+#Broken due to HoT.... I'm fixing it
 
 
 Remarks
