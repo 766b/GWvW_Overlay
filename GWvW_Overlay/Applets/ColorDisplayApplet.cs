@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Resources;
+using ArenaNET;
 using System.Windows.Forms;
 
 namespace GWvW_Overlay
@@ -18,16 +18,16 @@ namespace GWvW_Overlay
         private String _bl;
         private Label[] lines;
         private int currentLine;
-        public WvwMatch_ match { get; set; }
+        public WvwMatchup match { get; set; }
 
-        public ColorDisplayApplet(MainWindow parent, WvwMatch_ match) :
+        public ColorDisplayApplet(MainWindow parent, WvwMatchup match) :
             this(LcdType.Color, parent, match)
         {
 
         }
 
 
-        public ColorDisplayApplet(LcdType lcdType, MainWindow parent, WvwMatch_ match)
+        public ColorDisplayApplet(LcdType lcdType, MainWindow parent, WvwMatchup match)
             : base(lcdType)
         {
             InitializeComponent();
@@ -136,11 +136,11 @@ namespace GWvW_Overlay
                 this.BackgroundImage = null;
                 tabs.Visible = true;
                 currentLine = 0;
-                List<Objective> result = new List<Objective>();
+                List<ArenaNET.Objective> result = new List<ArenaNET.Objective>();
                 if (this.tabs.SelectedTab.Text == Strings.camps)
                 {
                     result = match.Details.Maps.FirstOrDefault(map => map.Type == _bl).Objectives
-                                                               .Where(obj => obj.ObjData.type == "camp")
+                                                               .Where(obj => obj.Type == "Camp")
                                                                .Take(6)
                                                                .ToList();
                 }
@@ -148,19 +148,19 @@ namespace GWvW_Overlay
                          (this.tabs.SelectedTab.Text == (Strings.towers + " 1")))
                 {
                     result = match.Details.Maps.FirstOrDefault(map => map.Type == _bl).Objectives
-                                                               .Where(obj => obj.ObjData.type == "tower")
+                                                               .Where(obj => obj.Type == "Tower")
                                                                .Take(6)
                                                                .ToList();
                 }
                 else if (this.tabs.SelectedTab.Text == Strings.towers + " 2")
                 {
                     result = match.Details.Maps.FirstOrDefault(map => map.Type == _bl).Objectives
-                                                               .Where(obj => obj.ObjData.type == "tower")
+                                                               .Where(obj => obj.Type == "Tower")
                                                                .Take(6)
                                                                .ToList();
 
                     result = match.Details.Maps.FirstOrDefault(map => map.Type == _bl).Objectives
-                                                               .Where(obj => obj.ObjData.type == "tower")
+                                                               .Where(obj => obj.Type == "Tower")
                                                                .Except(result)
                                                                .Take(6)
                                                                .ToList();
@@ -168,18 +168,18 @@ namespace GWvW_Overlay
                 else if (this.tabs.SelectedTab.Text == Strings.keeps)
                 {
                     result = match.Details.Maps.FirstOrDefault(map => map.Type == _bl).Objectives
-                                                               .Where(obj => obj.ObjData.type == "keep")
+                                                               .Where(obj => obj.Type == "Keep")
                                                                .Take(6)
                                                                .ToList();
                 }
                 else if (this.tabs.SelectedTab.Text == Strings.castles)
                 {
                     result = match.Details.Maps.FirstOrDefault(map => map.Type == _bl).Objectives
-                                                               .Where(obj => obj.ObjData.type == "castle")
+                                                               .Where(obj => obj.Type == "Castle")
                                                                .Take(6)
                                                                .ToList();
                 }
-                result.ForEach(new Action<Objective>(Format));
+                result.ForEach(Format);
                 for (; currentLine < lines.Length; currentLine++)
                 {
                     lines[currentLine].Visible = false;
@@ -202,16 +202,20 @@ namespace GWvW_Overlay
 
         }
 
-        private void Format(Objective obj)
+        private void Format(ArenaNET.Objective obj)
         {
-            TimeSpan diff = DateTime.Now.Subtract(obj.last_change);
-            TimeSpan left = TimeSpan.FromMinutes(5) - diff;
-            String time = diff < TimeSpan.FromMinutes(5) ? left.ToString(@"mm\:ss") : "N/A";
-            lines[currentLine].Text = String.Format("{0} {1}",
-                                                     time,
-                                                     obj.ObjData.name);
-            lines[currentLine].ForeColor = ownerColor(obj.owner);
-            lines[currentLine].Visible = true;
+            if (obj.LastFlipped.HasValue)
+            {
+
+                TimeSpan diff = DateTime.Now.Subtract(obj.LastFlipped.Value);
+                TimeSpan left = TimeSpan.FromMinutes(5) - diff;
+                String time = diff < TimeSpan.FromMinutes(5) ? left.ToString(@"mm\:ss") : "N/A";
+                lines[currentLine].Text = String.Format("{0} {1}",
+                    time,
+                    obj.Name);
+                lines[currentLine].ForeColor = ownerColor(obj.Owner);
+                lines[currentLine].Visible = true;
+            }
             currentLine++;
         }
 

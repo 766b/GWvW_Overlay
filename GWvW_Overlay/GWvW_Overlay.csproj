@@ -123,9 +123,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -156,6 +156,7 @@
     <Compile Include="Converters\GetPosition.cs" />
     <Compile Include="DataModel\MapInfo.cs" />
     <Compile Include="DataModel\Positions.cs" />
+    <Compile Include="DataModel\WvwMatchup.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="CampLogger.xaml.cs">
       <DependentUpon>CampLogger.xaml</DependentUpon>
@@ -387,6 +388,10 @@
     <Resource Include="Resources\panel2.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArenaNET\ArenaNET.csproj">
+      <Project>{20da02ae-0fcb-473f-bd91-13b95e8cd14f}</Project>
+      <Name>ArenaNET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logitech-LCD\Logitech-LCD\Logitech-LCD.csproj">
       <Project>{65c75235-f2ec-4aad-a58e-e1371191dff0}</Project>
       <Name>Logitech-LCD</Name>
@@ -403,12 +408,16 @@
       <Project>{f7d52e49-75c2-4578-820f-1b03e5e05e4f}</Project>
       <Name>MumbleLink-CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{95171576-382e-470a-b2a6-bf9d270f35a7}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
+      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

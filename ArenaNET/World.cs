@@ -2,18 +2,49 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using ArenaNET.DataStructures;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ArenaNET
 {
     public class World : ANetResource<World>, IANetResource
     {
         private const String CacheFile = "ServerNames.json";
+
         #region IANetResource Implementation
 
         private static readonly String _endPoint = "worlds";
         private static readonly String _parameterizedEndPoint = _endPoint + "/{0}?lang={1}";
         private static Dictionary<String, World> _cache;
+
+        [JsonIgnore]
+        public string Name
+        {
+            get
+            {
+                if (Id != 0)
+                {
+                    GetResource(Id.ToString());
+                }
+                return _name;
+            }
+            private set { _name = value; }
+        }
+
+        [JsonIgnore]
+        public string Population
+        {
+            get
+            {
+                if (Id != 0)
+                {
+                    GetResource(Id.ToString());
+                }
+                return _population;
+            }
+            private set { _population = value; }
+        }
 
 
         public string EndPoint()
@@ -26,9 +57,9 @@ namespace ArenaNET
         [JsonProperty("id")]
         public int Id;
         [JsonProperty("name")]
-        public String Name;
+        private String _name;
         [JsonProperty("population")]
-        public String Population;
+        private String _population;
 
         public override World GetResource(params String[] parameters)
         {
@@ -51,9 +82,9 @@ namespace ArenaNET
             if (_cache.ContainsKey(endpoint))
             {
                 var result = _cache[endpoint];
-                Name = result.Name;
+                _name = result._name;
                 Id = result.Id;
-                Population = result.Population;
+                _population = result._population;
                 return this;
             }
 
@@ -85,5 +116,51 @@ namespace ArenaNET
 
         }
 
+    }
+
+    internal class ServerWorldConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            serializer.Serialize(writer, value);
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
+        {
+            var worlds = new ServerValue<World>();
+            for (int i = 0; i < 3; i++)
+            {
+                reader.Read();
+                var color = Convert.ToString(reader.Value);
+                reader.Read();
+                var id = Convert.ToInt32(reader.Value);
+                AssociateColorToValue(worlds, color, id);
+
+            }
+            reader.Read();
+            return worlds;
+        }
+
+        private void AssociateColorToValue(ServerValue<World> worlds, string color, int id)
+        {
+            switch (color)
+            {
+                case "red":
+                    worlds.Red = new World { Id = id };
+                    break;
+                case "blue":
+                    worlds.Blue = new World { Id = id };
+                    break;
+                case "green":
+                    worlds.Green = new World { Id = id };
+                    break;
+            }
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return objectType == typeof(int);
+        }
     }
 }

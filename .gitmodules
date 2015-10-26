@@ -7,3 +7,6 @@
 [submodule "Logitech-LED"]
 	path = Logitech-LED
 	url = https://github.com/sidewinder94/Logitech-LED.git
+[submodule "Utils"]
+	path = Utils
+	url = https://github.com/sidewinder94/Utils.git

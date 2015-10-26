@@ -1,14 +1,7 @@
-﻿using GWvW_Overlay.DataModel;
-using GWvW_Overlay.Keyboard;
-using GWvW_Overlay.Resources.Lang;
-using Logitech_LCD;
-using Logitech_LCD.Applets;
-using Newtonsoft.Json;
-/*
- * Objective names https://gist.github.com/codemasher/bac2b4f87e7af128087e (smiley.1438)
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Timers;
@@ -19,9 +12,21 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using ArenaNET;
+using GWvW_Overlay.DataModel;
+using GWvW_Overlay.Keyboard;
 using GWvW_Overlay.Properties;
+using GWvW_Overlay.Resources.Lang;
+using Logitech_LCD;
+using Logitech_LCD.Applets;
 using Logitech_LED;
 using MumbleLink_CSharp_GW2;
+using Newtonsoft.Json;
+using Utils.Text;
+using Objective = GWvW_Overlay.DataModel.Objective;
+/*
+ * Objective names https://gist.github.com/codemasher/bac2b4f87e7af128087e (smiley.1438)
+ */
 
 namespace GWvW_Overlay
 {
@@ -48,18 +53,17 @@ namespace GWvW_Overlay
 
         readonly Timer _t1 = new Timer();
         readonly Timer _mapDetectTimer = new Timer(100);
-        private int _currentMapId = 0;
+        private int _currentMapId;
         readonly Timer _t3 = new Timer();
 
 
 
         //JSON Data
-        Match_Details_ _matchDetails = new Match_Details_();
-        private readonly WvwMatch_ _wvwMatch = new WvwMatch_();
+        private readonly WvwMatchup _wvwMatch = new WvwMatchup();
 
-        public WvwMatch_ WvwMatch { get { return _wvwMatch; } }
+        public WvwMatchup WvwMatch { get { return _wvwMatch; } }
 
-        Matches_ _jsonMatches = new Matches_();
+        List<WvWMatch> _jsonMatches = new List<WvWMatch>();
 
         public Guild GuildData = new Guild();
 
@@ -210,7 +214,7 @@ namespace GWvW_Overlay
 
             _mapDetectTimer.Elapsed += (sender, args) =>
             {
-                if (WvwMatch.Details == null) return;
+                if (WvwMatch.Matches == null) return;
                 var map = DataLink.GetCoordinates().MapId;
                 if (map != _currentMapId && Map.KnownMap(map))
                 {
@@ -224,7 +228,7 @@ namespace GWvW_Overlay
                 _currentMapId = map;
             };
 
-            _mapDetectTimer.Enabled = Properties.Settings.Default.auto_switch_map;
+            _mapDetectTimer.Enabled = Settings.Default.auto_switch_map;
 
             _t3.Interval = 1000;
             _t3.Elapsed += UpdateTimers;
@@ -234,7 +238,7 @@ namespace GWvW_Overlay
             Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
             foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
             {
-                if (item.id == (int)Properties.Settings.Default["home_server"])
+                if (item.id == Settings.Default.home_server)
                     CmbbxHomeServerSelection.SelectedItem = item;
             }
 
@@ -254,22 +258,21 @@ namespace GWvW_Overlay
 
         public void UpdatePosition(Object source, EventArgs e)
         {
-            if (WvwMatch.Details == null)
+            if (WvwMatch.Matches == null)
                 return;
 
-            foreach (Map map in WvwMatch.Details.Maps)
+            foreach (ArenaNET.DataStructures.Map map in WvwMatch.Details.Maps)
             {
-                foreach (Objective obj in map.Objectives)
+                foreach (ArenaNET.Objective obj in map.Objectives)
                 {
                     DateTime cur = DateTime.Now;
 
-                    if (obj.ObjData.top != 0.0)
+                    if (obj.Coordinates != null)
                     {
-                        Objective obj1 = obj;
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
-                            obj1.ObjData.left = Width * (obj1.ObjData.left_base / obj1.ObjData.res_width);
-                            obj1.ObjData.top = Height * (obj1.ObjData.top_base / obj1.ObjData.res_height);
+                            obj.Coordinates.X = Width * (obj.left_base / obj.res_width);
+                            obj.Coordinates.Y = Height * (obj.top_base / obj.res_height);
                             WvwMatch.PlayerPositions.CanvasHeight = Height;
                             WvwMatch.PlayerPositions.CanvasWidth = Width;
                         }));
@@ -283,10 +286,10 @@ namespace GWvW_Overlay
         {
 
             LogWindow.Show();
-            if (!(bool)Settings.Default["show_tracker"])
+            if (!Settings.Default.show_tracker)
                 LogWindow.Hide();
 
-            if (!(bool)Settings.Default["auto_matchup"])
+            if (!Settings.Default.auto_matchup)
             {
                 cnvsMatchSelection.Visibility = Visibility.Visible;
 
@@ -321,20 +324,20 @@ namespace GWvW_Overlay
                 }
             }
             CnvsBlSelection.Visibility = Visibility.Visible;
-            LblBlueBl.Content = WvwMatch.GetServerName("blue");
-            LblGreenBl.Content = WvwMatch.GetServerName("green");
-            LblRedBl.Content = WvwMatch.GetServerName("red");
+            LblBlueBl.Content = WvwMatch.Details.Worlds.Blue;
+            LblGreenBl.Content = WvwMatch.Details.Worlds.Green;
+            LblRedBl.Content = WvwMatch.Details.Worlds.Red;
         }
 
         public void AutoMatchSetActiveMatch()
         {
-            foreach (var match in WvwMatch.Match)
+            foreach (var match in WvwMatch.Matches)
             {
-                if (match.blue_world_id == (int)Settings.Default["home_server"]
-                    || match.green_world_id == (int)Settings.Default["home_server"]
-                    || match.red_world_id == (int)Settings.Default["home_server"])
+                if (match.Worlds.Blue.Id == Settings.Default.home_server
+                    || match.Worlds.Green.Id == Settings.Default.home_server
+                    || match.Worlds.Red.Id == Settings.Default.home_server)
                 {
-                    WvwMatch.Options.active_match = match.wvw_match_id;
+                    WvwMatch.Options.active_match = match.Id;
                     RtvMatchDetails(null, null);
                     BuildMenu();
                     break;
@@ -347,10 +350,10 @@ namespace GWvW_Overlay
             var mainMenu = new ContextMenu();
 
             var matches = new MenuItem { Header = "Matches" };
-            var y = WvwMatch.GetMatchesList();
+            var y = WvwMatch.Matches;
             foreach (var x in y)
             {
-                var i = new MenuItem { Header = x.Value, Tag = x.Key };
+                var i = new MenuItem { Header = x.Id, Tag = x.ToString() };
                 i.Click += MatchSelected;
                 matches.Items.Add(i);
             }
@@ -362,13 +365,13 @@ namespace GWvW_Overlay
 
             if (WvwMatch.Options.active_match != null)
             {
-                var blBlue = new MenuItem { Header = string.Format(Strings.blueBorderland + " ({0})", WvwMatch.GetServerName("blue")), Tag = "BlueHome" };
+                var blBlue = new MenuItem { Header = string.Format(Strings.blueBorderland + " ({0})", WvwMatch.Details.Worlds.Blue), Tag = "BlueHome" };
                 blBlue.Click += BorderlandSelected;
 
-                var blRed = new MenuItem { Header = string.Format(Strings.redBorderland + " ({0})", WvwMatch.GetServerName("red")), Tag = "RedHome" };
+                var blRed = new MenuItem { Header = string.Format(Strings.redBorderland + " ({0})", WvwMatch.Details.Worlds.Red), Tag = "RedHome" };
                 blRed.Click += BorderlandSelected;
 
-                var blGreen = new MenuItem { Header = string.Format(Strings.greenBorderland + " ({0})", WvwMatch.GetServerName("green")), Tag = "GreenHome" };
+                var blGreen = new MenuItem { Header = string.Format(Strings.greenBorderland + " ({0})", WvwMatch.Details.Worlds.Green), Tag = "GreenHome" };
                 blGreen.Click += BorderlandSelected;
 
                 var blEb = new MenuItem { Header = Strings.eternalBattlegrounds, Tag = "Center" };
@@ -411,16 +414,16 @@ namespace GWvW_Overlay
                 {
                     int obj = m;
                     WvwMatch.Details.Maps[map].Objectives[obj].ownedTime = ""; //just here to fire the OnPropertyChanged Event.
-                    if (WvwMatch.Details.Maps[map].Objectives[obj].id >= 62) // Skip Ruins of Power. No the best way to go about it...
-                        continue;
 
-                    TimeSpan diff = cur.Subtract(WvwMatch.Details.Maps[map].Objectives[obj].last_change);
+                    if (!WvwMatch.Details.Maps[map].Objectives[obj].LastFlipped.HasValue) continue;
+
+                    TimeSpan diff = cur.Subtract(WvwMatch.Details.Maps[map].Objectives[obj].LastFlipped.Value);
                     TimeSpan left = TimeSpan.FromMinutes(5) - diff;
                     if (diff < TimeSpan.FromMinutes(5))
                     {
-                        if (WvwMatch.Details.Maps[map].Objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
+                        if (WvwMatch.Details.Maps[map].Objectives[obj].Type == "Camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                         {
-                            eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name);
+                            eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.Maps[map].Objectives[obj].Name);
                         }
 
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
@@ -431,9 +434,9 @@ namespace GWvW_Overlay
                     else
                     {
 
-                        if (WvwMatch.Details.Maps[map].Objectives[obj].ObjData.type == "camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
+                        if (WvwMatch.Details.Maps[map].Objectives[obj].Type == "Camp" && WvwMatch.Options.active_bl == WvwMatch.Details.Maps[map].Type)
                         {
-                            eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.Maps[map].Objectives[obj].ObjData.name);
+                            eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.Maps[map].Objectives[obj].Name);
                         }
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
@@ -456,35 +459,50 @@ namespace GWvW_Overlay
                 {
                     if (LogWindow != null)
                     {
-                        LogWindow.RedScoreLocal.Width = 120 * (WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores[0] / WvwMatch.Details.Maps[WvwMatch.Options.active_blid].ScoresSum);
-                        LogWindow.BlueScoreLocal.Width = 120 * (WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores[1] / WvwMatch.Details.Maps[WvwMatch.Options.active_blid].ScoresSum);
-                        LogWindow.GreenScoreLocal.Width = 120 * (WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores[2] / WvwMatch.Details.Maps[WvwMatch.Options.active_blid].ScoresSum);
+                        var scores = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Scores;
+                        var scoreSum = scores.Green + scores.Blue + scores.Red;
+                        LogWindow.RedScoreLocal.Width = 120 * (scores.Red / scoreSum);
+                        LogWindow.BlueScoreLocal.Width = 120 * (scores.Blue / scoreSum);
+                        LogWindow.GreenScoreLocal.Width = 120 * (scores.Green / scoreSum);
 
-                        LogWindow.LblCampCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("camp", WvwMatch.HomeServerColor);
-                        LogWindow.LblTowerCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("tower", WvwMatch.HomeServerColor);
-                        LogWindow.LblCastleCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("castle", WvwMatch.HomeServerColor);
-                        LogWindow.LblKeepCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].CountObjType("keep", WvwMatch.HomeServerColor);
+                        LogWindow.LblCampCount.Content =
+                            WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Objectives.Count(
+                                o =>
+                                    o.Type == "Camp" &&
+                                    Comparison.CaseInsensitiveComparison(o.Owner, WvwMatch.HomeServerColor));
+                        LogWindow.LblTowerCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Objectives.Count(
+                                o =>
+                                    o.Type == "Tower" &&
+                                    Comparison.CaseInsensitiveComparison(o.Owner, WvwMatch.HomeServerColor));
+                        LogWindow.LblCastleCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Objectives.Count(
+                                o =>
+                                    o.Type == "Castle" &&
+                                    Comparison.CaseInsensitiveComparison(o.Owner, WvwMatch.HomeServerColor));
+                        LogWindow.LblKeepCount.Content = WvwMatch.Details.Maps[WvwMatch.Options.active_blid].Objectives.Count(
+                                o =>
+                                    o.Type == "Keep" &&
+                                    Comparison.CaseInsensitiveComparison(o.Owner, WvwMatch.HomeServerColor));
                     }
                 }));
 
 
-            //Main map
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                RedBarGlobal.Width = ScoreBoard.Width * (WvwMatch.Details.Scores[0] / WvwMatch.Details.ScoresSum);
-                BlueBarGlobal.Width = (ScoreBoard.Width * (WvwMatch.Details.Scores[1] / WvwMatch.Details.ScoresSum)) + 1;
+            ////Main map
+            //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            //{
+            //    RedBarGlobal.Width = ScoreBoard.Width * (WvwMatch.Details.Scores[0] / WvwMatch.Details.ScoresSum);
+            //    BlueBarGlobal.Width = (ScoreBoard.Width * (WvwMatch.Details.Scores[1] / WvwMatch.Details.ScoresSum)) + 1;
 
-                //not impl
-                RedBarBL.Width = 40;
-                BlueBarBL.Width = 10;
-            }));
+            //    //not impl
+            //    RedBarBL.Width = 40;
+            //    BlueBarBL.Width = 10;
+            //}));
         }
 
         public void RtvMatches()
         {
-            _jsonMatches = JsonConvert.DeserializeObject<Matches_>(Utils.GetJson("https://api.guildwars2.com/v1/wvw/matches.json"));
-            _jsonMatches.wvw_matches.Sort((x, y) => y.wvw_match_id != null ? (x.wvw_match_id != null ? String.Compare(x.wvw_match_id, y.wvw_match_id, StringComparison.Ordinal) : 0) : 0);
-            WvwMatch.Match = _jsonMatches.wvw_matches;
+            _jsonMatches = Request.GetResourceList<WvWMatch>().Select(m => Request.GetResource<WvWMatch>(m)).ToList();
+            _jsonMatches.Sort((x, y) => y.Id != null ? (x.Id != null ? String.Compare(x.Id, y.Id, StringComparison.Ordinal) : 0) : 0);
+            WvwMatch.Matches = _jsonMatches;
             _jsonMatches = null;
         }
 
@@ -493,29 +511,27 @@ namespace GWvW_Overlay
             if (WvwMatch.Options.active_match == null)
                 return;
 
-            _matchDetails = JsonConvert.DeserializeObject<Match_Details_>(Utils.GetJson("https://api.guildwars2.com/v1/wvw/match_details.json?match_id=" + WvwMatch.Options.active_match));
-            /*This is for debug only*/
-            //_matchDetails = JsonConvert.DeserializeObject<Match_Details_>("{\"match_id\":\"2-1\",\"scores\":[93697,108880,92013],\"maps\":[{\"type\":\"RedHome\",\"scores\":[36353,14334,11250],\"objectives\":[{\"id\":50,\"owner\":\"Green\"},{\"id\":32,\"owner\":\"Red\"},{\"id\":33,\"owner\":\"Red\"},{\"id\":35,\"owner\":\"Red\"},{\"id\":37,\"owner\":\"Red\",\"owner_guild\":\"4FF2B6BA-65D7-445D-BECF-BCDE54597764\"},{\"id\":38,\"owner\":\"Red\"},{\"id\":39,\"owner\":\"Red\"},{\"id\":40,\"owner\":\"Red\"},{\"id\":51,\"owner\":\"Red\"},{\"id\":52,\"owner\":\"Red\"},{\"id\":53,\"owner\":\"Red\"},{\"id\":36,\"owner\":\"Blue\"},{\"id\":34,\"owner\":\"Green\"},{\"id\":62,\"owner\":\"Neutral\"},{\"id\":63,\"owner\":\"Neutral\"},{\"id\":64,\"owner\":\"Neutral\"},{\"id\":65,\"owner\":\"Neutral\"},{\"id\":66,\"owner\":\"Neutral\"}],\"bonuses\":[{\"type\":\"bloodlust\",\"owner\":\"Red\"}]},{\"type\":\"GreenHome\",\"scores\":[14955,15939,31918],\"objectives\":[{\"id\":41,\"owner\":\"Red\"},{\"id\":42,\"owner\":\"Red\",\"owner_guild\":\"07EF98A9-1645-4155-8B25-464FF06E66D8\"},{\"id\":43,\"owner\":\"Red\"},{\"id\":44,\"owner\":\"Red\",\"owner_guild\":\"CE2AE45E-7747-46F1-8CB8-E9A68A08B2BC\"},{\"id\":46,\"owner\":\"Red\"},{\"id\":55,\"owner\":\"Red\"},{\"id\":45,\"owner\":\"Blue\"},{\"id\":48,\"owner\":\"Blue\"},{\"id\":49,\"owner\":\"Blue\",\"owner_guild\":\"02BC88DA-335C-41F2-92A1-C65B91538F2E\"},{\"id\":47,\"owner\":\"Green\"},{\"id\":54,\"owner\":\"Green\"},{\"id\":56,\"owner\":\"Green\"},{\"id\":57,\"owner\":\"Green\"},{\"id\":72,\"owner\":\"Neutral\"},{\"id\":73,\"owner\":\"Neutral\"},{\"id\":74,\"owner\":\"Neutral\"},{\"id\":75,\"owner\":\"Neutral\"},{\"id\":76,\"owner\":\"Neutral\"}],\"bonuses\":[{\"type\":\"bloodlust\",\"owner\":\"Green\"}]},{\"type\":\"BlueHome\",\"scores\":[8800,42879,12136],\"objectives\":[{\"id\":59,\"owner\":\"Red\",\"owner_guild\":\"3DC7ABF2-E87B-4E41-9D34-45C6836E4CE2\"},{\"id\":23,\"owner\":\"Blue\"},{\"id\":25,\"owner\":\"Blue\"},{\"id\":27,\"owner\":\"Blue\"},{\"id\":28,\"owner\":\"Blue\"},{\"id\":30,\"owner\":\"Blue\"},{\"id\":24,\"owner\":\"Green\"},{\"id\":26,\"owner\":\"Green\"},{\"id\":29,\"owner\":\"Green\",\"owner_guild\":\"9B665122-BA17-480A-9ECE-308992D1BE20\"},{\"id\":31,\"owner\":\"Green\"},{\"id\":58,\"owner\":\"Green\"},{\"id\":60,\"owner\":\"Green\"},{\"id\":61,\"owner\":\"Green\"},{\"id\":67,\"owner\":\"Neutral\"},{\"id\":68,\"owner\":\"Neutral\"},{\"id\":69,\"owner\":\"Neutral\"},{\"id\":70,\"owner\":\"Neutral\"},{\"id\":71,\"owner\":\"Neutral\"}],\"bonuses\":[{\"type\":\"bloodlust\",\"owner\":\"Blue\"}]},{\"type\":\"Center\",\"scores\":[33589,35728,36709],\"objectives\":[{\"id\":1,\"owner\":\"Red\",\"owner_guild\":\"2D83EB3F-C5B0-4575-A0E8-D79B14979CA8\"},{\"id\":5,\"owner\":\"Red\"},{\"id\":8,\"owner\":\"Red\"},{\"id\":17,\"owner\":\"Red\"},{\"id\":18,\"owner\":\"Red\"},{\"id\":19,\"owner\":\"Red\"},{\"id\":20,\"owner\":\"Red\"},{\"id\":2,\"owner\":\"Blue\",\"owner_guild\":\"C88F28BE-C4D1-E411-925A-AC162DAE5AD5\"},{\"id\":7,\"owner\":\"Blue\"},{\"id\":15,\"owner\":\"Blue\"},{\"id\":16,\"owner\":\"Blue\"},{\"id\":21,\"owner\":\"Blue\"},{\"id\":22,\"owner\":\"Blue\"},{\"id\":3,\"owner\":\"Green\",\"owner_guild\":\"D039163B-ED2F-47C9-914C-EA59C39A5533\"},{\"id\":4,\"owner\":\"Green\"},{\"id\":6,\"owner\":\"Green\"},{\"id\":9,\"owner\":\"Green\",\"owner_guild\":\"6F057328-3843-E411-AA11-AC162DAAE275\"},{\"id\":10,\"owner\":\"Green\"},{\"id\":11,\"owner\":\"Green\"},{\"id\":12,\"owner\":\"Green\"},{\"id\":13,\"owner\":\"Green\",\"owner_guild\":\"4136858D-3C44-E511-A3E6-AC162DC0E835\"},{\"id\":14,\"owner\":\"Green\",\"owner_guild\":\"FB2B5C28-27E5-4986-B60F-0E017C02809D\"}],\"bonuses\":[]}]}");
             if (WvwMatch.Details == null || _resetMatch)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                 {
                     LogWindow.ResetText();
                 }));
-                WvwMatch.Details = _matchDetails;
+                WvwMatch.Details = Request.GetResource<WvWMatch>(WvwMatch.Options.active_match);
                 _resetMatch = false;
-                WvwMatch.GetBLID();
 
             }
             else
             {
-                WvwMatch.Details.match_id = _matchDetails.match_id;
-                WvwMatch.Details.Scores = _matchDetails.Scores;
+                var matchDetails = Request.GetResource<WvWMatch>(WvwMatch.Details.Id);
+
+                WvwMatch.Details.Id = matchDetails.Id;
+                WvwMatch.Details.Scores = matchDetails.Scores;
 
 
                 WvwMatch.Details.Maps.ForEach(map =>
                 {
-                    var remoteMap = _matchDetails.Maps.Find(m => m.Type == map.Type);
+                    var remoteMap = matchDetails.Maps.Find(m => m.Type == map.Type);
 
                     map.Scores = remoteMap.Scores;
 
@@ -528,7 +544,7 @@ namespace GWvW_Overlay
                         {
                             GuildData.GetGuildById(obj.owner_guild);
                         }
-                        if (localObj.id != obj.id) Console.WriteLine("Comparing {0} and {1}", localObj.id, obj.id);
+
                         if (localObj.owner != obj.owner)
                         {
                             if (WvwMatch.Options.active_bl == map.Type)
@@ -540,7 +556,7 @@ namespace GWvW_Overlay
                                         {"from", WvwMatch.GetServerName(localObj.owner)},
                                         {"from_color", localObj.owner},
                                         {"to", WvwMatch.GetServerName(obj.owner)},
-                                        {"to_color", obj.owner},
+                                        {"to_color", obj.owner}
                                     };
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, false)));
                             }
@@ -717,7 +733,7 @@ namespace GWvW_Overlay
 
 
 
-        private void MainClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainClosing(object sender, CancelEventArgs e)
         {
             UnhookWinEvent(_hhook);
             LogWindow.Close();

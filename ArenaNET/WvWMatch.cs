@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Security.Policy;
-using Arena.NET.DataStructures;
+using ArenaNET.DataStructures;
 using Newtonsoft.Json;
 
 namespace ArenaNET
@@ -29,15 +27,20 @@ namespace ArenaNET
         [JsonProperty("end_time")]
         public DateTime EndTime;
         [JsonProperty("scores")]
-        public Dictionary<String, int> Scores;
+        public ServerValue<int> Scores;
         [JsonProperty("worlds")]
-        public Dictionary<String, int> Worlds;
+        [JsonConverter(typeof(ServerWorldConverter))]
+        public ServerValue<World> Worlds;
         [JsonProperty("maps")]
         public List<Map> Maps;
 
-
         public override WvWMatch GetResource(params String[] parameters)
         {
+            if (!String.IsNullOrEmpty(Id))
+            {
+                parameters = new[] { Id };
+            }
+
             if (parameters.Length != 1) throw new ArgumentException("Should contain only 1 parameter");
 
             try
@@ -61,6 +64,12 @@ namespace ArenaNET
 
         }
 
-
+        public override string ToString()
+        {
+            return String.Format("{0}. {3} vs {2} vs {1}", Id,
+                                                           Worlds.Red.Name,
+                                                           Worlds.Blue.Name,
+                                                           Worlds.Green.Name);
+        }
     }
 }

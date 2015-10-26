@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Arena.NET.DataStructures
+namespace ArenaNET.DataStructures
 {
-    public struct ServerValue<T>
+    public class ServerValue<T>
     {
         [JsonProperty("red")]
         public T Red;

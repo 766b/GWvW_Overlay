@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Arena.NET.DataStructures
+namespace ArenaNET.DataStructures
 {
     public class Bonus
     {

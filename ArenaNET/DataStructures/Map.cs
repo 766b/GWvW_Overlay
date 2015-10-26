@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ArenaNET;
 using Newtonsoft.Json;
 
-namespace Arena.NET.DataStructures
+namespace ArenaNET.DataStructures
 {
     public class Map
     {

@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Runtime.CompilerServices;
-using Arena.NET;
-using Arena.NET.DataStructures;
+using ArenaNET.DataStructures;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace ArenaNET
 {

@@ -3,7 +3,7 @@ using System.CodeDom;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Arena.NET.DataStructures
+namespace ArenaNET.DataStructures
 {
     public class Coordinate
     {

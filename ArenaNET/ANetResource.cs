@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Arena.NET;
+using ArenaNET;
 using Newtonsoft.Json;
 
 namespace ArenaNET
