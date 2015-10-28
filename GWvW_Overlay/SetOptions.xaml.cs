@@ -14,7 +14,7 @@ namespace GWvW_Overlay
         public bool ListenForKey = false;
 
 
-        public WvwMatch_ matchUp
+        public WvwMatchup matchUp
         {
             get
             {
@@ -28,9 +28,9 @@ namespace GWvW_Overlay
         }
 
         private readonly CampLogger _track;
-        private WvwMatch_ _matchUp;
+        private WvwMatchup _matchUp;
         private MainWindow _mainWin1;
-        public SetOptions(CampLogger tracker, WvwMatch_ matchUp, MainWindow mainWin1)
+        public SetOptions(CampLogger tracker, WvwMatchup matchUp, MainWindow mainWin1)
         {
             InitializeComponent();
             _track = tracker;

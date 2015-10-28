@@ -216,12 +216,12 @@ namespace GWvW_Overlay
             {
                 if (WvwMatch.Matches == null) return;
                 var map = DataLink.GetCoordinates().MapId;
-                if (map != _currentMapId && Map.KnownMap(map))
+                if (map != _currentMapId)
                 {
 
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        BorderlandSelected(Map.ColorId[map], EventArgs.Empty);
+                        BorderlandSelected(WvwMatch.Details.Maps.First(m => m.Id == map), EventArgs.Empty);
                     }));
 
                 }
@@ -261,7 +261,7 @@ namespace GWvW_Overlay
             if (WvwMatch.Matches == null)
                 return;
 
-            foreach (ArenaNET.DataStructures.Map map in WvwMatch.Details.Maps)
+            foreach (ArenaNET.Map map in WvwMatch.Details.Maps)
             {
                 foreach (ArenaNET.Objective obj in map.Objectives)
                 {
@@ -538,46 +538,46 @@ namespace GWvW_Overlay
 
                     remoteMap.Objectives.ForEach(obj =>
                     {
-                        var localObj = map.Objectives.Find(o => o.id == obj.id);
+                        var localObj = map.Objectives.Find(o => o.Id == obj.Id);
 
-                        if (obj.owner_guild != null)
+                        if (!obj.ClaimedBy.IsEmpty())
                         {
-                            GuildData.GetGuildById(obj.owner_guild);
+                            GuildData.GetGuildById(obj.ClaimedBy);
                         }
 
-                        if (localObj.owner != obj.owner)
+                        if (localObj.Owner != obj.Owner)
                         {
                             if (WvwMatch.Options.active_bl == map.Type)
                             {
                                 var dict = new Dictionary<string, string>
                                     { 
                                         {"time", DateTime.Now.ToString("t")},
-                                        {"objective", localObj.ObjData.name},
-                                        {"from", WvwMatch.GetServerName(localObj.owner)},
-                                        {"from_color", localObj.owner},
-                                        {"to", WvwMatch.GetServerName(obj.owner)},
-                                        {"to_color", obj.owner}
+                                        {"objective", localObj.Name},
+                                        {"from", WvwMatch.GetServerName(localObj.Owner)},
+                                        {"from_color", localObj.Owner},
+                                        {"to", WvwMatch.GetServerName(obj.Owner)},
+                                        {"to_color", obj.Owner}
                                     };
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, false)));
                             }
 
-                            localObj.owner = obj.owner;
-                            localObj.owner_guild = obj.owner_guild;
-                            localObj.last_change = DateTime.Now;
+                            localObj.Owner = obj.Owner;
+                            localObj.ClaimedBy = obj.ClaimedBy;
+                            localObj.LastFlipped = obj.LastFlipped;
                         }
-                        if (localObj.owner_guild != obj.owner_guild &&
-                            localObj.owner == obj.owner)
+                        if (localObj.ClaimedBy != obj.ClaimedBy &&
+                            localObj.Owner == obj.Owner)
                         {
-                            localObj.owner_guild = obj.owner_guild;
+                            localObj.ClaimedBy = obj.ClaimedBy;
 
                             if (WvwMatch.Options.active_bl == map.Type)
                             {
-                                var guildInfo = GuildData.GetGuildById(localObj.owner_guild);
+                                var guildInfo = GuildData.GetGuildById(localObj.ClaimedBy);
                                 var dict = new Dictionary<string, string>
                                     {
                                         {"time", DateTime.Now.ToString("t")},
-                                        {"objective", localObj.ObjData.name},
-                                        {"owner_color", localObj.owner}, {"owner", guildInfo == null ? "released" : string.Format("[{1}] {0}", guildInfo[0], guildInfo[1])}
+                                        {"objective", localObj.Name},
+                                        {"owner_color", localObj.Owner}, {"owner", guildInfo == null ? "released" : string.Format("[{1}] {0}", guildInfo[0], guildInfo[1])}
                                     };
 
                                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => LogWindow.AddEventLog(dict, true)));
@@ -590,25 +590,6 @@ namespace GWvW_Overlay
 
                 });
 
-            }
-
-            // Fill objective names and icons positions
-            if (WvwMatch.Details.Maps[3].Objectives[0].ObjData.name == null)
-            {
-                for (int i = 0; i < WvwMatch.Details.Maps.Count; i++)
-                {
-                    int map = i;
-                    var objData = JsonConvert.DeserializeObject<List<WvwObjective>>(Utils.GetJson(string.Format("Resources/obj_{0}.json", WvwMatch.Details.Maps[map].Type)));
-                    foreach (var obj in objData)
-                    {
-                        for (int y = 0; y < WvwMatch.Details.Maps[map].Objectives.Count; y++)
-                        {
-                            var objct = y;
-                            if (obj.id == WvwMatch.Details.Maps[map].Objectives[objct].id)
-                                WvwMatch.Details.Maps[map].Objectives[objct].ObjData = obj;
-                        }
-                    }
-                }
             }
 
             _t3.Start();
@@ -689,7 +670,6 @@ namespace GWvW_Overlay
                 }
                 catch
                 {
-
 
                 }
 

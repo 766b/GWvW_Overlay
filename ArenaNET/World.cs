@@ -18,6 +18,16 @@ namespace ArenaNET
         private static readonly String _parameterizedEndPoint = _endPoint + "/{0}?lang={1}";
         private static Dictionary<String, World> _cache;
 
+        public string EndPoint()
+        {
+            return _endPoint;
+        }
+
+        #endregion
+
+        #region Properties
+
+
         [JsonIgnore]
         public string Name
         {
@@ -46,12 +56,6 @@ namespace ArenaNET
             private set { _population = value; }
         }
 
-
-        public string EndPoint()
-        {
-            return _endPoint;
-        }
-
         #endregion
 
         [JsonProperty("id")]
@@ -63,6 +67,8 @@ namespace ArenaNET
 
         public override World GetResource(params String[] parameters)
         {
+            if (parameters.Length != 1) throw new ArgumentException("Should contain only 1 parameter");
+
             var endpoint = String.Format(_parameterizedEndPoint, parameters[0], Request.Lang);
             if (_cache == null)
             {
@@ -88,7 +94,7 @@ namespace ArenaNET
                 return this;
             }
 
-            if (parameters.Length != 1) throw new ArgumentException("Should contain only 1 parameter");
+
 
             try
             {

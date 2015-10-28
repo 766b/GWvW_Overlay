@@ -71,16 +71,21 @@ namespace GWvW_Overlay
             switch (color.ToLower())
             {
                 case "red":
+                case "Red":
                     return Brushes.Firebrick;
                 case "green":
+                case "Green":
                     return Brushes.Green; //.Green;
                 case "blue":
+                case "Blue":
                     return Brushes.SteelBlue;
                 case "black":
+                case "Black":
                     return Brushes.Black;
                 case "neutral":
-                    return (SolidColorBrush)(new BrushConverter().ConvertFromString("#FFEEEE"));
+                case "Neutral":
                 case "white":
+                case "White":
                     return (SolidColorBrush)(new BrushConverter().ConvertFromString("#FFEEEE"));
                 default:
                     return Brushes.Black;

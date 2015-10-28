@@ -7,7 +7,7 @@
     <ProjectGuid>{20DA02AE-0FCB-473F-BD91-13B95E8CD14F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Arena.NET</RootNamespace>
+    <RootNamespace>ArenaNET</RootNamespace>
     <AssemblyName>ArenaNET</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -30,6 +30,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ArenaNET.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -48,9 +54,9 @@
     <Compile Include="ANetResource.cs" />
     <Compile Include="DataStructures\Bonus.cs" />
     <Compile Include="DataStructures\Coordinate.cs" />
-    <Compile Include="DataStructures\Map.cs" />
     <Compile Include="DataStructures\ServerValue.cs" />
     <Compile Include="IAnetResource.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Objective.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs" />
@@ -58,7 +64,14 @@
     <Compile Include="WvWMatch.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ArenaNET.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{95171576-382e-470a-b2a6-bf9d270f35a7}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

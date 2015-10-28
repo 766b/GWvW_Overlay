@@ -1,10 +1,17 @@
 ﻿<Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Properties="clr-namespace:GWvW_Overlay.Properties" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Name="Options" x:Class="GWvW_Overlay.SetOptions"
+    xmlns:Properties="clr-namespace:GWvW_Overlay.Properties" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" 
+    x:Name="Options" 
+    x:Class="GWvW_Overlay.SetOptions"
     Title="Options" Height="520" Width="430.435"
     ResizeMode="NoResize"
-    Closing="SaveSettings" WindowStyle="ToolWindow" Foreground="Black" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Loaded="OnLoad"
+    Closing="SaveSettings" WindowStyle="ToolWindow" Foreground="Black" 
+    Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" 
+    Loaded="OnLoad"
     xmlns:localization ="clr-namespace:GWvW_Overlay.Resources.Lang">
     <Window.Resources>
         <localization:LocalizedStrings x:Key="LocalizedStrings"/>
