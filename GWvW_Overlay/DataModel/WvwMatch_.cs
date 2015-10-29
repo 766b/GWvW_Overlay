@@ -18,15 +18,6 @@ namespace GWvW_Overlay.DataModel
         private List<World_Names_> _worlds = new List<World_Names_>(51);
         private Visibility _markersVisibility = Visibility.Hidden;
         
-
-
-        private readonly Positions _positions = new Positions();
-        public Positions PlayerPositions
-        {
-            get { return _positions; }
-        }
-
-
         public Visibility MarkersVisibility
         {
             get
@@ -79,7 +70,7 @@ namespace GWvW_Overlay.DataModel
                 int map_id = i;
                 dict.Add(Details.Maps[map_id].Type, map_id);
             }
-            Options.blid = dict;
+            //Options.blid = dict;
         }
 
         public void ListWorlds()

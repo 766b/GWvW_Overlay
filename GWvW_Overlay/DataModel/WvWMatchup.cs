@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using ArenaNET;
@@ -13,6 +14,26 @@ namespace GWvW_Overlay.DataModel
     public class WvwMatchup : INotifyPropertyChanged
     {
         public List<WvWMatch> Matches { get; set; }
+
+
+        private List<World> _worlds = new List<World>();
+        public List<World> Worlds
+        {
+            get
+            {
+                if (_worlds.Count == 0)
+                {
+                    _worlds = Request.GetResourceBulk<World>("all");
+                }
+                return _worlds;
+            }
+        }
+
+        private readonly Positions _positions = new Positions();
+        public Positions PlayerPositions
+        {
+            get { return _positions; }
+        }
 
         public WvWMatch Details
         {
@@ -45,6 +66,7 @@ namespace GWvW_Overlay.DataModel
         public WvwMatchup()
         {
             Options = new Options_();
+
         }
 
 
@@ -104,6 +126,14 @@ namespace GWvW_Overlay.DataModel
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void InitBlid()
+        {
+            for (int i = 0; i < Matches.First().Maps.Count; i++)
+            {
+                Options.blid.Add(Matches.First().Maps[i].Type, i);
+            }
         }
     }
 

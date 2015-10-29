@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:local="clr-namespace:GWvW_Overlay"
         xmlns:localization ="clr-namespace:GWvW_Overlay.Resources.Lang"
+        xmlns:anet="clr-namespace:ArenaNET;assembly=ArenaNET"
         mc:Ignorable="d" 
         x:Name="MainWindow1" 
         x:Class="GWvW_Overlay.MainWindow" 
@@ -25,8 +26,7 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}, Path=WvwMatch}"
         xmlns:Properties="clr-namespace:GWvW_Overlay.Properties"
         xmlns:converters="clr-namespace:GWvW_Overlay.Converters"
-        Closing="MainClosing" SizeChanged="UpdatePosition"
-        >
+        Closing="MainClosing" SizeChanged="UpdatePosition">
 
     <Window.Resources>
         <converters:GetImg x:Key="GetImg" />
@@ -39,7 +39,7 @@
     </Window.Resources>
 
     <Grid>
-        <ItemsControl Name="Icons" Panel.ZIndex="0">
+        <ItemsControl Name="Icons" Panel.ZIndex="0" d:DataContext="{d:DesignInstance anet:Objective}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Canvas Panel.ZIndex="200">
@@ -47,25 +47,25 @@
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="{Binding Path=Locale.ownedTime, Source={StaticResource LocalizedStrings}}"/>
-                                    <Label Content="{Binding Path=ownedTime}"/>
+                                    <Label Content="{Binding Path=LastFlipped}"/><!--TODO: Converter to display owned time-->
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding Path=owner_guild, Converter={StaticResource GetClaimed}}">
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding Path=ClaimedBy, Converter={StaticResource GetClaimed}}">
                                     <Label Content="{Binding Path=Locale.ownedBy, Source={StaticResource LocalizedStrings}}"/>
-                                    <Label Content="{Binding Path=ownerName}"/>
+                                    <Label Content="{Binding Path=ClaimedBy}"/><!--TODO: Converter to display guild instead of GUID-->
                                 </StackPanel>
                             </StackPanel>
                         </Canvas.ToolTip>
                         <Image Height="24" Width="24" Stretch="Fill">
                             <Image.Source>
                                 <MultiBinding Converter="{StaticResource GetImg}">
-                                    <Binding Path="ObjData.type"/>
-                                    <Binding Path="owner"/>
+                                    <Binding Path="Type"/>
+                                    <Binding Path="Owner"/>
                                 </MultiBinding>
                             </Image.Source>
                         </Image>
-                        <Label Content="{Binding time_left}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                        <Label Content="{Binding Path=ObjData.name, Converter={StaticResource GetName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=owner_guild, Converter={StaticResource GetClaimedImage}}"/>
+                        <Label Content="{Binding TimeLeft}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                        <Label Content="{Binding Path=Name, Converter={StaticResource GetName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                        <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=ClaimedBy, Converter={StaticResource GetClaimedImage}}"/>
                     </Canvas>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -73,15 +73,15 @@
                 <ItemsPanelTemplate>
                     <Canvas>
                         <Canvas.Background>
-                            <ImageBrush Stretch="Fill" ImageSource="{Binding Options.active_map_img}" />
+                            <ImageBrush Stretch="Fill" ImageSource="{Binding WvwMatch.Options.active_map_img, ElementName=MainWindow1}" />
                         </Canvas.Background>
                     </Canvas>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type ContentPresenter}">
-                    <Setter Property="Canvas.Left" Value="{Binding ObjData.left}" />
-                    <Setter Property="Canvas.Top" Value="{Binding ObjData.top}" />
+                    <Setter Property="Canvas.Left" Value="{Binding DisplayCoordinates.X}" />
+                    <Setter Property="Canvas.Top" Value="{Binding DisplayCoordinates.Y}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
@@ -180,8 +180,7 @@
                     <Canvas Height="2" Canvas.Top="93" Width="173" Background="#FFDD9900" Canvas.Left="216"/>
 
                     <ListBox Name="LstbxMatchSelection" Height="282" Canvas.Left="10" Canvas.Top="108" Width="369" Background="{x:Null}" Foreground="#FFEEEEEE" BorderThickness="0" BorderBrush="{x:Null}"
-                     ItemsSource="{Binding Path=Match}" DisplayMemberPath="wvw_match_string" SelectedValuePath="wvw_match_id">
-
+                     ItemsSource="{Binding Path=Matches}" SelectedValuePath="Id">
                     </ListBox>
                 </Canvas>
                 <Label x:Name="lblSelectionOK" Content="OK" Width="63" Height="24" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" Foreground="#FFDD9900" Canvas.Left="316" Canvas.Top="36" MouseDown="lblSelectionOK_Click">
@@ -197,7 +196,7 @@
                     </Label.Style>
                 </Label>
                 <!--MouseDown="lblSelectionOK_Click" MouseEnter="lblSelectionOK_Enter" MouseLeave="lblSelectionOK_Leave"  World_Names_> World -->
-                <ComboBox Name="CmbbxHomeServerSelection" Canvas.Left="118" Canvas.Top="38" Width="184" Foreground="Black" ItemsSource="{Binding Path=World, Mode=OneTime}" DisplayMemberPath="name" SelectedValuePath="id" Style="{DynamicResource ComboBoxStyle}" SelectionChanged="CmbbxMatchSelection_Change" />
+                <ComboBox Name="CmbbxHomeServerSelection" Canvas.Left="118" Canvas.Top="38" Width="184" Foreground="Black" ItemsSource="{Binding Path=Worlds, Mode=OneTime}" DisplayMemberPath="Name" SelectedValuePath="Id" Style="{DynamicResource ComboBoxStyle}" SelectionChanged="CmbbxMatchSelection_Change" />
                 <Label Content="{Binding Path=Locale.serverSelectionLabel, Source={StaticResource LocalizedStrings}}" Width="99" Height="26" FontSize="14" Padding="5,0" Foreground="#FFDD9900" Canvas.Left="14" Canvas.Top="38" FontWeight="Bold"/>
                 <CheckBox Name="ChkbxAutoMatchSelect" Content="{Binding Path=Locale.automaticMatchLabel, Source={StaticResource LocalizedStrings}}" Canvas.Left="118" Canvas.Top="64" Foreground="#FFDD9900" Style="{DynamicResource CheckBoxStyle}">
                     <CheckBox.ToolTip>

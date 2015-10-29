@@ -74,5 +74,21 @@ namespace GWvW_Overlay
             using (var reader = new StreamReader(stream))
                 return reader.ReadToEnd();
         }
+
+        public static String ConvertLanguageToCode(String language)
+        {
+            switch (language)
+            {
+                case "Spanish":
+                    return "es";
+                case "French":
+                    return "fr";
+                case "German":
+                    return "de";
+                default:
+                    return "en";
+            }
+        }
+
     }
 }

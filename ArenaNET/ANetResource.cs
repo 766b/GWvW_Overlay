@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ArenaNET;
@@ -14,6 +15,7 @@ namespace ArenaNET
     public abstract class ANetResource<T> where T : ANetResource<T>, IANetResource, new()
     {
         public const String ApiBase = @"https://api.guildwars2.com/v2/";
+        protected const String BulkExtension = "?ids={0}";
 
         public virtual T GetResource(params String[] parameters)
         {
@@ -25,6 +27,29 @@ namespace ArenaNET
         {
             return GetResource<List<String>>(parameters);
         }
+
+        protected String BulkParametersConverter(params String[] parameters)
+        {
+            if (parameters == null || parameters.Length == 0) return "";
+            if (parameters.Contains("all"))
+            {
+                return "all";
+            }
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                sb.Append(parameters[i]);
+                if (i != parameters.Length - 1)
+                {
+                    sb.Append(",");
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        public abstract List<T> GetResourceBulk(params String[] parameters);
 
         private TK GetResource<TK>(params String[] parameters) where TK : new()
         {

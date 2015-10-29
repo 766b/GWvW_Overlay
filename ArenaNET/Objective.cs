@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Security.Policy;
 using ArenaNET.DataStructures;
 using Newtonsoft.Json;
 
@@ -10,6 +11,7 @@ namespace ArenaNET
     public class Objective : ANetResource<Objective>, IANetResource
     {
         private const String CacheFile = "ObjectiveNames.json";
+        private static readonly TimeSpan ProtectionTimeSpan = TimeSpan.FromMinutes(5);
         private static readonly String _endPoint = "wvw/objectives";
         private static readonly String _parameterizedEndPoint = _endPoint + "/{0}?lang={1}";
         private static Dictionary<String, Objective> _cache;
@@ -97,6 +99,27 @@ namespace ArenaNET
             return _endPoint;
         }
 
+
+        [JsonIgnore]
+        public TimeSpan TimeLeft
+        {
+            get
+            {
+                if (LastFlipped.HasValue)
+                {
+                    TimeSpan span = DateTime.Now - LastFlipped.Value;
+                    if (span < ProtectionTimeSpan)
+                    {
+                        return ProtectionTimeSpan - span;
+                    }
+                }
+                return new TimeSpan(0);
+            }
+        }
+
+        [JsonIgnore]
+        public Coordinate DisplayCoordinates { get; set; }
+
         #endregion
 
         #region Serialization Preferences
@@ -123,17 +146,17 @@ namespace ArenaNET
 
 
         [JsonProperty("id")]
-        public string Id;
+        public string Id { get; set; }
         [JsonProperty("type")]
-        public String Type;
+        public String Type { get; set; }
         [JsonProperty("owner")]
-        public String Owner;
+        public String Owner { get; set; }
         [JsonProperty("last_flipped")]
-        public DateTime? LastFlipped;
+        public DateTime? LastFlipped { get; set; }
         [JsonProperty("claimed_by")]
-        public String ClaimedBy;
+        public String ClaimedBy { get; set; }
         [JsonProperty("claimed_at")]
-        public DateTime? ClaimedAt;
+        public DateTime? ClaimedAt { get; set; }
         [JsonProperty("name")]
         private String _name;
         [JsonProperty("sector_id")]
@@ -185,8 +208,10 @@ namespace ArenaNET
             {
                 String json;
                 var response = GetJSON(endpoint, out json);
+#if DEBUG2
                 Console.WriteLine("Response HTTP Code : {0}", response);
                 Console.WriteLine("Response : {0}", json);
+#endif
                 if (response == HttpStatusCode.OK)
                 {
                     JsonConvert.PopulateObject(json, this);
@@ -207,6 +232,10 @@ namespace ArenaNET
 
         }
 
+        public override List<Objective> GetResourceBulk(params string[] parameters)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

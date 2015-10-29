@@ -27,7 +27,6 @@ namespace ArenaNET
 
         #region Properties
 
-
         [JsonIgnore]
         public string Name
         {
@@ -59,7 +58,7 @@ namespace ArenaNET
         #endregion
 
         [JsonProperty("id")]
-        public int Id;
+        public int Id { get; set; }
         [JsonProperty("name")]
         private String _name;
         [JsonProperty("population")]
@@ -100,8 +99,10 @@ namespace ArenaNET
             {
                 String json;
                 var response = GetJSON(endpoint, out json);
+#if DEBUG2
                 Console.WriteLine("Response HTTP Code : {0}", response);
                 Console.WriteLine("Response : {0}", json);
+#endif
                 if (response == HttpStatusCode.OK)
                 {
                     JsonConvert.PopulateObject(json, this);
@@ -122,6 +123,32 @@ namespace ArenaNET
 
         }
 
+        public override List<World> GetResourceBulk(params string[] parameters)
+        {
+            if (parameters.Length < 1) throw new ArgumentException("Should contain at least 1 parameter");
+            var endpoint = String.Format(_endPoint + BulkExtension, BulkParametersConverter(parameters), Request.Lang);
+
+            try
+            {
+                String json;
+                var response = GetJSON(endpoint, out json);
+#if DEBUG2
+                Console.WriteLine("Response HTTP Code : {0}", response);
+                Console.WriteLine("Response : {0}", json);
+#endif
+                if (response == HttpStatusCode.OK)
+                {
+                    var result = JsonConvert.DeserializeObject<List<World>>(json);
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return null;
+        }
     }
 
     internal class ServerWorldConverter : JsonConverter

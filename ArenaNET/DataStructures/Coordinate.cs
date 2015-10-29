@@ -7,8 +7,9 @@ namespace ArenaNET.DataStructures
 {
     public class Coordinate
     {
-        public double X, Y;
-
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
     }
 
     internal class CoordinatesConverter : JsonConverter
@@ -30,9 +31,11 @@ namespace ArenaNET.DataStructures
             reader.Read();
             obj = serializer.Deserialize<JValue>(reader);
             coords.Y = Convert.ToDouble(obj.Value);
-
             reader.Read();
-
+            if (reader.TokenType == JsonToken.EndArray) return coords;
+            obj = serializer.Deserialize<JValue>(reader);
+            coords.Z = Convert.ToDouble(obj.Value);
+            reader.Read();
             return coords;
         }
 

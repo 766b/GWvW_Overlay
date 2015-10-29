@@ -30,6 +30,16 @@ namespace ArenaNET
 
             return result;
         }
+
+        public static List<T> GetResourceBulk<T>(params String[] parameters)
+            where T : ANetResource<T>, IANetResource, new()
+        {
+            var temp = new T();
+
+            var result = temp.GetResourceBulk(parameters);
+
+            return result;
+        }
     }
 
 }

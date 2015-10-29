@@ -11,7 +11,7 @@ namespace GWvW_Overlay.DataModel
     {
         public string HomeServerColor;
         private string _active_bl = "Center";
-        private string _active_bl_title = "Eternal Battlegrounds";
+        private string _active_bl_title = Strings.eternalBattlegrounds;
         public int _active_blid;
 
         private string _active_map_img = "Resources/mapeb_normal.png";
@@ -19,7 +19,7 @@ namespace GWvW_Overlay.DataModel
         public string _active_match; // = "1-1";
         private double _height = 400;
         private double _width = 400;
-        public Dictionary<string, int> blid;
+        public readonly Dictionary<string, int> blid = new Dictionary<string, int>();
 
         public int active_blid
         {
@@ -58,18 +58,18 @@ namespace GWvW_Overlay.DataModel
                 {
                     case "RedHome":
                         active_bl_title = Strings.redBorderland;
-                        active_map_img = "Resources/mapbl_normal.png";
-                        ChangeWindowSize(false);
+                        active_map_img = "Resources/mapbl_desert_normal.png";
+                        ChangeWindowSize(true);
                         break;
                     case "GreenHome":
                         active_bl_title = Strings.greenBorderland;
-                        active_map_img = "Resources/mapbl_normal.png";
-                        ChangeWindowSize(false);
+                        active_map_img = "Resources/mapbl_desert_normal.png";
+                        ChangeWindowSize(true);
                         break;
                     case "BlueHome":
                         active_bl_title = Strings.blueBorderland;
-                        active_map_img = "Resources/mapbl_normal.png";
-                        ChangeWindowSize(false);
+                        active_map_img = "Resources/mapbl_desert_normal.png";
+                        ChangeWindowSize(true);
                         break;
                     default:
                         active_bl_title = Strings.eternalBattlegrounds;

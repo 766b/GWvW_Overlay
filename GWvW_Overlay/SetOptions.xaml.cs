@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using ArenaNET;
 
 namespace GWvW_Overlay
 {
@@ -119,8 +120,11 @@ namespace GWvW_Overlay
         {
             Properties.Settings.Default["show_names_lang"] = ((RadioButton)sender).Tag;
             Properties.Settings.Default.Save();
+            Request.Lang = Utils.ConvertLanguageToCode(Properties.Settings.Default.show_names_lang);
             Console.WriteLine(Properties.Settings.Default["show_names_lang"]);
         }
+
+
 
         private void OnLoad(object sender, RoutedEventArgs e)
         {

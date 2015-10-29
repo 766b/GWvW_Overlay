@@ -16,8 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MumbleLink-CSharp-GW2", "Mu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MumbleLink-CSharp", "MumbleLink-CSharp-GW2\MumbleLink-CSharp\MumbleLink-CSharp\MumbleLink-CSharp.csproj", "{F7D52E49-75C2-4578-820F-1B03E5E05E4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GWvW_Overlay-UnitTests", "GWvW_Overlay-UnitTests\GWvW_Overlay-UnitTests.csproj", "{FFF486EC-711B-4444-9E9B-BBEAC2F93F3E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logitech-LED", "Logitech-LED\Logitech-LED\Logitech-LED.csproj", "{22EC485E-5D59-442D-9F39-BD1C046952E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GWvW_Overlay-Location-Server-Contracts", "GWvW_Overlay-Location-Server-Contracts\GWvW_Overlay-Location-Server-Contracts\GWvW_Overlay-Location-Server-Contracts.csproj", "{05A81893-56FA-4635-A854-6DA00368EAFD}"
@@ -50,10 +48,6 @@ Global
 		{F7D52E49-75C2-4578-820F-1B03E5E05E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7D52E49-75C2-4578-820F-1B03E5E05E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7D52E49-75C2-4578-820F-1B03E5E05E4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FFF486EC-711B-4444-9E9B-BBEAC2F93F3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFF486EC-711B-4444-9E9B-BBEAC2F93F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFF486EC-711B-4444-9E9B-BBEAC2F93F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFF486EC-711B-4444-9E9B-BBEAC2F93F3E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{22EC485E-5D59-442D-9F39-BD1C046952E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22EC485E-5D59-442D-9F39-BD1C046952E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22EC485E-5D59-442D-9F39-BD1C046952E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -79,12 +73,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_ConfigurationName = Any
-		BuildVersion_BuildVersioningStyle = None.None.None.None
-		BuildVersion_UpdateAssemblyVersion = False
-		BuildVersion_UpdateFileVersion = False
-		BuildVersion_StartDate = 1975/10/21
-		BuildVersion_AssemblyInfoFilename = 
 		BuildVersion_UseUniversalClock = False
+		BuildVersion_AssemblyInfoFilename = 
+		BuildVersion_StartDate = 1975/10/21
+		BuildVersion_UpdateFileVersion = False
+		BuildVersion_UpdateAssemblyVersion = False
+		BuildVersion_BuildVersioningStyle = None.None.None.None
+		BuildVersion_ConfigurationName = Any
 	EndGlobalSection
 EndGlobal

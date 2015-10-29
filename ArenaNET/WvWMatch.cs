@@ -21,18 +21,18 @@ namespace ArenaNET
         #endregion
 
         [JsonProperty("id")]
-        public String Id;
+        public String Id { get; set; }
         [JsonProperty("start_time")]
-        public DateTime StartTime;
+        public DateTime StartTime { get; set; }
         [JsonProperty("end_time")]
-        public DateTime EndTime;
+        public DateTime EndTime { get; set; }
         [JsonProperty("scores")]
-        public ServerValue<int> Scores;
+        public ServerValue<int> Scores { get; set; }
         [JsonProperty("worlds")]
         [JsonConverter(typeof(ServerWorldConverter))]
-        public ServerValue<World> Worlds;
+        public ServerValue<World> Worlds { get; set; }
         [JsonProperty("maps")]
-        public List<Map> Maps;
+        public List<Map> Maps { get; set; }
 
         public override WvWMatch GetResource(params String[] parameters)
         {
@@ -47,8 +47,10 @@ namespace ArenaNET
             {
                 String json;
                 var response = GetJSON(String.Format(_parameterizedEndPoint, parameters[0]), out json);
+#if DEBUG2
                 Console.WriteLine("Response HTTP Code : {0}", response);
                 Console.WriteLine("Response : {0}", json);
+#endif
                 if (response == HttpStatusCode.OK)
                 {
                     JsonConvert.PopulateObject(json, this);
@@ -62,6 +64,11 @@ namespace ArenaNET
             return null;
 
 
+        }
+
+        public override List<WvWMatch> GetResourceBulk(params string[] parameters)
+        {
+            throw new NotImplementedException();
         }
 
         public override string ToString()

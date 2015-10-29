@@ -1,6 +1,8 @@
 ﻿using Logitech_LCD;
 using System;
 using System.Windows;
+using ArenaNET;
+using GWvW_Overlay.Properties;
 using Logitech_LED;
 
 namespace GWvW_Overlay
@@ -15,6 +17,8 @@ namespace GWvW_Overlay
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            Request.Lang = Utils.ConvertLanguageToCode(Settings.Default.show_names_lang);
+
             Console.WriteLine(LogitechLcd.Instance.Init("GWvW Timers", LcdType.Color | LcdType.Mono));
 
             if (LogitechLed.Instance.IsInit)

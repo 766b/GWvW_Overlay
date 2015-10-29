@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ArenaNET;
+using ArenaNET.DataStructures;
 using GWvW_Overlay.DataModel;
 using GWvW_Overlay.Keyboard;
 using GWvW_Overlay.Properties;
@@ -24,9 +25,6 @@ using MumbleLink_CSharp_GW2;
 using Newtonsoft.Json;
 using Utils.Text;
 using Objective = GWvW_Overlay.DataModel.Objective;
-/*
- * Objective names https://gist.github.com/codemasher/bac2b4f87e7af128087e (smiley.1438)
- */
 
 namespace GWvW_Overlay
 {
@@ -236,9 +234,9 @@ namespace GWvW_Overlay
             _handleThis = this;
 
             Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
-            foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
+            foreach (World item in CmbbxHomeServerSelection.Items)
             {
-                if (item.id == Settings.Default.home_server)
+                if (item.Id == Settings.Default.home_server)
                     CmbbxHomeServerSelection.SelectedItem = item;
             }
 
@@ -258,7 +256,7 @@ namespace GWvW_Overlay
 
         public void UpdatePosition(Object source, EventArgs e)
         {
-            if (WvwMatch.Matches == null)
+            if (WvwMatch.Matches == null || WvwMatch.Details == null)
                 return;
 
             foreach (ArenaNET.Map map in WvwMatch.Details.Maps)
@@ -269,10 +267,23 @@ namespace GWvW_Overlay
 
                     if (obj.Coordinates != null)
                     {
+                        var obj1 = obj;
+                        var map1 = map;
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
-                            obj.Coordinates.X = Width * (obj.left_base / obj.res_width);
-                            obj.Coordinates.Y = Height * (obj.top_base / obj.res_height);
+                            if (obj1.DisplayCoordinates == null)
+                            {
+                                obj1.DisplayCoordinates = new Coordinate();
+                            }
+
+                            var mapSize = new Coordinate()
+                            {
+                                X = Math.Abs(map1.MapRect[0].X) + Math.Abs(map1.MapRect[1].X),
+                                Y = Math.Abs(map1.MapRect[0].Y) + Math.Abs(map1.MapRect[1].Y)
+                            };
+
+                            obj1.DisplayCoordinates.X = Math.Abs(Width * ((obj1.Coordinates.X + mapSize.X / 2.0) / mapSize.X)) - 10;
+                            obj1.DisplayCoordinates.Y = Math.Abs(Height * ((obj1.Coordinates.Y - mapSize.Y / 2.0) / mapSize.Y)) - 14;
                             WvwMatch.PlayerPositions.CanvasHeight = Height;
                             WvwMatch.PlayerPositions.CanvasWidth = Width;
                         }));
@@ -324,9 +335,9 @@ namespace GWvW_Overlay
                 }
             }
             CnvsBlSelection.Visibility = Visibility.Visible;
-            LblBlueBl.Content = WvwMatch.Details.Worlds.Blue;
-            LblGreenBl.Content = WvwMatch.Details.Worlds.Green;
-            LblRedBl.Content = WvwMatch.Details.Worlds.Red;
+            LblBlueBl.Content = WvwMatch.Details.Worlds.Blue.Name;
+            LblGreenBl.Content = WvwMatch.Details.Worlds.Green.Name;
+            LblRedBl.Content = WvwMatch.Details.Worlds.Red.Name;
         }
 
         public void AutoMatchSetActiveMatch()
@@ -413,7 +424,6 @@ namespace GWvW_Overlay
                 for (int m = 0; m < WvwMatch.Details.Maps[map].Objectives.Count; m++)
                 {
                     int obj = m;
-                    WvwMatch.Details.Maps[map].Objectives[obj].ownedTime = ""; //just here to fire the OnPropertyChanged Event.
 
                     if (!WvwMatch.Details.Maps[map].Objectives[obj].LastFlipped.HasValue) continue;
 
@@ -425,11 +435,6 @@ namespace GWvW_Overlay
                         {
                             eventCamps += string.Format("{0}\t{1}\n", left.ToString(@"mm\:ss"), WvwMatch.Details.Maps[map].Objectives[obj].Name);
                         }
-
-                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                        {
-                            WvwMatch.Details.Maps[map].Objectives[obj].time_left = left.ToString(@"mm\:ss");
-                        }));
                     }
                     else
                     {
@@ -438,10 +443,6 @@ namespace GWvW_Overlay
                         {
                             eventCamps += string.Format("{0}\t{1}\n", "N/A", WvwMatch.Details.Maps[map].Objectives[obj].Name);
                         }
-                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                        {
-                            WvwMatch.Details.Maps[map].Objectives[obj].time_left = " ";
-                        }));
                     }
                 }
             }
@@ -503,6 +504,7 @@ namespace GWvW_Overlay
             _jsonMatches = Request.GetResourceList<WvWMatch>().Select(m => Request.GetResource<WvWMatch>(m)).ToList();
             _jsonMatches.Sort((x, y) => y.Id != null ? (x.Id != null ? String.Compare(x.Id, y.Id, StringComparison.Ordinal) : 0) : 0);
             WvwMatch.Matches = _jsonMatches;
+            WvwMatch.InitBlid();
             _jsonMatches = null;
         }
 
@@ -704,9 +706,9 @@ namespace GWvW_Overlay
             if (hwndSource != null) hwndSource.AddHook(DragHook);
 
             Console.WriteLine(CmbbxHomeServerSelection.Items.Count);
-            foreach (World_Names_ item in CmbbxHomeServerSelection.Items)
+            foreach (World item in CmbbxHomeServerSelection.Items)
             {
-                if (item.id == Settings.Default.home_server)
+                if (item.Id == Settings.Default.home_server)
                     CmbbxHomeServerSelection.SelectedItem = item;
             }
         }
@@ -769,9 +771,9 @@ namespace GWvW_Overlay
             if (CmbbxHomeServerSelection.SelectedItem == null)
                 return;
 
-            var selection = (World_Names_)CmbbxHomeServerSelection.SelectedItem;
+            var selection = (World)CmbbxHomeServerSelection.SelectedItem;
 
-            Console.WriteLine(selection.name);
+            Console.WriteLine(selection.Name);
 
             CnvsMatchUp.Visibility = Visibility.Hidden;
             cnvsMatchSelection.Height = 100;

@@ -32,17 +32,17 @@ namespace ArenaNET
         #region WvW Attributes
 
         [JsonProperty("type")]
-        public String Type;
+        public String Type { get; set; }
         [JsonProperty("scores")]
-        public ServerValue<int> Scores;
+        public ServerValue<int> Scores { get; set; }
         [JsonProperty("bonuses")]
-        public List<Bonus> Bonuses;
+        public List<Bonus> Bonuses { get; set; }
         [JsonProperty("objectives")]
-        public List<Objective> Objectives;
+        public List<Objective> Objectives { get; set; }
         [JsonProperty("deaths")]
-        public ServerValue<int> Deaths;
+        public ServerValue<int> Deaths { get; set; }
         [JsonProperty("kills")]
-        public ServerValue<int> Kills;
+        public ServerValue<int> Kills { get; set; }
 
         #endregion
 
@@ -319,8 +319,10 @@ namespace ArenaNET
             {
                 String json;
                 var response = GetJSON(endpoint, out json);
+#if DEBUG2
                 Console.WriteLine("Response HTTP Code : {0}", response);
                 Console.WriteLine("Response : {0}", json);
+#endif
                 if (response == HttpStatusCode.OK)
                 {
                     JsonConvert.PopulateObject(json, this);
@@ -341,5 +343,9 @@ namespace ArenaNET
 
         }
 
+        public override List<Map> GetResourceBulk(params string[] parameters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
