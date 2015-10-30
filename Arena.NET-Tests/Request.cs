@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using ArenaNET;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -33,6 +34,7 @@ namespace Arena.NET_Tests
                 Assert.IsNotNull(o);
                 Console.WriteLine(o.Name);
                 Assert.IsFalse(String.IsNullOrEmpty(o.Name));
+                Console.WriteLine("X: {0}, Y = {1}", o.Coordinates.X, o.Coordinates.Y);
             }));
             Console.WriteLine(result);
 

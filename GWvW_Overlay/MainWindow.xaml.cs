@@ -267,23 +267,21 @@ namespace GWvW_Overlay
 
                     if (obj.Coordinates != null)
                     {
-                        var obj1 = obj;
-                        var map1 = map;
                         Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                         {
-                            if (obj1.DisplayCoordinates == null)
+                            if (obj.DisplayCoordinates == null)
                             {
-                                obj1.DisplayCoordinates = new Coordinate();
+                                obj.DisplayCoordinates = new Coordinate();
                             }
 
                             var mapSize = new Coordinate()
                             {
-                                X = Math.Abs(map1.MapRect[0].X) + Math.Abs(map1.MapRect[1].X),
-                                Y = Math.Abs(map1.MapRect[0].Y) + Math.Abs(map1.MapRect[1].Y)
+                                X = Math.Abs(map.MapRect[0].X) + Math.Abs(map.MapRect[1].X),
+                                Y = Math.Abs(map.MapRect[0].Y) + Math.Abs(map.MapRect[1].Y)
                             };
 
-                            obj1.DisplayCoordinates.X = Math.Abs(Width * ((obj1.Coordinates.X + mapSize.X / 2.0) / mapSize.X)) - 10;
-                            obj1.DisplayCoordinates.Y = Math.Abs(Height * ((obj1.Coordinates.Y - mapSize.Y / 2.0) / mapSize.Y)) - 14;
+                            ArenaNET.Objective.DisplayHeight = Height;
+                            ArenaNET.Objective.DisplayWidth = Width;
                             WvwMatch.PlayerPositions.CanvasHeight = Height;
                             WvwMatch.PlayerPositions.CanvasWidth = Width;
                         }));

@@ -1,22 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using ArenaNET.DataStructures;
 using Newtonsoft.Json;
 
 namespace ArenaNET
 {
-    public class Objective : ANetResource<Objective>, IANetResource
+    public class Objective : ANetResource<Objective>, IANetResource, INotifyPropertyChanged
     {
+        public Objective()
+        {
+            DisplaySizePropertyChanged += SetDisplayCoordinates;
+        }
+
         private const String CacheFile = "ObjectiveNames.json";
         private static readonly TimeSpan ProtectionTimeSpan = TimeSpan.FromMinutes(5);
         private static readonly String _endPoint = "wvw/objectives";
         private static readonly String _parameterizedEndPoint = _endPoint + "/{0}?lang={1}";
         private static Dictionary<String, Objective> _cache;
+        private static Double _displayWidth = 0.0;
+        private static Double _displayHeight = 0.0;
+        private Map _map;
+
+        private void SetDisplayCoordinates(object sender, PropertyChangedEventArgs args)
+        {
+            if (_map == null) return;
+            var mapSize = new Coordinate()
+            {
+                X = Math.Abs(_map.MapRect[0].X) + Math.Abs(_map.MapRect[1].X),
+                Y = Math.Abs(_map.MapRect[0].Y) + Math.Abs(_map.MapRect[1].Y)
+            };
+
+            _displayCoordinates.X = Math.Abs(_displayWidth * Coordinates.X / mapSize.X) - 10;
+            _displayCoordinates.Y = Math.Abs(_displayHeight * Coordinates.Y / mapSize.Y) - 14;
+            OnPropertyChanged("DisplayCoordinates");
+        }
 
         #region Properties
+        [JsonIgnore]
+        public static double DisplayWidth
+        {
+            get { return _displayWidth; }
+            set
+            {
+                _displayWidth = value;
+
+                if (DisplaySizePropertyChanged != null)
+                {
+                    DisplaySizePropertyChanged(null, null);
+                }
+            }
+        }
+        [JsonIgnore]
+        public static double DisplayHeight
+        {
+            get { return _displayHeight; }
+            set
+            {
+                _displayHeight = value;
+                if (DisplaySizePropertyChanged != null)
+                {
+                    DisplaySizePropertyChanged(null, null);
+                }
+            }
+        }
+
+
         [JsonIgnore]
         public string Name
         {
@@ -64,21 +117,27 @@ namespace ArenaNET
         }
 
         [JsonIgnore]
-        public string MapId
+        public int MapId
         {
             get
             {
-                if (String.IsNullOrEmpty(_mapId) && !String.IsNullOrEmpty(Id))
+                if (!_mapId.HasValue && !String.IsNullOrEmpty(Id))
                 {
                     GetResource();
                 }
-                return _mapId;
+                return _mapId ?? -1;
 
             }
-            private set { _mapId = value; }
+            private set
+            {
+                _map = Request.GetResource<Map>(value.ToString());
+                _mapId = value;
+
+            }
         }
 
-        [JsonIgnore]
+        [JsonProperty("coord")]
+        [JsonConverter(typeof(CoordinatesConverter))]
         public Coordinate Coordinates
         {
             get
@@ -91,7 +150,14 @@ namespace ArenaNET
                 return _coordinates;
 
             }
-            private set { _coordinates = value; }
+            private set
+            {
+                _coordinates = value;
+                if (DisplaySizePropertyChanged != null)
+                {
+                    DisplaySizePropertyChanged(null, null);
+                }
+            }
         }
 
         public string EndPoint()
@@ -118,7 +184,15 @@ namespace ArenaNET
         }
 
         [JsonIgnore]
-        public Coordinate DisplayCoordinates { get; set; }
+        public Coordinate DisplayCoordinates
+        {
+            get { return _displayCoordinates; }
+            set
+            {
+                _displayCoordinates = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -155,8 +229,10 @@ namespace ArenaNET
         public DateTime? LastFlipped { get; set; }
         [JsonProperty("claimed_by")]
         public String ClaimedBy { get; set; }
+
         [JsonProperty("claimed_at")]
         public DateTime? ClaimedAt { get; set; }
+
         [JsonProperty("name")]
         private String _name;
         [JsonProperty("sector_id")]
@@ -164,10 +240,10 @@ namespace ArenaNET
         [JsonProperty("map_type")]
         private String _mapType;
         [JsonProperty("map_id")]
-        private String _mapId;
-        [JsonProperty("coord")]
-        [JsonConverter(typeof(CoordinatesConverter))]
+        private int? _mapId;
         private Coordinate _coordinates;
+
+        private Coordinate _displayCoordinates = new Coordinate();
 
         public override Objective GetResource(params String[] parameters)
         {
@@ -199,7 +275,7 @@ namespace ArenaNET
                 Name = result._name;
                 SectorId = result._sectorId ?? -1;
                 MapType = result._mapType;
-                MapId = result._mapId;
+                MapId = result._mapId ?? -1;
                 Coordinates = result._coordinates;
                 return this;
             }
@@ -235,6 +311,14 @@ namespace ArenaNET
         public override List<Objective> GetResourceBulk(params string[] parameters)
         {
             throw new NotImplementedException();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private static event PropertyChangedEventHandler DisplaySizePropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
