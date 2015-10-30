@@ -31,12 +31,12 @@ namespace ArenaNET
             if (_map == null) return;
             var mapSize = new Coordinate()
             {
-                X = Math.Abs(_map.MapRect[0].X) + Math.Abs(_map.MapRect[1].X),
-                Y = Math.Abs(_map.MapRect[0].Y) + Math.Abs(_map.MapRect[1].Y)
+                X = Math.Abs(Math.Abs(_map.ContinentRect[1].X) - Math.Abs(_map.ContinentRect[0].X)),
+                Y = Math.Abs(Math.Abs(_map.ContinentRect[1].Y) - Math.Abs(_map.ContinentRect[0].Y))
             };
 
-            _displayCoordinates.X = Math.Abs(_displayWidth * Coordinates.X / mapSize.X) - 10;
-            _displayCoordinates.Y = Math.Abs(_displayHeight * Coordinates.Y / mapSize.Y) - 14;
+            _displayCoordinates.X = _displayWidth * (Coordinates.X - _map.ContinentRect[0].X) / mapSize.X;
+            _displayCoordinates.Y = _displayHeight * (Coordinates.Y - _map.ContinentRect[0].Y) / mapSize.Y;
             OnPropertyChanged("DisplayCoordinates");
         }
 

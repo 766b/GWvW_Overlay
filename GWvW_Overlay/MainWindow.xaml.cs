@@ -649,6 +649,10 @@ namespace GWvW_Overlay
             MainWindow1.InvalidateVisual();
 
             CnvsBlSelection.Visibility = Visibility.Hidden;
+
+            ArenaNET.Objective.DisplayWidth = Width;
+            ArenaNET.Objective.DisplayHeight = Height;
+
         }
 
         public void ExitApp(object sender, EventArgs e)
