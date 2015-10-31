@@ -219,7 +219,7 @@ namespace GWvW_Overlay
 
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        BorderlandSelected(WvwMatch.Details.Maps.First(m => m.Id == map), EventArgs.Empty);
+                        BorderlandSelected(WvwMatch.Details.Maps.First(m => m.Id == map).Type, EventArgs.Empty);
                     }));
 
                 }
