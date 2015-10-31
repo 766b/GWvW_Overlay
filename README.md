@@ -1,7 +1,3 @@
-#Broken due to HoT.... I'm fixing it
-Nearly finished adapting to HoT changes, should come back soon
-
-
 Remarks
 ============
 This application does not behave like regular overlays, hooking an application to display it's informations (like mumble overlay or overwolf), instead the windows are set to stay above every other window.
@@ -32,6 +28,9 @@ Just drag and drop the two windows on your second screen and set the opacity to 
 
 Changes
 ============
+(31/10/2015)
+- Fixed the app to work with the new borderlands and API (Guilds API will be updated when available)
+
 (13/09/2015)
 - Logitech Keyboard lightning will now change color according to the home server color
 
@@ -125,5 +124,4 @@ Changes
 
 Known Issues
 ============
-- The timer indicating the time since an objective was owned will start at 0 for every map change, it is completely normal since the Anet provided API does not provide any way of knowing this. Instead i have to make a time difference since the objective's owner changed and the current time.
-- Before the selection of a map after the selection of a server or a Match, the title of the map window may appear in a unlocalized version
+- At the FIRST start, objectives might not display at the correct location (everything except for camps might be stacked in the top-left corner), just relaunch the application to display them at the good place
