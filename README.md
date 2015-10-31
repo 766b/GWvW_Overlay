@@ -124,4 +124,4 @@ Changes
 
 Known Issues
 ============
-- At the FIRST start, objectives might not display at the correct location (everything except for camps might be stacked in the top-left corner), just relaunch the application to display them at the good place
+- At the FIRST start, objectives might not display at the correct location (everything except for camps might be stacked in the top-left corner), just relaunch the application (or switch map) to display them at the good place
