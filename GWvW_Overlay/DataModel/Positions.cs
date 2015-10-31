@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Timers;
 using System.Windows;
+using ArenaNET;
 using GWvW_Overlay.Annotations;
 using MumbleLink_CSharp_GW2;
 
@@ -36,7 +37,9 @@ namespace GWvW_Overlay.DataModel
         {
             get
             {
-                if (Map.KnownMap(MainWindow.DataLink.GetCoordinates().MapId) &&
+                if (MainWindow.DataLink.GetCoordinates().MapId == 0) return Visibility.Hidden;
+                var map = Request.GetResource<ArenaNET.Map>(MainWindow.DataLink.GetCoordinates().MapId.ToString());
+                if (map != null && map.ContinentId == 2 &&
                     Properties.Settings.Default.player_position)
                 {
                     return Visibility.Visible;
@@ -110,12 +113,12 @@ namespace GWvW_Overlay.DataModel
         {
             if (nativeCoordinates.MapId == 0) return nativeCoordinates;
 
-            var mapId = nativeCoordinates.MapId;
+            var map = new ArenaNET.Map() { Id = nativeCoordinates.MapId }; ;
 
-            var mapSize = MapInfo.GetMapInfo(mapId).MapRect;
+            var mapSize = map.MapRect;
 
-            var mapSizeX = Math.Abs(mapSize[0][0]) + Math.Abs(mapSize[1][0]);
-            var mapSizeY = Math.Abs(mapSize[0][1]) + Math.Abs(mapSize[1][1]);
+            var mapSizeX = Math.Abs(mapSize[0].X) + Math.Abs(mapSize[1].X);
+            var mapSizeY = Math.Abs(mapSize[0].Y) + Math.Abs(mapSize[1].Y);
 
             nativeCoordinates.X = Math.Abs(CanvasWidth * ((nativeCoordinates.X + mapSizeX / 2.0) / mapSizeX)) - 10;
             nativeCoordinates.Y = Math.Abs(CanvasHeight * ((nativeCoordinates.Y - mapSizeY / 2.0) / mapSizeY)) - 14;

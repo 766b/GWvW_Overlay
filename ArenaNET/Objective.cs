@@ -35,8 +35,8 @@ namespace ArenaNET
                 Y = Math.Abs(Math.Abs(_map.ContinentRect[1].Y) - Math.Abs(_map.ContinentRect[0].Y))
             };
 
-            _displayCoordinates.X = _displayWidth * (Coordinates.X - _map.ContinentRect[0].X) / mapSize.X;
-            _displayCoordinates.Y = _displayHeight * (Coordinates.Y - _map.ContinentRect[0].Y) / mapSize.Y;
+            _displayCoordinates.X = _displayWidth * (Coordinates.X - _map.ContinentRect[0].X) / mapSize.X + 30;
+            _displayCoordinates.Y = _displayHeight * (Coordinates.Y - _map.ContinentRect[0].Y) / mapSize.Y - 14;
             OnPropertyChanged("DisplayCoordinates");
         }
 
@@ -83,7 +83,12 @@ namespace ArenaNET
                 return _name;
 
             }
-            private set { _name = value; }
+            private set
+            {
+                if (_name == value) return;
+                _name = value;
+                OnPropertyChanged();
+            }
         }
 
         [JsonIgnore]
@@ -136,8 +141,7 @@ namespace ArenaNET
             }
         }
 
-        [JsonProperty("coord")]
-        [JsonConverter(typeof(CoordinatesConverter))]
+        [JsonIgnore]
         public Coordinate Coordinates
         {
             get
@@ -160,6 +164,15 @@ namespace ArenaNET
             }
         }
 
+        [JsonProperty("coord")]
+        [JsonConverter(typeof(CoordinatesConverter))]
+        private Coordinate JsonCoordinateAccessor
+        {
+            get { return _coordinates; }
+            set { Coordinates = value; }
+        }
+
+
         public string EndPoint()
         {
             return _endPoint;
@@ -173,13 +186,17 @@ namespace ArenaNET
             {
                 if (LastFlipped.HasValue)
                 {
-                    TimeSpan span = DateTime.Now - LastFlipped.Value;
+                    TimeSpan span = DateTime.UtcNow - LastFlipped.Value;
                     if (span < ProtectionTimeSpan)
                     {
                         return ProtectionTimeSpan - span;
                     }
                 }
                 return new TimeSpan(0);
+            }
+            set
+            {
+                OnPropertyChanged();
             }
         }
 
@@ -223,12 +240,47 @@ namespace ArenaNET
         public string Id { get; set; }
         [JsonProperty("type")]
         public String Type { get; set; }
+
         [JsonProperty("owner")]
-        public String Owner { get; set; }
+        public String Owner
+        {
+            get { return _owner; }
+            set
+            {
+                if (_owner == value) return;
+                _owner = value;
+                OnPropertyChanged();
+            }
+        }
+
         [JsonProperty("last_flipped")]
-        public DateTime? LastFlipped { get; set; }
+        public DateTime? LastFlipped
+        {
+            get
+            {
+                return _lastFlipped;
+
+            }
+            set
+            {
+                if (_lastFlipped == value) return;
+                _lastFlipped = value;
+                OnPropertyChanged("TimeLeft");
+                OnPropertyChanged();
+            }
+        }
+
         [JsonProperty("claimed_by")]
-        public String ClaimedBy { get; set; }
+        public String ClaimedBy
+        {
+            get { return _claimedBy; }
+            set
+            {
+                if (_claimedBy == value) return;
+                _claimedBy = value;
+                OnPropertyChanged();
+            }
+        }
 
         [JsonProperty("claimed_at")]
         public DateTime? ClaimedAt { get; set; }
@@ -244,6 +296,9 @@ namespace ArenaNET
         private Coordinate _coordinates;
 
         private Coordinate _displayCoordinates = new Coordinate();
+        private DateTime? _lastFlipped;
+        private string _owner;
+        private string _claimedBy;
 
         public override Objective GetResource(params String[] parameters)
         {
@@ -319,6 +374,11 @@ namespace ArenaNET
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0}. {1} ({2}) : {3}", Id, Name, _map.Name, Owner);
         }
     }
 

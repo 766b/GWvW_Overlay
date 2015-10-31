@@ -126,7 +126,7 @@ namespace ArenaNET
         public override List<World> GetResourceBulk(params string[] parameters)
         {
             if (parameters.Length < 1) throw new ArgumentException("Should contain at least 1 parameter");
-            var endpoint = String.Format(_endPoint + BulkExtension, BulkParametersConverter(parameters), Request.Lang);
+            var endpoint = String.Format(_endPoint + BulkExtension + LangParam, BulkParametersConverter(parameters), Request.Lang);
 
             try
             {
@@ -148,6 +148,12 @@ namespace ArenaNET
                 Console.WriteLine(ex);
             }
             return null;
+        }
+
+
+        public override string ToString()
+        {
+            return String.Format("{0}. {1} ({2})", Id, Name, Population);
         }
     }
 

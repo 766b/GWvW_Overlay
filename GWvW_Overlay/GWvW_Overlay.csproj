@@ -153,7 +153,10 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\GetGuildName.cs" />
     <Compile Include="Converters\GetPosition.cs" />
+    <Compile Include="Converters\GetTimeDifference.cs" />
+    <Compile Include="Converters\GetTimeSpanToString.cs" />
     <Compile Include="DataModel\MapInfo.cs" />
     <Compile Include="DataModel\Positions.cs" />
     <Compile Include="DataModel\WvwMatchup.cs" />
@@ -422,7 +425,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="False" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_StartDate="1975/10/21" />
+      <UserProperties BuildVersion_StartDate="1975/10/21" BuildVersion_BuildVersioningStyle="None.None.None.None" BuildVersion_UpdateAssemblyVersion="False" BuildVersion_UpdateFileVersion="False" BuildVersion_AssemblyInfoFilename="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

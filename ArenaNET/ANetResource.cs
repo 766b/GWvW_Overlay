@@ -16,6 +16,8 @@ namespace ArenaNET
     {
         public const String ApiBase = @"https://api.guildwars2.com/v2/";
         protected const String BulkExtension = "?ids={0}";
+        protected const String LangParam = "&lang={1}";
+        protected const String LangSpec = "?lang={0}";
 
         public virtual T GetResource(params String[] parameters)
         {
@@ -63,7 +65,7 @@ namespace ArenaNET
 
             try
             {
-                status = GetJSON(r.EndPoint(), out json);
+                status = GetJSON(String.Format(r.EndPoint() + LangSpec, Request.ApiKey), out json);
             }
             catch (Exception e)
             {

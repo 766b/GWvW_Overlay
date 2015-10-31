@@ -68,7 +68,29 @@ namespace ArenaNET
 
         public override List<WvWMatch> GetResourceBulk(params string[] parameters)
         {
-            throw new NotImplementedException();
+            if (parameters.Length < 1) throw new ArgumentException("Should contain at least 1 parameter");
+            var endpoint = String.Format(_endPoint + BulkExtension, BulkParametersConverter(parameters), Request.Lang);
+
+            try
+            {
+                String json;
+                var response = GetJSON(endpoint, out json);
+#if DEBUG2
+                Console.WriteLine("Response HTTP Code : {0}", response);
+                Console.WriteLine("Response : {0}", json);
+#endif
+                if (response == HttpStatusCode.OK)
+                {
+                    var result = JsonConvert.DeserializeObject<List<WvWMatch>>(json);
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return null;
         }
 
         public override string ToString()

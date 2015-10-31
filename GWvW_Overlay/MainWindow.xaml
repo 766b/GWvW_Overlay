@@ -32,9 +32,11 @@
         <converters:GetImg x:Key="GetImg" />
         <converters:GetClaimedImage x:Key="GetClaimedImage" />
         <converters:GetName x:Key="GetName" />
-        <converters:GetMatches x:Key="GetMatches" />
+        <converters:GetGuildName x:Key="GetGuildName" />
         <converters:GetClaimed x:Key="GetClaimed"/>
         <converters:GetPosition x:Key="GetPosition"/>
+        <converters:GetTimeSpanToString x:Key="GetTimeSpanToString"/>
+        <converters:GetTimeDifference x:Key="GetTimeDifference"/>
         <localization:LocalizedStrings x:Key="LocalizedStrings"/>
     </Window.Resources>
 
@@ -47,11 +49,11 @@
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="{Binding Path=Locale.ownedTime, Source={StaticResource LocalizedStrings}}"/>
-                                    <Label Content="{Binding Path=LastFlipped}"/><!--TODO: Converter to display owned time-->
+                                    <Label Content="{Binding Path=LastFlipped, Converter={StaticResource GetTimeDifference}}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding Path=ClaimedBy, Converter={StaticResource GetClaimed}}">
                                     <Label Content="{Binding Path=Locale.ownedBy, Source={StaticResource LocalizedStrings}}"/>
-                                    <Label Content="{Binding Path=ClaimedBy}"/><!--TODO: Converter to display guild instead of GUID-->
+                                    <Label Content="{Binding Path=ClaimedBy, Converter={StaticResource GetGuildName}}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Canvas.ToolTip>
@@ -63,8 +65,8 @@
                                 </MultiBinding>
                             </Image.Source>
                         </Image>
-                        <Label Content="{Binding TimeLeft}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
-                        <Label Content="{Binding Path=Name, Converter={StaticResource GetName}}" Width="100" Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                        <Label Content="{Binding TimeLeft, Converter={StaticResource GetTimeSpanToString}}" Width="100" Canvas.Top="-20" Canvas.Left="-38" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
+                        <Label Content="{Binding Path=Name, Converter={StaticResource GetName}}" Width="120"  Canvas.Top="20" Canvas.Left="-40" Height="36" Padding="0" HorizontalContentAlignment="Center" Foreground="White"/>
                         <Image Height="14" Canvas.Left="12" Canvas.Top="12" Width="12" Panel.ZIndex="300" Source="{Binding Path=ClaimedBy, Converter={StaticResource GetClaimedImage}}"/>
                     </Canvas>
                 </DataTemplate>

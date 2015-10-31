@@ -347,5 +347,11 @@ namespace ArenaNET
         {
             throw new NotImplementedException();
         }
+
+
+        public override string ToString()
+        {
+            return String.Format("{0}. {1}", Id, Name);
+        }
     }
 }

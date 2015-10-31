@@ -63,7 +63,7 @@ namespace GWvW_Overlay
 
         List<WvWMatch> _jsonMatches = new List<WvWMatch>();
 
-        public Guild GuildData = new Guild();
+        public static Guild GuildData = new Guild();
 
         readonly CampLogger LogWindow = new CampLogger();
 
@@ -212,9 +212,9 @@ namespace GWvW_Overlay
 
             _mapDetectTimer.Elapsed += (sender, args) =>
             {
-                if (WvwMatch.Matches == null) return;
+                if (WvwMatch.Details == null) return;
                 var map = DataLink.GetCoordinates().MapId;
-                if (map != _currentMapId)
+                if (map != _currentMapId && WvwMatch.Details.Maps.Any(m => m.Id == map))
                 {
 
                     Dispatcher.BeginInvoke(new Action(() =>
@@ -281,7 +281,7 @@ namespace GWvW_Overlay
                             };
 
                             ArenaNET.Objective.DisplayHeight = Height;
-                            ArenaNET.Objective.DisplayWidth = Width;
+                            ArenaNET.Objective.DisplayWidth = Width - 80;
                             WvwMatch.PlayerPositions.CanvasHeight = Height;
                             WvwMatch.PlayerPositions.CanvasWidth = Width;
                         }));
@@ -362,7 +362,7 @@ namespace GWvW_Overlay
             var y = WvwMatch.Matches;
             foreach (var x in y)
             {
-                var i = new MenuItem { Header = x.Id, Tag = x.ToString() };
+                var i = new MenuItem { Header = x, Tag = x.Id };
                 i.Click += MatchSelected;
                 matches.Items.Add(i);
             }
@@ -374,13 +374,13 @@ namespace GWvW_Overlay
 
             if (WvwMatch.Options.active_match != null)
             {
-                var blBlue = new MenuItem { Header = string.Format(Strings.blueBorderland + " ({0})", WvwMatch.Details.Worlds.Blue), Tag = "BlueHome" };
+                var blBlue = new MenuItem { Header = string.Format(Strings.blueBorderland + " ({0})", WvwMatch.Details.Worlds.Blue.Name), Tag = "BlueHome" };
                 blBlue.Click += BorderlandSelected;
 
-                var blRed = new MenuItem { Header = string.Format(Strings.redBorderland + " ({0})", WvwMatch.Details.Worlds.Red), Tag = "RedHome" };
+                var blRed = new MenuItem { Header = string.Format(Strings.redBorderland + " ({0})", WvwMatch.Details.Worlds.Red.Name), Tag = "RedHome" };
                 blRed.Click += BorderlandSelected;
 
-                var blGreen = new MenuItem { Header = string.Format(Strings.greenBorderland + " ({0})", WvwMatch.Details.Worlds.Green), Tag = "GreenHome" };
+                var blGreen = new MenuItem { Header = string.Format(Strings.greenBorderland + " ({0})", WvwMatch.Details.Worlds.Green.Name), Tag = "GreenHome" };
                 blGreen.Click += BorderlandSelected;
 
                 var blEb = new MenuItem { Header = Strings.eternalBattlegrounds, Tag = "Center" };
@@ -422,6 +422,8 @@ namespace GWvW_Overlay
                 for (int m = 0; m < WvwMatch.Details.Maps[map].Objectives.Count; m++)
                 {
                     int obj = m;
+
+                    WvwMatch.Details.Maps[map].Objectives[obj].TimeLeft = new TimeSpan();
 
                     if (!WvwMatch.Details.Maps[map].Objectives[obj].LastFlipped.HasValue) continue;
 
@@ -499,7 +501,7 @@ namespace GWvW_Overlay
 
         public void RtvMatches()
         {
-            _jsonMatches = Request.GetResourceList<WvWMatch>().Select(m => Request.GetResource<WvWMatch>(m)).ToList();
+            _jsonMatches = Request.GetResourceBulk<WvWMatch>("all");
             _jsonMatches.Sort((x, y) => y.Id != null ? (x.Id != null ? String.Compare(x.Id, y.Id, StringComparison.Ordinal) : 0) : 0);
             WvwMatch.Matches = _jsonMatches;
             WvwMatch.InitBlid();
@@ -517,7 +519,7 @@ namespace GWvW_Overlay
                 {
                     LogWindow.ResetText();
                 }));
-                WvwMatch.Details = Request.GetResource<WvWMatch>(WvwMatch.Options.active_match);
+                WvwMatch.Details = WvwMatch.Matches.Find(m => m.Id == WvwMatch.Options.active_match);
                 _resetMatch = false;
 
             }
@@ -650,7 +652,7 @@ namespace GWvW_Overlay
 
             CnvsBlSelection.Visibility = Visibility.Hidden;
 
-            ArenaNET.Objective.DisplayWidth = Width;
+            ArenaNET.Objective.DisplayWidth = Width - 80;
             ArenaNET.Objective.DisplayHeight = Height;
 
         }
