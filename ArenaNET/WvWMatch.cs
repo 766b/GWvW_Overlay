@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using ArenaNET.DataStructures;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ namespace ArenaNET
 
         private static readonly String _endPoint = "wvw/matches";
         private static readonly String _parameterizedEndPoint = _endPoint + "/{0}";
+        private List<Map> _maps;
 
         public string EndPoint()
         {
@@ -31,8 +33,13 @@ namespace ArenaNET
         [JsonProperty("worlds")]
         [JsonConverter(typeof(ServerWorldConverter))]
         public ServerValue<World> Worlds { get; set; }
+
         [JsonProperty("maps")]
-        public List<Map> Maps { get; set; }
+        public List<Map> Maps
+        {
+            get { return _maps; }
+            set { _maps = value.OrderBy(m => m.Id).ToList(); }
+        }
 
         public override WvWMatch GetResource(params String[] parameters)
         {
